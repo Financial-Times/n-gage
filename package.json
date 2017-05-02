@@ -1,0 +1,19 @@
+{
+  "name": "@financial-times/n-gage",
+  "version": "0.0.0",
+  "description": "Make it so next",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Financial-Times/n-gage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Financial-Times/n-gage/issues"
+  },
+  "homepage": "https://github.com/Financial-Times/n-gage#readme"
+}
