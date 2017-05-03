@@ -137,7 +137,7 @@ _install_scss_lint:
 	@if [ ! -x "$(shell which scss-lint)" ] && [ "$(shell $(call GLOB,'*.scss'))" != "" ]; then gem install scss-lint -v 0.35.0 && $(DONE); fi
 
 # Manage various dot/config files if they're in the .gitignore
-.editorconfig .eslintrc.js .scss-lint.yml webpack.config.js .pa11yci.js: n.Makefile
+.editorconfig .eslintrc.js .scss-lint.yml webpack.config.js .pa11yci.js:
 	@if $(call IS_GIT_IGNORED); then curl -sL https://raw.githubusercontent.com/Financial-Times/n-makefile/$(VERSION)/config/$@ > $@ && $(DONE); fi
 
 ENV_MSG_IGNORE_ENV = "Error: '.gitignore' must include: *.env* (including the asterisks)"

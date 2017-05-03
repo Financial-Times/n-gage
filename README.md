@@ -1,11 +1,11 @@
 # n-gage
-Make it so next
+Make it so next - an experiment to provide next with a self-updating makefile
 
 ## Usage
 
 In your makefile include the following lines before anything else (follow the numbered comments to understand how it works)
 
-```
+```make
 # [2]	This task tells make how to 'build' n-gage. It npm installs n-gage, and
 #			Once that's done it overwrites the file with its own contents - this
 #			ensures the timestamp on the file is recent, so make won't think the file
