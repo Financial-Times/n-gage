@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Financial-Times/n-gage/issues"
   },
-  "homepage": "https://github.com/Financial-Times/n-gage#readme"
+  "homepage": "https://github.com/Financial-Times/n-gage#readme",
+  "dependencies": {
+    "fait": "^1.6.1"
+  }
 }
