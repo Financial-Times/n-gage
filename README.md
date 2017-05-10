@@ -19,8 +19,6 @@ node_modules/@financial-times/n-gage/index.mk:
 #     tasks it finds that match the missing file. So if n-gage *is* installed
 #     it will just be included; if not, it will look for a task to run
 -include node_modules/@financial-times/n-gage/index.mk
-
-$(call require, @financial-times/n-gage)
 ```
 
 This will make all the tasks defined in `n-gage` (formerly known as `n-makefile`) available.
