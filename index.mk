@@ -55,10 +55,6 @@ instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintr
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
 
-deplo%: ## deploy: Deploy this repository.
-deplo%: _deploy_apex
-	@$(DONE)
-
 verif%: ## verify: Verify this repository.
 verif%: ci-n-ui-check _verify_lintspaces _verify_eslint _verify_scss_lint _verify_pa11y_testable
 	@$(DONE)
@@ -186,11 +182,6 @@ else
 endif
 
 # DEPLOY SUB-TASKS
-
-APEX_PROD_ENV_FILE = .env.prod.json
-_deploy_apex:
-	@if [ -e project.json ]; then $(call CONFIG_VARS,production) > $(APEX_PROD_ENV_FILE) && apex deploy --env-file $(APEX_PROD_ENV_FILE); fi
-	@if [ -e $(APEX_PROD_ENV_FILE) ]; then rm $(APEX_PROD_ENV_FILE) && $(DONE); fi
 
 npm-publis%: ## npm-publish: Publish this package to npm.
 	npm-prepublish --verbose
