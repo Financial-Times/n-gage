@@ -1,7 +1,7 @@
 # n-gage
 Make it so next - an experiment to provide next with a self-updating makefile
 
-![image](https://cloud.githubusercontent.com/assets/447559/25998538/5c426c8e-3719-11e7-8ec1-c27d0aea81e8.png)
+![image](https://media.giphy.com/media/LTPvh458Wx0BO/giphy.gif)
 
 ## Usage
 
