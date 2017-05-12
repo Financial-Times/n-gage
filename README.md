@@ -1,6 +1,8 @@
 # n-gage
 Make it so next - an experiment to provide next with a self-updating makefile
 
+![image](https://cloud.githubusercontent.com/assets/447559/25998538/5c426c8e-3719-11e7-8ec1-c27d0aea81e8.png)
+
 ## Usage
 
 In your makefile include the following lines before anything else (follow the numbered comments to understand how it works)
@@ -21,7 +23,11 @@ node_modules/@financial-times/n-gage/index.mk:
 -include node_modules/@financial-times/n-gage/index.mk
 ```
 
-This will make all the tasks defined in `n-gage` (formerly known as `n-makefile`) available.
+This will make all the tasks defined in `n-gage` (formerly known as `n-makefile`) available. 
+
+## Differences from n-makefile
+- _deploy_apex task removed, i.e. dos not include any lambda tooling. If you need to use the old tool simply copy from your old n.Makefile
+- includes secret-squirrel. Now think on.
 
 With thanks to Matt Brennan for the idea
 
