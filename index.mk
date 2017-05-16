@@ -50,7 +50,7 @@ clea%: ## clean: Clean this git repository.
 	@$(DONE)
 
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js webpack.config.js heroku-cli
+instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js heroku-cli
 	@$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
@@ -133,8 +133,8 @@ _install_scss_lint:
 	@if [ ! -x "$(shell which scss-lint)" ] && [ "$(shell $(call GLOB,'*.scss'))" != "" ]; then gem install scss-lint -v 0.35.0 && $(DONE); fi
 
 # Manage various dot/config files if they're in the .gitignore
-.editorconfig .eslintrc.js .scss-lint.yml webpack.config.js .pa11yci.js:
-	@if $(call IS_GIT_IGNORED); then curl -sL https://raw.githubusercontent.com/Financial-Times/n-makefile/$(VERSION)/config/$@ > $@ && $(DONE); fi
+.editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js:
+	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
 
 ENV_MSG_IGNORE_ENV = "Error: '.gitignore' must include: *.env* (including the asterisks)"
 ENV_MSG_PACKAGE_JSON = "Error: 'package.json' not found."

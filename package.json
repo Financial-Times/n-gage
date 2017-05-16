@@ -4,7 +4,8 @@
   "description": "Make it so next",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "commit-wizard"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,17 @@
   "homepage": "https://github.com/Financial-Times/n-gage#readme",
   "dependencies": {
     "@financial-times/secret-squirrel": "^2.0.4",
-    "fait": "^1.6.1"
+    "fait": "^1.6.1",
+    "pre-git": "^3.14.0"
   },
   "devDependencies": {
     "npm-prepublish": "^1.2.2"
+  },
+  "config": {
+    "pre-git": {
+      "pre-commit": [
+        "node_modules/.bin/secret-squirrel"
+      ]
+    }
   }
 }
