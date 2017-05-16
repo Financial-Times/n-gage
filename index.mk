@@ -193,15 +193,6 @@ npm-publis%: ## npm-publish: Publish this package to npm.
 public/__about.json:
 	@if [ -e Procfile ]; then mkdir -p public && echo '{"description":"$(call APP_NAME)","support":"next.team@ft.com","supportStatus":"active","appVersion":"$(shell git rev-parse HEAD | xargs echo -n)","buildCompletionTime":"$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")"}' > $@ && $(DONE); fi
 
-update-tools: ## update-tools: Update this Makefile.
-	$(eval LATEST = $(shell curl -fs https://api.github.com/repos/Financial-Times/n-makefile/tags | $(call JSON_GET_VALUE,name)))
-	$(if $(filter $(LATEST), $(VERSION)), $(error Cannot update n-makefile, as it is already up to date!))
-	@curl -sL https://raw.githubusercontent.com/Financial-Times/n-makefile/$(LATEST)/Makefile > n.Makefile
-	@perl -p -i -e "s/^VERSION = master/VERSION = ${LATEST}/" n.Makefile
-	@read -p "Updated tools from $(VERSION) to $(LATEST).  Do you want to commit and push? [y/N] " Y;\
-	if [ "$$Y" == "y" ]; then git add n.Makefile && git commit -m "Updated tools to $(LATEST)" && git push origin HEAD; fi
-	@$(DONE)
-
 hel%: ## help: Show this help message.
 	@echo "usage: make [target] ..."
 	@echo ""
