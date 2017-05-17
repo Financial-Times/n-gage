@@ -5,8 +5,16 @@ Make it so next - an experiment to provide next with a self-updating makefile (W
 
 ## Usage
 
-In your makefile include the following lines before anything else (follow the numbered comments to understand how it works)
+In your makefile include the following lines before anything else
 
+```make
+node_modules/@financial-times/n-gage/index.mk:
+	npm install @financial-times/n-gage
+	touch $@
+
+-include node_modules/@financial-times/n-gage/index.mk
+```
+And here's the annotated code to explain how it works (follow the numbered comments)
 ```make
 # [2] This task tells make how to 'build' n-gage. It npm installs n-gage, and
 #     Once that's done it overwrites the file with its own contents - this
