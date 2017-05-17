@@ -19,7 +19,6 @@
   "homepage": "https://github.com/Financial-Times/n-gage#readme",
   "dependencies": {
     "@financial-times/secret-squirrel": "^2.0.4",
-    "fait": "^1.6.1",
     "pre-git": "^3.14.0"
   },
   "devDependencies": {
