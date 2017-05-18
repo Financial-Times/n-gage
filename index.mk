@@ -94,7 +94,7 @@ ci-n-ui-check:
 # In CircleCI
 ifneq ($(CIRCLE_BUILD_NUM),)
 # The app is using n-ui
-ifneq ($(shell grep -s -Fim 1 n-ui bower.json),)
+ifneq ($(shell grep -s -Fim 1 '"n-ui"' bower.json),)
 # versions in package.json and bower.json are not equal
 ifneq ($(shell awk '$$1 == "\"version\":" {print $$2}' bower_components/n-ui/.bower.json | sed s/,//),$(shell awk '$$1 == "\"version\":" {print $$2}'  node_modules/@financial-times/n-ui/package.json | sed s/,//))
 	$(error 'Projects using n-ui must maintain parity between versions. Rebuild without cache and update your bower.json and package.json if necessary. If this error persists make sure that the n-ui build succeeded in publishing a new version to NPM and that both NPM and Bower registries have the latest version.')
@@ -107,7 +107,7 @@ endif
 dev-n-ui:
 ifeq ($(NODE_ENV),) # Not production
 ifeq ($(CIRCLE_BRANCH),) # Not CircleCI
-ifneq ($(shell grep -s -Fim 1 n-ui bower.json),) # The app is using n-ui
+ifneq ($(shell grep -s -Fim 1 '"n-ui"' bower.json),) # The app is using n-ui
 ifneq ($(NEXT_APP_SHELL),local) # NEXT_APP_SHELL is not set to local
 	$(info Developers: If you want your app to point to n-ui locally, then `export NEXT_APP_SHELL=local`)
 endif
