@@ -5,7 +5,9 @@ Make it so next - an experiment to provide next with a self-updating makefile (W
 
 ## Usage
 
-In your makefile include the following lines before anything else
+` npm install -D @financial-times/n-gage`
+
+Then in your makefile include the following lines before anything else
 
 ```make
 node_modules/@financial-times/n-gage/index.mk:
