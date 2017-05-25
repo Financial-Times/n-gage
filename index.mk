@@ -38,6 +38,12 @@ MAKEFILE_HAS_A11Y = `grep -rli "make a11y" Makefile`
 # META TASKS
 #
 
+# Note: A 'node_modules' directory is created when n-gage self-installs.
+# However: Subsequent calls to `node_modules`, made in order to execute $NPM_INSTALL,
+# are *not* processed because the node_modules directory exists.
+# Therefore use .PHONY to tell Make to not look for a node_modules file/folder,
+# but to run the node_modules task instead. 'bower_components' is incuded for similar
+# reasons, though it's not strictly neccessary at this point in time.
 .PHONY: test node_modules bower_components
 
 #
