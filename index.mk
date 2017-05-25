@@ -38,7 +38,7 @@ MAKEFILE_HAS_A11Y = `grep -rli "make a11y" Makefile`
 # META TASKS
 #
 
-.PHONY: test
+.PHONY: test node_modules bower_components
 
 #
 # COMMON TASKS
