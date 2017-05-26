@@ -105,15 +105,7 @@ endif
 # Remind developers that if they want to use a local version of n-ui,
 # they need to `export NEXT_APP_SHELL=local`
 dev-n-ui:
-ifeq ($(NODE_ENV),) # Not production
-ifeq ($(CIRCLE_BRANCH),) # Not CircleCI
-ifneq ($(shell grep -s -Fim 1 '"n-ui"' bower.json),) # The app is using n-ui
-ifneq ($(NEXT_APP_SHELL),local) # NEXT_APP_SHELL is not set to local
-	$(info Developers: If you want your app to point to n-ui locally, then `export NEXT_APP_SHELL=local`)
-endif
-endif
-endif
-endif
+	node node_modules/@financial-times/n-gage/scripts/dev-n-ui.js
 
 # INSTALL SUB-TASKS
 
