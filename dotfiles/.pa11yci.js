@@ -1,3 +1,5 @@
+const querystring = require('querystring');
+
 const viewports = process.env.PA11Y_VIEWPORTS || [
 	{
 		width: 1440,
@@ -78,10 +80,10 @@ smoke.forEach((smokeConfig) => {
 			thisUrl.screenCapture = './pa11y_screenCapture/' + url + '.png';
 		}
 
+		thisUrl.page = {};
+
 		// Do we have test-specific headers?
 		if (smokeConfig.headers) {
-			thisUrl.page = {};
-
 			let fullCookie;
 			let fullFlags;
 
@@ -108,6 +110,27 @@ smoke.forEach((smokeConfig) => {
 				// Set the concatenated flags
 				thisUrl.page.headers['FT-Flags'] = smokeConfig.headers['FT-Flags'] + ',' + config.defaults.page.headers['FT-Flags'];
 			}
+		}
+
+		thisUrl.page.settings = {};
+
+		if (smokeConfig.method) thisUrl.page.settings.operation = smokeConfig.method;
+
+		if (smokeConfig.body) {
+
+			thisUrl.page.settings.data = (contentType => {
+					switch(contentType) {
+						case 'application/x-www-form-urlencoded':
+							return querystring.stringify(smokeConfig.body);
+						case 'application/json':
+							return JSON.stringify(smokeConfig.body);
+						default:
+							return smokeConfig.body;
+					}
+				})(smokeConfig.headers['Content-Type']);
+
+			thisUrl.page.settings.encoding = 'utf8';
+
 		}
 
 		urls.push(thisUrl);
