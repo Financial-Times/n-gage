@@ -8,13 +8,13 @@ Make it so next - an experiment to provide next with a self-updating makefile (w
 
 First, delete `n.Makefile`; n-gage includes all the same stuff. Then
 
-`npm install -D @financial-times/n-gage`
+`npm install --save-dev @financial-times/n-gage`
 
 Then in your `Makefile` include the following lines before anything else
 
 ```make
 node_modules/@financial-times/n-gage/index.mk:
-	npm install @financial-times/n-gage
+	npm install --no-save @financial-times/n-gage
 	touch $@
 
 -include node_modules/@financial-times/n-gage/index.mk
@@ -28,7 +28,7 @@ And here's the annotated code to explain how it works (follow the numbered comme
 #     ensures the timestamp on the file is recent, so make won't think the file
 #     is out of date and try to rebuild it every time
 node_modules/@financial-times/n-gage/index.mk:
-	npm install @financial-times/n-gage
+	npm install --no-save @financial-times/n-gage
 	touch $@
 
 # [1] If, by the end of parsing your `Makefile`, `make` finds that any files
