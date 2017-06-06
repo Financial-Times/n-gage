@@ -1,7 +1,8 @@
 # n-gage
-Make it so next - an experiment to provide next with a self-updating makefile (With thanks to Matt Brennan for the idea)
 
-<img src="https://media.giphy.com/media/LTPvh458Wx0BO/giphy.gif" style="float:right">
+<img src="https://media.giphy.com/media/LTPvh458Wx0BO/giphy.gif" align="right" />
+
+Make it so next - an experiment to provide next with a self-updating makefile (with thanks to Matt Brennan for the idea).
 
 ## Usage
 
@@ -18,7 +19,9 @@ node_modules/@financial-times/n-gage/index.mk:
 
 -include node_modules/@financial-times/n-gage/index.mk
 ```
+
 And here's the annotated code to explain how it works (follow the numbered comments)
+
 ```make
 # [2] This task tells make how to 'build' n-gage. It npm installs n-gage, and
 #     Once that's done it overwrites the file with its own contents - this
@@ -38,5 +41,6 @@ node_modules/@financial-times/n-gage/index.mk:
 This will make all the tasks defined in `n-gage` (formerly known as `n-makefile`) available. 
 
 ## Differences from n-makefile
-- _deploy_apex task removed, i.e. does not include any lambda tooling. If you need to use the old tool simply copy from your old n.Makefile
-- includes secret-squirrel. Now think on.
+
+- `_deploy_apex` task removed, i.e. does not include any lambda tooling. If you need to use the old tool simply copy from your old n.Makefile
+- Includes secret-squirrel. Now think on.
