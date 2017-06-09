@@ -54,7 +54,7 @@ if (
 	});
 }
 
-if (packageJson.eslintConfig) {
+if (packageJson && packageJson.eslintConfig) {
 	Object.assign(config.env, packageJson.eslintConfig.env);
 	Object.assign(config.parserOptions, packageJson.eslintConfig.parserOptions);
 	Object.assign(config.rules, packageJson.eslintConfig.rules);
