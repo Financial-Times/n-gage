@@ -54,4 +54,11 @@ if (
 	});
 }
 
+if (packageJson.eslintConfig) {
+	Object.assign(config.env, packageJson.eslintConfig.env);
+	Object.assign(config.parserOptions, packageJson.eslintConfig.parserOptions);
+	Object.assign(config.rules, packageJson.eslintConfig.rules);
+	Object.assign(config.globals, packageJson.eslintConfig.globals);
+}
+
 module.exports = config;
