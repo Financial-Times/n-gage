@@ -8,7 +8,7 @@ Make it so next - an experiment to provide next with a self-updating makefile (w
 
 First, delete `n.Makefile`; n-gage includes all the same stuff. Then
 
-`npm install --save-dev @financial-times/n-gage`
+`npm install --save-dev --no-package-lock @financial-times/n-gage`
 
 Then in your `Makefile` include the following lines before anything else
 
