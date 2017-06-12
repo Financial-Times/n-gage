@@ -1,3 +1,4 @@
+const fs = require('fs');
 const config = {
 	'env': {
 		'browser': true,
@@ -37,11 +38,11 @@ const config = {
 	'extends': []
 };
 
-const packageJson = require('./package.json');
+const packageJson = fs.existsSync('./package.json') && require('./package.json');
 
 if (
-	(packageJson.dependencies && (packageJson.dependencies.react || packageJson.dependencies.preact)) ||
-	(packageJson.devDependencies && (packageJson.devDependencies.react || packageJson.devDependencies.preact))
+	(packageJson && packageJson.dependencies && (packageJson.dependencies.react || packageJson.dependencies.preact)) ||
+	(packageJson && packageJson.devDependencies && (packageJson.devDependencies.react || packageJson.devDependencies.preact))
 ) {
 	config.plugins.push('react');
 	config.extends.push('plugin:react/recommended');
