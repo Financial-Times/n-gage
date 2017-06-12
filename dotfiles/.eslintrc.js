@@ -1,3 +1,4 @@
+const fs = require('fs');
 const config = {
 	'env': {
 		'browser': true,
@@ -37,11 +38,7 @@ const config = {
 	'extends': []
 };
 
-let packageJson;
-
-try {
-	packageJson = require('./package.json');
-} catch (e) {}
+const packageJson = fs.existsSync('./package.json') && require('./package.json');
 
 if (
 	(packageJson && packageJson.dependencies && (packageJson.dependencies.react || packageJson.dependencies.preact)) ||
