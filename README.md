@@ -43,4 +43,4 @@ This will make all the tasks defined in `n-gage` (formerly known as `n-makefile`
 ## Differences from n-makefile
 
 - `_deploy_apex` task removed, i.e. does not include any lambda tooling. If you need to use the old tool simply copy from your old n.Makefile
-- Includes secret-squirrel. Now think on.
+- `n-gage` includes [`secret-squirrel`](https://github.com/Financial-Times/secret-squirrel/blob/master/README.md#secret-squirrel). Note: You will need to replace the `pre-git` config in package.json, or you'll get errors. See the secret-squirrel README for details. 
