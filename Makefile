@@ -1,4 +1,4 @@
 include index.mk
 
 install:
-	npm install
+	npm install --no-package-lock
