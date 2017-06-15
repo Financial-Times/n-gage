@@ -149,7 +149,7 @@ ENV_MSG_CANT_GET = "Error: Cannot get config vars for this service. Check you ar
 UPDATE_TO_VAULT = "Warning: next-config-vars is now DEPRECATED. Please update to next-vault: https://github.com/Financial-Times/next-vault-sync/wiki/Migration-Guide"
 
 # Environment variables previously came from `next-config-vars`. That's now deprecated.
-# From now on, environment variables come from
+# From now on, environment variables come from https://github.com/Financial-Times/vault
 .env:
 ifneq ($(shell vault token-lookup &>/dev/null | grep 'display_name' | cut -d "	" -f 2),)
 # Signed into Vault
