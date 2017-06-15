@@ -151,16 +151,16 @@ UPDATE_TO_VAULT = "Warning: next-config-vars is now DEPRECATED. Please update to
 # Environment variables previously came from `next-config-vars`. That's now deprecated.
 # From now on, environment variables come from https://github.com/Financial-Times/vault
 .env:
-ifneq ($(shell vault token-lookup &>/dev/null | grep 'display_name' | cut -d "	" -f 2),"")
-# Signed into Vault
+ifneq ($(shell which vault),)
+# Has Vault installed
 	@make .env-vault
 else
-# Not signed into Vault, so run .env-config-vars
-	@echo $(UPDATE_TO_VAULT)
+# No Vault installed, so run .env-config-vars
 	@make .env-config-vars
 endif
 
 .env-config-vars:
+	@echo $(UPDATE_TO_VAULT)
 	@if [[ $(shell grep --count *.env* .gitignore) -eq 0 ]]; then (echo $(ENV_MSG_IGNORE_ENV) && exit 1); fi
 	@if [ ! -e package.json ]; then (echo $(ENV_MSG_PACKAGE_JSON) && exit 1); fi
 	@if [ ! -z $(CIRCLECI) ]; then (echo $(ENV_MSG_CIRCLECI) && exit 1); fi
