@@ -1,12 +1,29 @@
 const extend = require('node.extend');
 const querystring = require('querystring');
 
-const viewports = process.env.PA11Y_VIEWPORTS || [
-	{
-		width: 1280,
-		height: 800
+const defaultViewPortSize = {
+	width: 1280,
+	height: 800
+};
+
+const parseEnvironmentViewPort = (viewportStr) => {
+	const result = /w(\d{2,4})h(\d{2,4})/i.exec(viewportStr);
+	if(!result || result.length < 3) {
+		return null;
 	}
-];
+
+	return {width:result[1],height:result[2]};
+};
+
+const parseEnvironmentViewPorts = (env) => {
+	if(!env.PA11Y_VIEWPORTS) {
+		return []
+	}
+
+	return env.PA11Y_VIEWPORTS.split(',').map(parseEnvironmentViewPort).filter(v => v);
+};
+
+const viewports = [defaultViewPortSize].concat(parseEnvironmentViewPorts(process.env));
 
 const smoke = require('./test/smoke.js');
 
