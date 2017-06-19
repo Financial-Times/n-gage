@@ -158,10 +158,10 @@ UPDATE_TO_VAULT = "Warning: next-config-vars is now DEPRECATED. Please update to
 .env:
 ifneq ($(shell which vault),)
 # Has Vault installed
-	@make .env-vault
+	$(MAKE) .env-vault
 else
 # No Vault installed, so run .env-config-vars
-	@make .env-config-vars
+	$(MAKE) .env-config-vars
 endif
 
 .env-config-vars:
