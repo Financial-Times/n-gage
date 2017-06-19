@@ -75,7 +75,7 @@ eslint "**/*.js" --fix
 
 ```shell
 git add . 
-git commit -am "Updated from n.Makefile to n-gage. Also: I ❤ @adambraimbridge"
+git commit -am "Updated from n.Makefile to n-gage."
 ```
 
  - [ ] resolve any squirrel issues
