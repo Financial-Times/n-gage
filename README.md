@@ -6,7 +6,7 @@ Make it so next - an experiment to provide next with a self-updating makefile (w
 
 ## Migrating from n.Makefile to n-gage
 
-⚠️ **Don't blindly copy-paste these commands.** It won't work like that because each repository is a unique smowflake.
+⚠️ **Don't blindly copy-paste these commands.** It won't work like that because each repository is unique.
 
  - [ ] get your repository in a nice clean state
 
