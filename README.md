@@ -4,7 +4,7 @@
 
 Make it so next - an experiment to provide next with a self-updating makefile (with thanks to Matt Brennan for the idea).
 
-## Migrating from n.Makefile to n-gage
+## Usage
 
 ⚠️ **Don't blindly copy-paste these commands.** It won't work like that because each repository is unique.
 
