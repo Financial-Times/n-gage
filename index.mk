@@ -1,3 +1,4 @@
+
 # Export environment variables if a .env file is present.
 ifeq ($(ENV_EXPORTED),) # ENV vars not yet exported
 ifneq ("$(wildcard .env)","")
@@ -21,6 +22,9 @@ export PATH := ./node_modules/.bin:$(PATH)
 # Use bash not sh
 SHELL := /bin/bash
 
+# verify that secret-squirrel is set up to run on each commit
+SQUIRRELIFY := $(shell node node_modules/@financial-times/n-gage/scripts/squirrelify.js)
+
 # Some handy utilities
 GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
 NPM_INSTALL = npm prune --production=false --no-package-lock && npm install --no-package-lock
@@ -33,6 +37,7 @@ DONE = echo ✓ $@ done
 CONFIG_VARS = curl -fsL https://ft-next-config-vars.herokuapp.com/$1/$(call APP_NAME)$(if $2,.$2,) -H "Authorization: `heroku config:get APIKEY --app ft-next-config-vars`"
 IS_USER_FACING = `find . -type d \( -path ./bower_components -o -path ./node_modules \) -prune -o -name '*.html' -print`
 MAKEFILE_HAS_A11Y = `grep -rli "a11y" Makefile`
+
 
 #
 # META TASKS
