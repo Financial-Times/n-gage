@@ -19,6 +19,7 @@ try {
 	if (preCommit.indexOf('node_modules/.bin/secret-squirrel') === -1) {
 		squirrelError();
 	}
+	console.log('squirrel ok');
 } catch (e) {
 	squirrelError();
 }
