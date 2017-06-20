@@ -7,7 +7,7 @@ Add the following to your package.json
 "config": {
   "pre-git": {
     "pre-commit": [
-      "node_modules/.bin/secret-squirrel"
+      "secret-squirrel"
     ]
   }
 }
@@ -16,7 +16,7 @@ Add the following to your package.json
 
 try {
 	const preCommit = packageJson.config['pre-git']['pre-commit'];
-	if (preCommit.indexOf('node_modules/.bin/secret-squirrel') === -1) {
+	if (preCommit.indexOf('secret-squirrel') === -1) {
 		squirrelError();
 	}
 	console.log('squirrel ok');
