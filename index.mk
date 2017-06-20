@@ -22,10 +22,16 @@ export PATH := ./node_modules/.bin:$(PATH)
 # Use bash not sh
 SHELL := /bin/bash
 
+ifeq ("$(wildcard node_modules/@financial-times/n-gage/index.mk)","")
+PATH_TO_NGAGE := ""
+else
+PATH_TO_NGAGE := "node_modules/@financial-times/n-gage/"
+endif
+
 # verify that secret-squirrel is set up to run on each commit
-SQUIRRELIFY := $(shell node node_modules/@financial-times/n-gage/scripts/squirrelify.js)
-ifneq ($(SQUIRRELIFY),"squirrel ok")
-$(error 'Please add the secret-squirrel pre-commit hook to continue using n-gage')
+SQUIRRELIFY := $(shell node ${PATH_TO_NGAGE}scripts/squirrelify.js)
+ifneq ("$(SQUIRRELIFY)","squirrel ok")
+$(error ${SQUIRRELIFY})
 endif
 
 # Some handy utilities
