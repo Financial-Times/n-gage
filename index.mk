@@ -22,8 +22,17 @@ export PATH := ./node_modules/.bin:$(PATH)
 # Use bash not sh
 SHELL := /bin/bash
 
+ifeq ("$(wildcard node_modules/@financial-times/n-gage/index.mk)","")
+PATH_TO_NGAGE := ""
+else
+PATH_TO_NGAGE := "node_modules/@financial-times/n-gage/"
+endif
+
 # verify that secret-squirrel is set up to run on each commit
-SQUIRRELIFY := $(shell node node_modules/@financial-times/n-gage/scripts/squirrelify.js)
+SQUIRRELIFY := $(shell node ${PATH_TO_NGAGE}scripts/squirrelify.js)
+ifneq ("$(SQUIRRELIFY)","squirrel ok")
+$(error ${SQUIRRELIFY})
+endif
 
 # Some handy utilities
 GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
