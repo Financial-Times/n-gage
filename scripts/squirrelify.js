@@ -7,7 +7,7 @@ Add the following to your package.json
 "config": {
   "pre-git": {
     "pre-commit": [
-      "node_modules/.bin/secret-squirrel"
+      "secret-squirrel"
     ]
   }
 }
