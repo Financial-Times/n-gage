@@ -28,10 +28,14 @@ else
 PATH_TO_NGAGE := "node_modules/@financial-times/n-gage/"
 endif
 
-# verify that secret-squirrel is set up to run on each commit
+# Verify that secret-squirrel is configured correctly
 SQUIRRELIFY := $(shell node ${PATH_TO_NGAGE}scripts/squirrelify.js)
 ifneq ("$(SQUIRRELIFY)","squirrel ok")
-$(error ${SQUIRRELIFY})
+define n
+
+
+endef
+$(error $n$n✗ Secret Squirrel must be configured to run on every commit.$nPlease copy this to your package.json file:$n$n	"scripts": {$n		"precommit": "node_modules/.bin/secret-squirrel"$n	}$n$nThank you. Further reading: https://github.com/Financial-Times/secret-squirrel/$n$n)
 endif
 
 # Some handy utilities
