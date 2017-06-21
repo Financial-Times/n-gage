@@ -1,25 +1,22 @@
 const packageJson = require(`${process.cwd()}/package.json`);
 
 const squirrelError = () => {
-	throw new Error(`secret-squirrel has not been configured to run on every commit
-Add the following to your package.json
+	throw new Error(`✗ Secret Squirrel must be configured to run on every commit.
+  Please copy this to your package.json file:
 
-"config": {
-  "pre-git": {
-    "pre-commit": [
-      "node_modules/.bin/secret-squirrel"
-    ]
-  }
-}
+	"scripts": {
+		"precommit": "node_modules/.bin/secret-squirrel"
+	}
+
+Thank you. Further reading: https://github.com/Financial-Times/secret-squirrel/
 `);
 }
 
 try {
-	const preCommit = packageJson.config['pre-git']['pre-commit'];
+	const preCommit = packageJson.config['scripts']['precommit'];
 	if (preCommit.indexOf('node_modules/.bin/secret-squirrel') === -1) {
 		squirrelError();
 	}
-	console.log('squirrel ok');
 } catch (e) {
 	squirrelError();
 }

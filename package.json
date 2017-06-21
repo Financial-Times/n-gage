@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "commit-wizard"
+    "precommit": "node_modules/.bin/secret-squirrel"
   },
   "repository": {
     "type": "git",
@@ -19,17 +19,9 @@
   "homepage": "https://github.com/Financial-Times/n-gage#readme",
   "dependencies": {
     "@financial-times/secret-squirrel": "git+ssh://git@github.com/Financial-Times/secret-squirrel.git#postinstall",
-    "husky": "^0.13.4",
-    "pre-git": "^3.14.0"
+    "husky": "^0.13.4"
   },
   "devDependencies": {
     "npm-prepublish": "^1.2.2"
-  },
-  "config": {
-    "pre-git": {
-      "pre-commit": [
-        "node_modules/.bin/secret-squirrel"
-      ]
-    }
   }
 }
