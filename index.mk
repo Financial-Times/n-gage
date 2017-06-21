@@ -35,7 +35,7 @@ define n
 
 
 endef
-$(error $n$n✗ Secret Squirrel must be configured to run on every commit.$nPlease copy this to your package.json file:$n$n	"scripts": {$n		"precommit": "node_modules/.bin/secret-squirrel"$n	}$n$nThank you. Further reading: https://github.com/Financial-Times/secret-squirrel/$n$n)
+$(error $n$n✗ Secret Squirrel must be configured to run on every commit.$nPlease copy this to your package.json file:$n$n  "scripts": {$n    "precommit": "node_modules/.bin/secret-squirrel"$n  }$n$nThank you. Further reading: https://github.com/Financial-Times/secret-squirrel/$n$n)
 endif
 
 # Some handy utilities
