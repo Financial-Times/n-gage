@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Financial-Times/n-gage#readme",
   "dependencies": {
-    "@financial-times/secret-squirrel": "git+ssh://git@github.com/Financial-Times/secret-squirrel.git#postinstall",
+    "@financial-times/secret-squirrel": "git@github.com/Financial-Times/secret-squirrel.git",
     "husky": "^0.13.4"
   },
   "devDependencies": {
