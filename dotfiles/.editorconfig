@@ -1,15 +1,15 @@
 root = true
 
-[*.*]
+[**{.js,.ts,.html,.hbs,.mustache,.xml,.xsl,.scss,.css,.sh,.vcl,.mk,Makefile,.json,.yml,.yaml,.md}]
 end_of_line = lf
 insert_final_newline = true
 charset = utf-8
 
-[**{.js,.scss,.html,.mustache,Makefile,.vcl}]
+[**{.js,.ts,.html,.hbs,.mustache,.xml,.xsl,.scss,.css,.sh,.vcl,.mk,Makefile}]
 indent_style = tab
 trim_trailing_whitespace = true
 
-[**{.json}]
+[**{.json,.yml,.yaml}]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true
