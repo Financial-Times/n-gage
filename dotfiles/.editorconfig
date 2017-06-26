@@ -1,11 +1,11 @@
 root = true
 
-[**{.js,.ts,.html,.hbs,.mustache,.xml,.scss,.css,.sh,.vcl,.mk,Makefile,.json,.yml,.yaml,.md}]
+[**{.js,.ts,.html,.hbs,.mustache,.xml,.xsl,.scss,.css,.sh,.vcl,.mk,Makefile,.json,.yml,.yaml,.md}]
 end_of_line = lf
 insert_final_newline = true
 charset = utf-8
 
-[**{.js,.ts,.html,.hbs,.mustache,.xml,.scss,.css,.sh,.vcl,.mk,Makefile}]
+[**{.js,.ts,.html,.hbs,.mustache,.xml,.xsl,.scss,.css,.sh,.vcl,.mk,Makefile}]
 indent_style = tab
 trim_trailing_whitespace = true
 
