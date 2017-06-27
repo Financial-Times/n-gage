@@ -8,4 +8,4 @@ indent_style = tab
 trim_trailing_whitespace = true
 
 ; PS: to convert your repo from 2 spaces to tabs, you can run this command:
-; git ls-files | grep -Ev '(package|bower).json' | grep -E '\.(js|ts|html|hbs|mustache|xml|xsl|scss|css|sh|vcl|mk|Makefile|json|yml|yaml|md)' | xargs -I F sh -c "unexpand -t 2 F > unexpanded && mv unexpanded F"
+; git ls-files | grep -Ev '(package.json|bower.json|circle.yml)' | grep -E '\.(js|ts|html|hbs|mustache|xml|xsl|scss|css|sh|vcl|mk|Makefile|json|yml|yaml|md)' | xargs -I F sh -c "unexpand -t 2 F > unexpanded && mv unexpanded F"
