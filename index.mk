@@ -28,16 +28,13 @@ else
 PATH_TO_NGAGE := "node_modules/@financial-times/n-gage/"
 endif
 
-# Verify that secret-squirrel is configured correctly
-SQUIRRELIFY := $(shell node ${PATH_TO_NGAGE}scripts/squirrelify.js)
-ifneq ("$(SQUIRRELIFY)","squirrel ok")
-define n
-
-
-endef
-$(error $n$n✗ Secret Squirrel must be configured to run on every commit.$nPlease copy this to your package.json file:$n$n  "scripts": {$n    "precommit": "node_modules/.bin/secret-squirrel"$n  }$n$nThank you. Further reading: https://github.com/Financial-Times/secret-squirrel/$n$n)
+# Verify that githooks are configured correctly
+GITHOOKS := $(shell node ${PATH_TO_NGAGE}scripts/githooks.js)
+ifneq ("$(GITHOOKS)","")
+$(error $(GITHOOKS))
 endif
 
+# must be configured to run on every commit.$nPlease copy this to your package.json file:$n$n  "scripts": {$n    "precommit": "node_modules/.bin/secret-squirrel"$n  }$n$nThank you. Further reading: https://github.com/Financial-Times/secret-squirrel/$n$n)
 # Some handy utilities
 GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
 NPM_INSTALL = npm prune --production=false --no-package-lock && npm install --no-package-lock

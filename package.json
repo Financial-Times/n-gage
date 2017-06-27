@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit": "node_modules/.bin/secret-squirrel"
+    "precommit": "make verify -j3 && node_modules/.bin/secret-squirrel",
+    "prepush": "make unit-test"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "husky": "^0.13.4"
   },
   "devDependencies": {
+    "jsonfile": "^3.0.0",
     "npm-prepublish": "^1.2.2"
   }
 }
