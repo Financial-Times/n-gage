@@ -17,7 +17,7 @@ const addScriptToPackageJson = () => {
 	const newPackageJson = [
 		{ name: 'precommit', value: 'make verify -j3' },
 		{ name: 'precommit', value: 'node_modules/.bin/secret-squirrel' },
-		{ name: 'prepush', value: 'make unit-test' },
+		// { name: 'prepush', value: 'make unit-test' }, // For example
 	].reduce((returnObject, row) => addScript(returnObject, row), packageJson);
 	try {
 		jsonfile.writeFileSync(packageJsonFilepath, newPackageJson, {spaces: 2})
