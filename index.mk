@@ -180,20 +180,11 @@ endif
 	@if [ ! -z $(CIRCLECI) ]; then (echo $(ENV_MSG_CIRCLECI) && exit 1); fi
 	@$(call CONFIG_VARS,development,env) > .env && perl -pi -e 's/="(.*)"/=\1/' .env && $(DONE) || (echo $(ENV_MSG_CANT_GET) && rm .env && exit 1);
 
-.env-vault: vault-cli
+.env-vault: vault-token
 	@if [[ $(shell grep --count *.env* .gitignore) -eq 0 ]]; then (echo $(ENV_MSG_IGNORE_ENV) && exit 1); fi
 	@if [ ! -e package.json ]; then (echo $(ENV_MSG_PACKAGE_JSON) && exit 1); fi
 	@if [ ! -z $(CIRCLECI) ]; then (echo $(ENV_MSG_CIRCLECI) && exit 1); fi
-	@vault read secret/teams/next/$$(echo $(APP_NAME) | sed 's/^ft-//')/development \
-		| tail -n +4 \
-		| sed -e '$$ d' \
-		| perl -pe 's/^([^ \t]+)\s+(.+)$$/\1=\2/' \
-		> .env
-	@vault read secret/teams/next/shared/development \
-		| tail -n +4 \
-		| sed -e '$$ d' \
-		| perl -pe 's/^([^ \t]+)\s+(.+)$$/\1=\2/' \
-		>> .env
+	node scripts/env-vault.js $(call APP_NAME)
 	@$(DONE)
 
 MSG_HEROKU_CLI = "Please make sure the Heroku CLI toolbelt is installed - see https://toolbelt.heroku.com/. And make sure you are authenticated by running ‘heroku login’. If this is not an app, delete Procfile."
@@ -203,8 +194,8 @@ heroku-cli:
 heroku-login-check:
 	@if [[ `heroku whoami 2>/dev/null` != *'@ft.com' ]]; then (HEROKU_ORGANIZATION=financial-times heroku login --sso); fi
 
-MSG_VAULT_CLI = "Please make sure the Vault CLI is installed - see https://github.com/Financial-Times/vault/wiki/Getting-Started. And make sure you are authenticated."
-vault-cli:
+MSG_VAULT_CLI = "Please make sure the Vault CLI is installed - see https://github.com/Financial-Times/vault/wiki/Getting-Started. And make sure you are authenticated, a valid token should exist at ~/vault-token."
+vault-token:
 	@if [ -e Procfile ] && [[ $$(vault token-lookup 2>&1 | grep -c error) -gt 0 ]]; then (echo $(MSG_VAULT_CLI) && exit 1); fi
 
 # VERIFY SUB-TASKS
