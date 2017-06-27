@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit": "make verify -j3 && node_modules/.bin/secret-squirrel"
+    "precommit": "node_modules/.bin/secret-squirrel",
+    "prepush": "make verify -j3"
   },
   "repository": {
     "type": "git",
