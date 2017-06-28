@@ -10,7 +10,9 @@ Please use https://github.com/Financial-Times/secret-squirrel-testing/blob/maste
 
 ## Usage
 
-First, delete `n.Makefile`; n-gage includes all the same stuff. Then
+If you've already setup `n-makefile` then please follow the migration guide above.
+
+Otherwise, proceed as follows:
 
 `npm install --save-dev --no-package-lock @financial-times/n-gage`
 
