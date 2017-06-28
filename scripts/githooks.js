@@ -39,6 +39,8 @@ const addScripts = () => {
 const removePreGitHooks = () => {
 	const json = getPackageJson();
 	delete json.config['pre-git'];
+	delete json.commit;
+	delete json.devDependencies['pre-git'];
 	return json;
 };
 
