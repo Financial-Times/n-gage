@@ -18,6 +18,10 @@ const addScript = (json, config) => {
 	const name = config.name;
 	const value = config.value;
 	const newJson = JSON.parse(JSON.stringify(json));
+	if (!newJson.scripts) {
+		newJson.scripts = {};
+	}
+
 	if (!newJson.scripts[name]) {
 		newJson.scripts[name] = value;
 	}
@@ -59,7 +63,7 @@ const secretSquirrelPreCommitScriptExists = () => {
 
 const preGitHookExists = () => {
 	const json = getPackageJson();
-	return find(() => !!json.config['pre-git']);
+	return find(() => !!json.config['pre-git'] || json.devDependencies['pre-git']);
 };
 
 const run = () => {
