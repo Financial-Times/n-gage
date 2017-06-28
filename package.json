@@ -24,7 +24,13 @@
     "jsonfile": "^3.0.0"
   },
   "devDependencies": {
+    "@financial-times/n-fetch": "^1.0.0-beta.4",
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
     "node-fetch": "^1.7.1",
-    "npm-prepublish": "^1.2.2"
+    "npm-prepublish": "^1.2.2",
+    "proxyquire": "^1.8.0",
+    "sinon": "^2.3.6",
+    "sinon-chai": "^2.11.0"
   }
 }

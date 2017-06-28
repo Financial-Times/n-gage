@@ -187,6 +187,16 @@ endif
 	node ${PATH_TO_NGAGE}scripts/env-vault.js $(call APP_NAME)
 	@$(DONE)
 
+# for use with CI deployments that need the env vars in a file (dotenv format)
+.env-vault-circleci-dotenv:
+	node ${PATH_TO_NGAGE}scripts/env-vault-circleci.js dotenv $(call APP_NAME)
+	@$(DONE)
+
+# for use with CI deployments that need the env vars in a file (Apex format)
+.env-vault-circleci-apex:
+	node ${PATH_TO_NGAGE}scripts/env-vault-circleci.js apex $(call APP_NAME)
+	@$(DONE)
+
 MSG_HEROKU_CLI = "Please make sure the Heroku CLI toolbelt is installed - see https://toolbelt.heroku.com/. And make sure you are authenticated by running ‘heroku login’. If this is not an app, delete Procfile."
 heroku-cli:
 	@if [ -e Procfile ]; then heroku auth:whoami &>/dev/null || (echo $(MSG_HEROKU_CLI) && exit 1); fi
