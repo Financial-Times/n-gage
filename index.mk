@@ -23,9 +23,9 @@ export PATH := ./node_modules/.bin:$(PATH)
 SHELL := /bin/bash
 
 ifeq ("$(wildcard node_modules/@financial-times/n-gage/index.mk)","")
-PATH_TO_NGAGE := ""
+PATH_TO_NGAGE := 
 else
-PATH_TO_NGAGE := "node_modules/@financial-times/n-gage/"
+PATH_TO_NGAGE := node_modules/@financial-times/n-gage/
 endif
 
 # verify that githooks are configured correctly
