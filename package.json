@@ -18,9 +18,11 @@
     "url": "https://github.com/Financial-Times/n-gage/issues"
   },
   "homepage": "https://github.com/Financial-Times/n-gage#readme",
-  "devDependencies": {
+	"dependencies": {
     "@financial-times/secret-squirrel": "^2.5.7",
-    "husky": "^0.13.4",
+    "husky": "^0.13.4"
+	},
+  "devDependencies": {
     "jsonfile": "^3.0.0",
     "node-fetch": "^1.7.1",
     "npm-prepublish": "^1.2.2"
