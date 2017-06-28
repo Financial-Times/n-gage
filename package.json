@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "commit-wizard"
+    "precommit": "node_modules/.bin/secret-squirrel",
+    "prepush": "make verify -j3"
   },
   "repository": {
     "type": "git",
@@ -17,19 +18,11 @@
     "url": "https://github.com/Financial-Times/n-gage/issues"
   },
   "homepage": "https://github.com/Financial-Times/n-gage#readme",
-  "dependencies": {
-    "@financial-times/secret-squirrel": "^2.0.4",
-    "node-fetch": "^1.7.1",
-    "pre-git": "^3.14.0"
-  },
   "devDependencies": {
+    "@financial-times/secret-squirrel": "^2.5.7",
+    "husky": "^0.13.4",
+    "jsonfile": "^3.0.0",
+    "node-fetch": "^1.7.1",
     "npm-prepublish": "^1.2.2"
-  },
-  "config": {
-    "pre-git": {
-      "pre-commit": [
-        "node_modules/.bin/secret-squirrel"
-      ]
-    }
   }
 }
