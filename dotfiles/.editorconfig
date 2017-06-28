@@ -1,6 +1,6 @@
 root = true
 
-[**{.js,.ts,.html,.hbs,.mustache,.xml,.xsl,.scss,.css,.sh,.vcl,.mk,Makefile,.json,.yml,.yaml,.md}]
+[**{.js,.ts,.html,.hbs,.mustache,.xml,.xsl,.scss,.css,.sh,.vcl,.mk,Makefile,.json}]
 end_of_line = lf
 insert_final_newline = true
 charset = utf-8
