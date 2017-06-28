@@ -65,7 +65,7 @@ const run = () => {
 		var response = '';
 
 		// Only run locally (not in CI)
-		if (process.env.CIRCLE_BRANCH) {
+		if (process.env.CIRCLECI) {
 			return resolve(response);
 		}
 
