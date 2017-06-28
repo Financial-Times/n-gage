@@ -26,7 +26,7 @@ Promise.all([
 
         const keys = Object.assign({}, shared, app);
 
-        const variables = Object.keys(keys).sort().reduce((file, key) => file + `${key}='${keys[key]}'\n`, '');
+        const variables = Object.keys(keys).sort().reduce((file, key) => file + `${key}=${keys[key]}\n`, '');
 
         fs.writeFileSync(path.join(process.cwd(), '.env'), variables);
     })
