@@ -1,6 +1,18 @@
-const packageJsonFilepath = `${process.cwd()}/package.json`;
-const packageJson = require(packageJsonFilepath);
 const jsonfile = require('jsonfile')
+const packageJsonFilepath = `${process.cwd()}/package.json`;
+
+const getPackageJson = () => {
+	const packageJson = jsonfile.readFileSync(packageJsonFilepath);
+	return packageJson;
+}
+
+const writePackageJsonFile = json => {
+	try {
+		jsonfile.writeFileSync(packageJsonFilepath, json(), {spaces: 2})
+	} catch (err) {
+		console.error(err)
+	}
+};
 
 const addScript = (json, config) => {
 	const name = config.name;
@@ -15,46 +27,50 @@ const addScript = (json, config) => {
 	return newJson;
 }
 
-const addScriptToPackageJson = () => {
-	const newPackageJson = [
+const addScripts = () => {
+	const json = getPackageJson();
+	const newJson = [
 		{ name: 'precommit', value: 'node_modules/.bin/secret-squirrel' },
-		{ name: 'prepush', value: 'make verify -j3' },
-		// { name: 'prepush', value: 'make unit-test' }, // For example
-	].reduce((returnObject, row) => addScript(returnObject, row), packageJson);
-	try {
-		jsonfile.writeFileSync(packageJsonFilepath, newPackageJson, {spaces: 2})
-	} catch (err) {
-		console.error(err)
-	}
+		{ name: 'prepush', value: 'make verify -j3' }
+	].reduce((returnObject, row) => addScript(returnObject, row), json);
+	return newJson;
 }
 
-const find = (test => {
+const removePreGitHooks = () => {
+	const json = getPackageJson();
+	delete json.config['pre-git'];
+	return json;
+};
+
+const find = test => {
 	try {
 		return test();
 	} catch (err) {
 		return false;
 	};
-});
+};
 
 const secretSquirrelPreCommitScriptExists = () => {
-	return find(() => packageJson.scripts.precommit.indexOf('node_modules/.bin/secret-squirrel') !== -1);
+	const json = getPackageJson();
+	return find(() => json.scripts.precommit.indexOf('node_modules/.bin/secret-squirrel') !== -1);
 };
 
 const preGitHookExists = () => {
-	return find(() => !!packageJson.config['pre-git']);
+	const json = getPackageJson();
+	return find(() => !!json.config['pre-git']);
 };
 
 const run = () => {
 	return new Promise(resolve => {
 		var response = '';
 		if (!secretSquirrelPreCommitScriptExists()) {
-			addScriptToPackageJson();
-			response += 'It added some githook scripts.';
+			writePackageJsonFile(addScripts);
+			response += 'It added some githook scripts. ';
 		};
-		// if (preGitHookExists()) {
-		// 	removePreGitHookFromPackageJson();
-		// 	response += 'It deleted some config > pre-git hooks.';
-		// };
+		if (preGitHookExists()) {
+			writePackageJsonFile(removePreGitHooks);
+			response += 'It deleted some config > pre-git hooks. ';
+		};
 		if (response !== '') {
 			response = `✗ Note: n-gage just edited package.json. ${response} Please review and commit`;
 		}
