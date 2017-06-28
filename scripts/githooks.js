@@ -63,6 +63,12 @@ const preGitHookExists = () => {
 const run = () => {
 	return new Promise(resolve => {
 		var response = '';
+
+		// Only run locally (not in CI)
+		if (process.env.CIRCLE_BRANCH) {
+			return resolve(response);
+		}
+
 		if (!secretSquirrelPreCommitScriptExists()) {
 			writePackageJsonFile(addScripts);
 			response += 'It added some githook scripts. ';
