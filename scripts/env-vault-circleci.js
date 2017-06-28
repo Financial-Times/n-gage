@@ -10,9 +10,26 @@ const path = require('path');
 
 const app = process.argv[2].replace(/^ft-/, '');
 
-const vault = (path, token) => fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
+const vault = (path, token) => fetch('https://vault.in.ft.com/v1/auth/approle/login', {
+    method: 'POST',
+    body: JSON.stringify({ role_id: process.env.VAULT_ROLE_ID, secret_id: process.env.VAULT_SECRET_ID })
+})
     .then(res => res.json())
-    .then(json => json.data || {});
+    .then(json => json.data.client_token)
+    .then(token => {
+        // Step 2, though some error handling in the above.
+        return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
+            .then(res => res.json())
+            .then(json => json.data || {})
+
+        // Could be more efficient as it will make a token each request, bu
+        // yup! I think you've done your bit... I can finish this off
+        // just one thing I wonder about is that they want the file in JSON format... Apex format
+        // and I know some other deployments want it in the dotenv format
+        // so, I'll look for process.argv[0] and return appropriately
+        // can you check this in to a branch... we head home and I finish it later?
+        GREAT WORK TODAY!!!!
+    });
 
 Promise.all([
     vault(`secret/teams/next/${app}/development`),
