@@ -2,7 +2,9 @@ const packageJsonFilepath = `${process.cwd()}/package.json`;
 const packageJson = require(packageJsonFilepath);
 const jsonfile = require('jsonfile')
 
-const addScript = (json, {name, value}) => {
+const addScript = (json, config) => {
+	const name = config.name;
+	const value = config.value;
 	const newJson = JSON.parse(JSON.stringify(json));
 	if (!newJson.scripts[name]) {
 		newJson.scripts[name] = value;
@@ -27,11 +29,11 @@ const addScriptToPackageJson = () => {
 }
 
 const find = (test => {
-	let found = false;
 	try {
-		found = test();
-	} catch (err) {};
-	return found;
+		return test();
+	} catch (err) {
+		return false;
+	};
 });
 
 const secretSquirrelPreCommitScriptExists = () => {
@@ -44,7 +46,7 @@ const preGitHookExists = () => {
 
 const run = () => {
 	return new Promise(resolve => {
-		let response = '';
+		var response = '';
 		if (!secretSquirrelPreCommitScriptExists()) {
 			addScriptToPackageJson();
 			response += 'It added some githook scripts.';
