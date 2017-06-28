@@ -6,7 +6,7 @@ Make it so next - an experiment to provide next with a self-updating makefile (w
 
 ## Migration guide
 
-https://github.com/Financial-Times/n-gage/wiki/Migrating-from-n.Makefile-to-n-gage
+Please use https://github.com/Financial-Times/secret-squirrel-testing/blob/master/README.md
 
 ## Usage
 
