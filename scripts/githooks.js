@@ -2,6 +2,14 @@ const packageJsonFilepath = `${process.cwd()}/package.json`;
 const packageJson = require(packageJsonFilepath);
 const jsonfile = require('jsonfile')
 
+const writePackageJsonFile = json => {
+	try {
+		jsonfile.writeFileSync(packageJsonFilepath, json(), {spaces: 2})
+	} catch (err) {
+		console.error(err)
+	}
+};
+
 const addScript = (json, config) => {
 	const name = config.name;
 	const value = config.value;
@@ -15,26 +23,26 @@ const addScript = (json, config) => {
 	return newJson;
 }
 
-const addScriptToPackageJson = () => {
+const addScripts = () => {
 	const newPackageJson = [
 		{ name: 'precommit', value: 'node_modules/.bin/secret-squirrel' },
-		{ name: 'prepush', value: 'make verify -j3' },
-		// { name: 'prepush', value: 'make unit-test' }, // For example
+		{ name: 'prepush', value: 'make verify -j3' }
 	].reduce((returnObject, row) => addScript(returnObject, row), packageJson);
-	try {
-		jsonfile.writeFileSync(packageJsonFilepath, newPackageJson, {spaces: 2})
-	} catch (err) {
-		console.error(err)
-	}
+	return newPackageJson;
 }
 
-const find = (test => {
+const removePreGitHooks = () => {
+	// Delete the packageJson.config['pre-git'] property here
+	// return newPackageJson;
+};
+
+const find = test => {
 	try {
 		return test();
 	} catch (err) {
 		return false;
 	};
-});
+};
 
 const secretSquirrelPreCommitScriptExists = () => {
 	return find(() => packageJson.scripts.precommit.indexOf('node_modules/.bin/secret-squirrel') !== -1);
@@ -48,12 +56,12 @@ const run = () => {
 	return new Promise(resolve => {
 		var response = '';
 		if (!secretSquirrelPreCommitScriptExists()) {
-			addScriptToPackageJson();
-			response += 'It added some githook scripts.';
+			writePackageJsonFile(addScripts);
+			response += 'It added some githook scripts. ';
 		};
 		// if (preGitHookExists()) {
-		// 	removePreGitHookFromPackageJson();
-		// 	response += 'It deleted some config > pre-git hooks.';
+		// 	writePackageJsonFile(removePreGitHooks);
+		// 	response += 'It deleted some config > pre-git hooks. ';
 		// };
 		if (response !== '') {
 			response = `✗ Note: n-gage just edited package.json. ${response} Please review and commit`;
