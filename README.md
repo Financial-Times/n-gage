@@ -4,6 +4,10 @@
 
 Make it so next - an experiment to provide next with a self-updating makefile (with thanks to Matt Brennan for the idea).
 
+## Migration guide
+
+https://github.com/Financial-Times/n-gage/wiki/Migrating-from-n.Makefile-to-n-gage
+
 ## Usage
 
 First, delete `n.Makefile`; n-gage includes all the same stuff. Then
