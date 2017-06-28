@@ -81,7 +81,7 @@ const run = () => {
 		};
 		if (preGitHookExists()) {
 			writePackageJsonFile(removePreGitHooks);
-			response += 'It deleted some config > pre-git hooks. ';
+			response += 'It deleted some config > pre-git hooks. IMPORTANT: Delete the old local hooks with: "rm -rf .git/hooks/*" ';
 		};
 		if (response !== '') {
 			response = `✗ Note: n-gage just edited package.json. ${response} Please review and commit`;
