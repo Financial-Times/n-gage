@@ -24,7 +24,7 @@ fetch('https://vault.in.ft.com/v1/auth/approle/login', {
     method: 'POST',
     body: JSON.stringify({ role_id: process.env.VAULT_ROLE_ID, secret_id: process.env.VAULT_SECRET_ID })
 })
-	.then(json => json.data.client_token)
+	.then(json => json.auth.client_token)
 	.then(token => {
 		Promise.all(vaultPaths.map(path => {
 			return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
