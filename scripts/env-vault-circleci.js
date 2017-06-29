@@ -26,7 +26,7 @@ fetch('https://vault.in.ft.com/v1/auth/approle/login', {
 })
 	.then(json => json.auth.client_token)
 	.then(token => {
-		Promise.all(vaultPaths.map(path => {
+		return Promise.all(vaultPaths.map(path => {
 			return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
 				.then(json => json.data || {})
     }))
@@ -40,5 +40,10 @@ fetch('https://vault.in.ft.com/v1/auth/approle/login', {
         const keys = Object.assign({}, shared, app);
 				const content = format(keys, process.argv[2]);
 				fs.writeFileSync(path.join(process.cwd(), '.env'), content);
+				console.log(`Written to .env. File: ${path.join(process.cwd(), '.env')}`);
     });
-	});
+	})
+		.catch(error => {
+			console.error(error);
+			throw error;
+		});

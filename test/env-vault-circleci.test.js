@@ -19,7 +19,7 @@ describe('env vault CircleCI', () => {
 		process.argv = [null, null, 'dotenv', 'myapp'];
 		const fetch = sinon.stub();
 		const writeFileSync = sinon.spy();
-		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ data: 'mytoken' }));
+		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ auth: { client_token: 'mytoken' }}));
 		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/production', sinon.match.object).returns(Promise.resolve({ data: { a: 'z' }}));
 		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
 		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/shared/production', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
@@ -38,7 +38,7 @@ describe('env vault CircleCI', () => {
 		process.argv = [null, null, 'apex', 'myapp'];
 		const fetch = sinon.stub();
 		const writeFileSync = sinon.spy();
-		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ data: 'mytoken' }));
+		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ auth: { client_token: 'mytoken' }}));
 		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/production', sinon.match.object).returns(Promise.resolve({ data: { a: 'z' }}));
 		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
 		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/shared/production', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
