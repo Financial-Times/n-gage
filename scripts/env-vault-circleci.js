@@ -45,5 +45,5 @@ fetch('https://vault.in.ft.com/v1/auth/approle/login', {
 	})
 		.catch(error => {
 			console.error(error);
-			throw error;
+			process.exit(14);
 		});
