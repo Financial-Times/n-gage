@@ -34,8 +34,8 @@ describe('env vault CircleCI', () => {
 		}, 0);
 	});
 
-	it('writes in Apex format', (done) => {
-		process.argv = [null, null, 'apex', 'myapp'];
+	it('writes in JSON format', (done) => {
+		process.argv = [null, null, 'json', 'myapp'];
 		const fetch = sinon.stub();
 		const writeFileSync = sinon.spy();
 		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ auth: { client_token: 'mytoken' }}));

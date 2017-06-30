@@ -13,7 +13,7 @@ const vaultPaths = [
 const format = (keys, mode) => {
 	if (mode === 'dotenv') {
 		return Object.keys(keys).sort().reduce((file, key) => file + `${key}=${keys[key]}\n`, '');
-	} else if (mode === 'apex') {
+	} else if (mode === 'json') {
 		return JSON.stringify(keys, null, '  ');
 	} else {
 		throw new Error('n-gage does not recognise the requested mode');
