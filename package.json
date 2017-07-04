@@ -24,7 +24,8 @@
     "husky": "^0.13.4",
     "jsonfile": "^3.0.0",
     "lintspaces-cli": "^0.6.0",
-    "eslint": "^4.0.0"
+    "eslint": "^4.0.0",
+    "pa11y-ci": "^1.1.1"
   },
   "devDependencies": {
     "chai": "^4.0.2",
