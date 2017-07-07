@@ -62,6 +62,11 @@ const secretSquirrelPreCommitScriptExists = () => {
 	return find(() => json.scripts.precommit.indexOf('node_modules/.bin/secret-squirrel') !== -1);
 };
 
+const secretSquirrelCommitmsgScriptExists = () => {
+	const json = getPackageJson();
+	return find(() => json.scripts.commitmsg.indexOf('node_modules/.bin/secret-squirrel-commitmsg') !== -1);
+};
+
 const preGitHookExists = () => {
 	const json = getPackageJson();
 	return find(() => !!json.config['pre-git'] || json.devDependencies['pre-git']);
@@ -76,7 +81,7 @@ const run = () => {
 			return resolve(response);
 		}
 
-		if (!secretSquirrelPreCommitScriptExists()) {
+		if (!secretSquirrelPreCommitScriptExists() || !secretSquirrelCommitmsgScriptExists()) {
 			writePackageJsonFile(addScripts);
 			response += 'It added some githook scripts. ';
 		};
