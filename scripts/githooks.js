@@ -35,6 +35,7 @@ const addScripts = () => {
 	const json = getPackageJson();
 	const newJson = [
 		{ name: 'precommit', value: 'node_modules/.bin/secret-squirrel' },
+		{ name: 'commitmsg', value: 'node_modules/.bin/secret-squirrel-commitmsg' },
 		{ name: 'prepush', value: 'make verify -j3' }
 	].reduce((returnObject, row) => addScript(returnObject, row), json);
 	return newJson;
