@@ -64,7 +64,7 @@ const secretSquirrelPreCommitScriptExists = () => {
 
 const secretSquirrelCommitmsgScriptExists = () => {
 	const json = getPackageJson();
-	return find(() => json.scripts.precommit.indexOf('node_modules/.bin/secret-squirrel-commitmsg') !== -1);
+	return find(() => json.scripts.commitmsg.indexOf('node_modules/.bin/secret-squirrel-commitmsg') !== -1);
 };
 
 const preGitHookExists = () => {
