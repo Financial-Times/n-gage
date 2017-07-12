@@ -1,6 +1,6 @@
 # n-gage
 
-<img src="https://media.giphy.com/media/LTPvh458Wx0BO/giphy.gif" align="right" />
+<img src="https://user-images.githubusercontent.com/3425322/28121799-20b036d0-6714-11e7-9516-4db7cf5df6d0.png" align="right" />
 
 Make it so next - an experiment to provide next with a self-updating makefile (with thanks to Matt Brennan for the idea).
 
