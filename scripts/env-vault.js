@@ -3,7 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const app = process.argv[2].replace(/^ft-/, '');
+const app = process.argv[2].replace(/^ft-/, '').replace('@financial-times/', '');
 const token = fs.readFileSync(path.join(os.homedir(), '.vault-token'), { encoding: 'utf8' });
 
 const vault = path => fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
