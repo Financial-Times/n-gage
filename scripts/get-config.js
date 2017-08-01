@@ -1,24 +1,31 @@
+const opts = require('yargs').argv;
 const fetch = require('@financial-times/n-fetch');
 const fs = require('fs');
 const path = require('path');
 
-const app = process.argv[3].replace(/^ft-/, '');
-
-const vaultPaths = [
-	`secret/teams/next/${app}/production`,
-	`secret/teams/next/${app}/shared`,
-	'secret/teams/next/shared/production'
-];
+const getVaultPaths = (ftApp, env) => {
+	const app = ftApp.replace(/^ft-/, '');
+	return [
+		`secret/teams/next/${app}/${env}`,
+		`secret/teams/next/${app}/shared`,
+		`secret/teams/next/shared/${env}`
+	];
+};
 
 const format = (keys, mode) => {
-	if (mode === 'dotenv') {
+	if (mode === 'simple') {
 		return Object.keys(keys).sort().reduce((file, key) => file + `${key}=${keys[key]}\n`, '');
 	} else if (mode === 'json') {
 		return JSON.stringify(keys, null, '  ');
 	} else {
-		throw new Error('n-gage does not recognise the requested mode');
+		throw new Error('n-gage does not recognise the requested config format');
 	}
 };
+
+if (!opts.app || !opts.env) {
+	console.error('\nusage:\n\nget-config --app next-app --env (development|production|continuous-integration) --format (simple|json) --filename .env\n');
+	process.exit(14);
+}
 
 fetch('https://vault.in.ft.com/v1/auth/approle/login', {
     method: 'POST',
@@ -26,7 +33,7 @@ fetch('https://vault.in.ft.com/v1/auth/approle/login', {
 })
 	.then(json => json.auth.client_token)
 	.then(token => {
-		return Promise.all(vaultPaths.map(path => {
+		return Promise.all(getVaultPaths(opts.app, opts.env).map(path => {
 			return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
 				.then(json => json.data || {})
     }))
@@ -38,9 +45,10 @@ fetch('https://vault.in.ft.com/v1/auth/approle/login', {
 					return keys;
 				}, {});
         const keys = Object.assign({}, shared, app);
-				const content = format(keys, process.argv[2]);
-				fs.writeFileSync(path.join(process.cwd(), '.env'), content);
-				console.log(`Written to .env. File: ${path.join(process.cwd(), '.env')}`);
+				const content = format(keys, opts.format);
+				const file = path.join(process.cwd(), opts.filename || '.env');
+				fs.writeFileSync(file, content);
+				console.log(`Written to .env. File: ${file}`);
     });
 	})
 		.catch(error => {
