@@ -10,7 +10,7 @@
     "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg"
   },
   "bin": {
-    "get-config": "./scripts/get-config.js"
+    "ngage": "./scripts/ngage.js"
   },
   "repository": {
     "type": "git",

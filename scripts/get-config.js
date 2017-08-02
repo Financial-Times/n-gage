@@ -1,10 +1,36 @@
-#!/usr/bin/env node
-
-const opts = require('yargs').argv;
 const fetch = require('@financial-times/n-fetch');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+
+const opts = require('yargs')
+  .option('app', (() => {
+		// try get app name from the package.json
+		try {
+			return {
+				default: JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'))).name.replace(/@financial-times\//, '').replace('^ft-', '')
+			}
+		} catch (error) {
+			// otherwise, ask for it to be specified
+			return {
+				demandOption: true,
+				type: 'string'
+			}
+		}
+	})())
+  .option('env', {
+		choices: ['dev', 'prod', 'ci'],
+		default: 'dev'
+  })
+  .option('filename', {
+		default: '.env'
+  })
+  .option('format', {
+		choices: ['simple', 'json'],
+		default: 'simple'
+  })
+  .help()
+  .argv;
 
 const getToken = () => {
 	if (process.env.CIRCLECI) {
@@ -65,26 +91,23 @@ const format = (keys, mode) => {
 
 // LET'S GO!
 
-if (!opts.app || !opts.env) {
-	console.error('\nusage:\n\nget-config [options]\n\n--app next-app-name [required]\n--env (dev|prod|ci) [required]\n--format (simple|json) [optional - defaults to simple]\n--filename .env [optional - defaults to .env]\n');
-	process.exit(14);
-}
-
-getToken()
-	.then(token => {
-		return Promise.all(getVaultPaths(opts.app, opts.env).map(path => {
-			return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
-				.then(json => json.data || {})
-    }))
-			.then(([app, appShared, envShared]) => {        
-				const keys = parseKeys(app, appShared, envShared)
-				const content = format(keys, opts.format);
-				const file = path.join(process.cwd(), opts.filename || '.env');
-				fs.writeFileSync(file, content);
-				console.log(`Written ${opts.app}'s ${opts.env} config to ${file}`);
-    });
-	})
-		.catch(error => {
-			console.error(error);
-			process.exit(14);
-		});
+module.exports = () => {
+	getToken()
+		.then(token => {
+			return Promise.all(getVaultPaths(opts.app, opts.env).map(path => {
+				return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
+					.then(json => json.data || {})
+			}))
+				.then(([app, appShared, envShared]) => {        
+					const keys = parseKeys(app, appShared, envShared)
+					const content = format(keys, opts.format);
+					const file = path.join(process.cwd(), opts.filename || '.env');
+					fs.writeFileSync(file, content);
+					console.log(`Written ${opts.app}'s ${opts.env} config to ${file}`);
+			});
+		})
+			.catch(error => {
+				console.error(error);
+				process.exit(14);
+			});
+};
