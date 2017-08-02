@@ -2,23 +2,23 @@
 
 <img src="https://user-images.githubusercontent.com/3425322/28121799-20b036d0-6714-11e7-9516-4db7cf5df6d0.png" align="right" />
 
-Make it so next - an experiment to provide next with a self-updating makefile (with thanks to Matt Brennan for the idea).
+`n-gage` is in every Next project, giving a standard set of `make` tasks and `ngage` CLI to help with setting up, building and deployments.
 
-## Migration guide
+## Getting started
 
-Please use https://github.com/Financial-Times/secret-squirrel-testing/blob/master/README.md
+Starting a new repo?  You can do the following:
 
-## Usage
-
-If you've already setup `n-makefile` then please follow the migration guide above.
-
-Otherwise, proceed as follows:
-
+```sh
+mkdir my-new-project
+cd my-new-project
+yes '' | npm init
 `npm install --save-dev --no-package-lock @financial-times/n-gage`
+```
 
-Then in your `Makefile` include the following lines before anything else
+then create a new `Makefile` file with the following:
 
 ```make
+# n-gage bootstrapping logic
 node_modules/@financial-times/n-gage/index.mk:
 	npm install --no-save --no-package-lock @financial-times/n-gage
 	touch $@
@@ -26,27 +26,55 @@ node_modules/@financial-times/n-gage/index.mk:
 -include node_modules/@financial-times/n-gage/index.mk
 ```
 
-And here's the annotated code to explain how it works (follow the numbered comments)
+See [here](#Bootstrapping) for more explanation of the bootstrapping logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
+
+## CLI
+
+This includes a CLI for you to use to do some things.
+
+### get-config
+
+This tool helps you to obtain configuration for your project.
+
+```sh
+$ ngage
+ngage get-config --help
+
+$ ngage get-config --help
+Options:
+  --help      Show help                                                [boolean]
+  --app                                            [default: "next-page-purger"]
+  --env                          [choices: "dev", "prod", "ci"] [default: "dev"]
+  --filename                                                   [default: ".env"]
+  --format                       [choices: "simple", "json"] [default: "simple"]
+
+$ ngage get-config --env ci --filename .env-ci --format json
+Written next-page-purger's ci config to /Users/ben.fletcher/projects/next-page-purger/.env-ci
+
+$ cat .env-ci
+{
+  "AWS_ACCESS_KEY_ID": "...",
+  "AWS_SECRET_ACCESS_KEY": "...",
+	...
+}
+```
+
+## Bootstrapping
+
+Curious how the bootstrapping bit at top of the `Makefile` works?  Here's the annotated code:
 
 ```make
-# [2] This task tells make how to 'build' n-gage. It npm installs n-gage, and
-#     Once that's done it overwrites the file with its own contents - this
-#     ensures the timestamp on the file is recent, so make won't think the file
-#     is out of date and try to rebuild it every time
+# This task tells make how to 'build' n-gage. It npm installs n-gage, and
+# Once that's done it overwrites the file with its own contents - this
+# ensures the timestamp on the file is recent, so make won't think the file
+# is out of date and try to rebuild it every time
 node_modules/@financial-times/n-gage/index.mk:
 	npm install --no-save @financial-times/n-gage
 	touch $@
 
-# [1] If, by the end of parsing your `Makefile`, `make` finds that any files
-#     referenced with `-include` don't exist or are out of date, it will run any
-#     tasks it finds that match the missing file. So if n-gage *is* installed
-#     it will just be included; if not, it will look for a task to run
+# If, by the end of parsing your `Makefile`, `make` finds that any files
+# referenced with `-include` don't exist or are out of date, it will run any
+# tasks it finds that match the missing file. So if n-gage *is* installed
+# it will just be included; if not, it will look for a task to run
 -include node_modules/@financial-times/n-gage/index.mk
 ```
-
-This will make all the tasks defined in `n-gage` (formerly known as `n-makefile`) available. 
-
-## Differences from n-makefile
-
-- `_deploy_apex` task removed, i.e. does not include any lambda tooling. If you need to use the old tool simply copy from your old n.Makefile
-- `n-gage` includes [`secret-squirrel`](https://github.com/Financial-Times/secret-squirrel/blob/master/README.md#secret-squirrel). See the secret-squirrel README for details. 
