@@ -11,8 +11,8 @@ Starting a new repo?  You can do the following:
 ```sh
 mkdir my-new-project
 cd my-new-project
-yes '' | npm init
-`npm install --save-dev --no-package-lock @financial-times/n-gage`
+yes '' | npm init # a geeky way to tell `npm init` the answer is a yes to everything
+npm install --save-dev --no-package-lock @financial-times/n-gage
 ```
 
 then create a new `Makefile` file with the following:
@@ -26,7 +26,11 @@ node_modules/@financial-times/n-gage/index.mk:
 -include node_modules/@financial-times/n-gage/index.mk
 ```
 
-See [here](#Bootstrapping) for more explanation of the bootstrapping logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
+See [here](#bootstrapping) for more explanation of the bootstrapping logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
+
+## Make tasks
+
+See in [index.mk](index.mk) for all the different tasks you can use in your `Makefile`.
 
 ## CLI
 
