@@ -189,12 +189,12 @@ endif
 
 # for use with CI deployments that need the env vars in a file (dotenv format)
 .env-vault-circleci-dotenv:
-	@ngage get-config --env production
+	@ngage get-config --env prod
 	@$(DONE)
 
 # for use with CI deployments that need the env vars in a file (JSON format)
 .env-vault-circleci-json:
-	@ngage get-config --env production --format json
+	@ngage get-config --env prod --format json
 	@$(DONE)
 
 MSG_HEROKU_CLI = "Please make sure the Heroku CLI toolbelt is installed - see https://toolbelt.heroku.com/. And make sure you are authenticated by running ‘heroku login’. If this is not an app, delete Procfile."
