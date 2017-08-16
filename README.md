@@ -11,7 +11,7 @@ Starting a new repo?  You can do the following:
 ```sh
 mkdir my-new-project
 cd my-new-project
-yes '' | npm init # a geeky way to tell `npm init` the answer is a yes to everything
+npm init -y
 npm install --save-dev --no-package-lock @financial-times/n-gage
 ```
 
