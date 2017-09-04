@@ -161,6 +161,7 @@ ENV_MSG_PACKAGE_JSON = "Error: 'package.json' not found."
 ENV_MSG_CIRCLECI = "Error: The 'CIRCLECI' environment variable must *not* be set."
 ENV_MSG_CANT_GET = "Error: Cannot get config vars for this service. Check you are added to the ft-next-config-vars service on Heroku with operate permissions. Do that here: https://docs.google.com/spreadsheets/d/1mbJQYJOgXAH2KfgKUM1Vgxq8FUIrahumb39wzsgStu0 (or ask someone to do it for you). Check that your package.json's name property is correct. Check that your project has config-vars set up in https://github.com/Financial-Times/next-config-vars/blob/master/models/development.js."
 UPDATE_TO_VAULT = "Warning: next-config-vars is now DEPRECATED. Please update to next-vault: https://github.com/Financial-Times/next-vault-sync/wiki/Migration-Guide"
+SET_UP_VAULT = "Warning: You don't have Vault installed, which is replacing next-config-vars. Follow the guide at https://github.com/Financial-Times/vault/wiki/Getting-Started"
 
 # Environment variables previously came from `next-config-vars`. That's now deprecated.
 # From now on, environment variables come from https://github.com/Financial-Times/vault
@@ -170,6 +171,7 @@ ifneq ($(shell which vault),)
 	@$(MAKE) .env-vault
 else
 # No Vault installed, so run .env-config-vars
+	@echo $(SET_UP_VAULT)
 	@$(MAKE) .env-config-vars
 endif
 
