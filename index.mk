@@ -78,13 +78,13 @@ ini%: heroku-login-check
 	@$(DONE)
 
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js heroku-cli
+instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js whitesource.config.json heroku-cli
 	@$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
 
 verif%: ## verify: Verify this repository.
-verif%: ci-n-ui-check _verify_lintspaces _verify_eslint _verify_scss_lint _verify_pa11y_testable
+verif%: ci-n-ui-check _verify_lintspaces _verify_eslint _verify_scss_lint _verify_pa11y_testable _verify_whitesource
 	@$(DONE)
 
 a11%: ## a11y: Check accessibility for this repository.
@@ -155,6 +155,9 @@ _install_scss_lint:
 # Manage various dot/config files if they're in the .gitignore
 .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js:
 	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
+
+whitesource.config.json:
+	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@; perl -p -i -e "s/project-name/$(call APP_NAME)/g" $@; fi
 
 ENV_MSG_IGNORE_ENV = "Error: '.gitignore' must include: *.env* (including the asterisks)"
 ENV_MSG_PACKAGE_JSON = "Error: 'package.json' not found."
@@ -231,6 +234,9 @@ _verify_pa11y_testable:
 	@if [ ! -z "$(IS_USER_FACING)" ] && [ ! -d server ] && [ ! -f demos/app.js ] && [ ! ${IGNORE_A11Y} ]; then (echo $(VERIFY_MSG_NO_DEMO) && exit 1); fi
 	@$(DONE)
 
+_verify_whitesource:
+	@if [ -e whitesource.config.json ]; then whitesource run; fi
+	@$(DONE)
 
 _run_pa11y:
 	echo $(CIRCLE_BRANCH)
