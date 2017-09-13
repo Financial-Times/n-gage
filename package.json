@@ -29,7 +29,6 @@
     "husky": "^0.13.4",
     "jsonfile": "^3.0.0",
     "lintspaces-cli": "^0.6.0",
-    "whitesource": "^1.0.7",
     "yargs": "^8.0.2"
   },
   "devDependencies": {
