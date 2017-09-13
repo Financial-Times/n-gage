@@ -157,7 +157,7 @@ _install_scss_lint:
 	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
 
 whitesource.config.json:
-	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@; perl -p -i -e "s/project-name/$(call APP_NAME)/g" $@; fi
+	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@; perl -p -i -e "s/{{project-name}}/$(call APP_NAME)/g" $@; fi
 
 ENV_MSG_IGNORE_ENV = "Error: '.gitignore' must include: *.env* (including the asterisks)"
 ENV_MSG_PACKAGE_JSON = "Error: 'package.json' not found."

@@ -2,7 +2,7 @@
     "checkPolicies":true,
     "productName":"Next",
     "productVer":"1.0.0",
-    "projectName":"project-name",
+    "projectName":"{{project-name}}",
     "projectVer":"1.0.0",
     "devDep": true,
     "failOnError": true
