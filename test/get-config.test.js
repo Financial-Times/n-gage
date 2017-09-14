@@ -96,4 +96,24 @@ describe('get-config', () => {
 		}, 0);
 	});
 
+	it('uses team name if passed', (done) => {
+		const fetch = sinon.stub();
+		const writeFileSync = sinon.spy();
+		process.env.CIRCLECI = 1;
+		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ auth: { client_token: 'mytoken' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/myteam/myapp/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { env: { a: 'z' }}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/myteam/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: {}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/myteam/shared/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
+		proxyquire('../scripts/get-config', {
+			'yargs': { argv: require('yargs')(['', '', '--app', 'myapp','--team', 'myteam', '--env', 'ci', '--format', 'simple']).argv },
+			'@financial-times/n-fetch': fetch,
+			'fs': { writeFileSync }
+		})();
+		setTimeout(() => {
+			expect(writeFileSync).to.have.been.called;
+			expect(writeFileSync).to.have.been.calledWith(sinon.match.string, 'a=z\nb=y\n');
+			done();
+		}, 0);
+	});
+
 });

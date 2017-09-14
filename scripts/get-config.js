@@ -57,14 +57,14 @@ const getToken = () => {
 	}
 };
 
-const getVaultPaths = (ftApp, env) => {
+const getVaultPaths = (ftApp, env, team) => {
 	const app = ftApp.replace(/^ft-/, '');
 	const vaultEnvs = { dev: 'development', prod: 'production', ci: 'continuous-integration' };
 	const vaultEnv = vaultEnvs[env];
 	return [
-		`secret/teams/${opts.team}/${app}/${vaultEnv}`,
-		`secret/teams/${opts.team}/${app}/shared`,
-		`secret/teams/${opts.team}/shared/${vaultEnv}`
+		`secret/teams/${team}/${app}/${vaultEnv}`,
+		`secret/teams/${team}/${app}/shared`,
+		`secret/teams/${team}/shared/${vaultEnv}`
 	];
 };
 
@@ -97,7 +97,7 @@ const format = (keys, mode) => {
 module.exports = () => {
 	getToken()
 		.then(token => {
-			return Promise.all(getVaultPaths(opts.app, opts.env).map(path => {
+			return Promise.all(getVaultPaths(opts.app, opts.env, opts.team).map(path => {
 				return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
 					.then(json => json.data || {})
 			}))

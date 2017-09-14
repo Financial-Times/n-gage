@@ -64,6 +64,9 @@ $ cat .env-ci
 }
 ```
 
+$ ngage get-config --team myteam
+Lets you specify a team if not `next` (must match your Vault path)
+
 ## Bootstrapping
 
 Curious how the bootstrapping bit at top of the `Makefile` works?  Here's the annotated code:
