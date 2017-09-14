@@ -64,8 +64,11 @@ $ cat .env-ci
 }
 ```
 
+```sh
 $ ngage get-config --team myteam
-Lets you specify a team if not `next` (must match Vault path)
+```
+
+The `--team` option lets you specify a team if not `next` (must match Vault path).
 
 ## Bootstrapping
 
