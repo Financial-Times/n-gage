@@ -51,6 +51,7 @@ Options:
   --env                          [choices: "dev", "prod", "ci"] [default: "dev"]
   --filename                                                   [default: ".env"]
   --format                       [choices: "simple", "json"] [default: "simple"]
+  --team                                                       [default: "next"]
 
 $ ngage get-config --env ci --filename .env-ci --format json
 Written next-page-purger's ci config to /Users/ben.fletcher/projects/next-page-purger/.env-ci
@@ -62,6 +63,12 @@ $ cat .env-ci
 	...
 }
 ```
+
+```sh
+$ ngage get-config --team myteam
+```
+
+The `--team` option lets you specify a team if not `next` (must match Vault path).
 
 ## Bootstrapping
 
