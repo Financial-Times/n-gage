@@ -189,17 +189,17 @@ endif
 	@if [[ $(shell grep --count *.env* .gitignore) -eq 0 ]]; then (echo $(ENV_MSG_IGNORE_ENV) && exit 1); fi
 	@if [ ! -e package.json ]; then (echo $(ENV_MSG_PACKAGE_JSON) && exit 1); fi
 	@if [ ! -z $(CIRCLECI) ]; then (echo $(ENV_MSG_CIRCLECI) && exit 1); fi
-	@ngage get-config
+	@ngage get-config --team $(TEAM)
 	@$(DONE)
 
 # for use with CI deployments that need the env vars in a file (dotenv format)
 .env-vault-circleci-dotenv:
-	@ngage get-config --env prod
+	@ngage get-config --env prod --team $(TEAM)
 	@$(DONE)
 
 # for use with CI deployments that need the env vars in a file (JSON format)
 .env-vault-circleci-json:
-	@ngage get-config --env prod --format json
+	@ngage get-config --env prod --format json --team $(TEAM)
 	@$(DONE)
 
 MSG_HEROKU_CLI = "Please make sure the Heroku CLI toolbelt is installed - see https://toolbelt.heroku.com/. And make sure you are authenticated by running ‘heroku login’. If this is not an app, delete Procfile."

@@ -29,6 +29,9 @@ const opts = require('yargs')
 		choices: ['simple', 'json'],
 		default: 'simple'
   })
+  .option('team', {
+		default: 'next'
+  })
   .help()
   .argv;
 
@@ -56,13 +59,12 @@ const getToken = () => {
 
 const getVaultPaths = (ftApp, env) => {
 	const app = ftApp.replace(/^ft-/, '');
-	const team = process.env.VAULT_TEAM || 'next';
 	const vaultEnvs = { dev: 'development', prod: 'production', ci: 'continuous-integration' };
 	const vaultEnv = vaultEnvs[env];
 	return [
-		`secret/teams/${VAULT_TEAM}/${app}/${vaultEnv}`,
-		`secret/teams/${VAULT_TEAM}/${app}/shared`,
-		`secret/teams/${VAULT_TEAM}/shared/${vaultEnv}`
+		`secret/teams/${opts.team}/${app}/${vaultEnv}`,
+		`secret/teams/${opts.team}/${app}/shared`,
+		`secret/teams/${opts.team}/shared/${vaultEnv}`
 	];
 };
 
