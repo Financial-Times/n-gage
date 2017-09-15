@@ -23,6 +23,7 @@ const opts = require('yargs')
 		default: 'dev'
   })
   .option('filename', {
+		coerce: value => typeof value === 'string' ? value : '.env',
 		default: '.env'
   })
   .option('format', {
@@ -30,6 +31,7 @@ const opts = require('yargs')
 		default: 'simple'
   })
   .option('team', {
+		coerce: value => typeof value === 'string' ? value : 'next',
 		default: 'next'
   })
   .help()
