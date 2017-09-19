@@ -40,10 +40,10 @@ const config = {
 
 const packageJson = fs.existsSync('./package.json') && require('./package.json');
 
-if (
-	(packageJson && packageJson.dependencies && (packageJson.dependencies.react || packageJson.dependencies.preact)) ||
-	(packageJson && packageJson.devDependencies && (packageJson.devDependencies.react || packageJson.devDependencies.preact))
-) {
+const dependencies = packageJson && packageJson.dependencies || {};
+const devDependencies = packageJson && packageJson.devDependencies || {};
+
+if (dependencies.react || dependencies.preact || devDependencies.react || devDependencies.preact) {
 	config.plugins.push('react');
 	config.extends.push('plugin:react/recommended');
 
@@ -52,6 +52,15 @@ if (
 		'react/prop-types': 0,
 		'react/no-danger': 0,
 		'react/no-render-return-value': 0
+	});
+}
+
+if (dependencies.mocha || devDependencies.mocha) {
+	config.plugins.push('mocha');
+
+	Object.assign(config.rules, {
+		'mocha/no-exclusive-tests': "error",
+		'mocha/no-skipped-tests': "warn"
 	});
 }
 
