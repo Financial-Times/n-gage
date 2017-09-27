@@ -37,7 +37,7 @@ endif
 # Some handy utilities
 GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
 NPM_INSTALL = npm prune --production=false --no-package-lock && npm install --no-package-lock
-BOWER_INSTALL = bower prune && bower install --config.registry.search=http://registry.origami.ft.com --config.registry.search=https://bower.herokuapp.com
+BOWER_INSTALL = bower prune && bower install --config.registry.search=https://origami-bower-registry.ft.com --config.registry.search=https://bower.herokuapp.com
 JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
 IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
 VERSION = master
