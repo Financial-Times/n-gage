@@ -66,7 +66,7 @@ MAKEFILE_HAS_A11Y = `grep -rli "a11y" Makefile`
 
 clea%: ## clean: Clean this git repository.
 # HACK: Can't use -e option here because it's not supported by our Jenkins
-	@git clean -fxd
+	@git clean -fxdi
 	@$(DONE)
 
 ini%: ## init: Clean this repository and start from a fresh build.
