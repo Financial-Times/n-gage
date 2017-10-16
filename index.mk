@@ -93,7 +93,7 @@ a11%: _run_pa11y
 
 asset%: ## assets: Build the static assets.
 asset%: ## assets-production: Build the static assets for production.
-	@if [ -e webpack.config.js ]; then webpack $(if $(findstring assets-production,$@),--bail,--dev); fi
+	@if [ -e webpack.config.js ]; then webpack $(if $(findstring assets-production,$@),--bail,--debug); fi
 
 buil%: ## build: Build this repository.
 buil%: ## build-production: Build this repository for production.
@@ -103,7 +103,7 @@ buil%: dev-n-ui public/__about.json
 	@$(DONE)
 
 watc%: dev-n-ui ## watch: Watch for static asset changes.
-	@if [ -e webpack.config.js ]; then webpack --watch --dev; fi
+	@if [ -e webpack.config.js ]; then webpack --watch --debug; fi
 	@$(DONE)
 
 #
