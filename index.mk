@@ -70,7 +70,7 @@ clea%: ## clean: Clean this git repository.
 	@$(DONE)
 
 ini%: ## init: Clean this repository and start from a fresh build.
-ini%: heroku-login-check
+ini%:
 	$(MAKE) clean
 	$(MAKE) install
 	$(MAKE) .env
@@ -78,7 +78,7 @@ ini%: heroku-login-check
 	@$(DONE)
 
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js heroku-cli
+instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js
 	@$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
@@ -198,13 +198,6 @@ endif
 .env-vault-circleci-json:
 	@ngage get-config --env prod --format json --team $(TEAM)
 	@$(DONE)
-
-MSG_HEROKU_CLI = "Please make sure the Heroku CLI toolbelt is installed - see https://toolbelt.heroku.com/. And make sure you are authenticated by running ‘heroku login’. If this is not an app, delete Procfile."
-heroku-cli:
-	@if [ -e Procfile ]; then heroku auth:whoami &>/dev/null || (echo $(MSG_HEROKU_CLI) && exit 1); fi
-
-heroku-login-check:
-	@if [[ `heroku whoami 2>/dev/null` != *'@ft.com' ]]; then (HEROKU_ORGANIZATION=financial-times heroku login --sso); fi
 
 MSG_VAULT_CLI = "Please make sure the Vault CLI is installed - see https://github.com/Financial-Times/vault/wiki/Getting-Started. And make sure you are authenticated, a valid token should exist at ~/vault-token."
 vault-token:
