@@ -43,7 +43,6 @@ IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
 VERSION = master
 APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
 DONE = echo ✓ $@ done
-CONFIG_VARS = curl -fsL https://ft-next-config-vars.herokuapp.com/$1/$(call APP_NAME)$(if $2,.$2,) -H "Authorization: `heroku config:get APIKEY --app ft-next-config-vars`"
 IS_USER_FACING = `find . -type d \( -path ./bower_components -o -path ./node_modules -o -path ./coverage \) -prune -o -name '*.html' -print`
 MAKEFILE_HAS_A11Y = `grep -rli "a11y" Makefile`
 
@@ -70,7 +69,7 @@ clea%: ## clean: Clean this git repository.
 	@$(DONE)
 
 ini%: ## init: Clean this repository and start from a fresh build.
-ini%: heroku-login-check
+ini%:
 	$(MAKE) clean
 	$(MAKE) install
 	$(MAKE) .env
@@ -78,7 +77,7 @@ ini%: heroku-login-check
 	@$(DONE)
 
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js heroku-cli
+instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js
 	@$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
@@ -156,37 +155,18 @@ _install_scss_lint:
 .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js:
 	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
 
-ENV_MSG_IGNORE_ENV = "Error: '.gitignore' must include: *.env* (including the asterisks)"
-ENV_MSG_PACKAGE_JSON = "Error: 'package.json' not found."
-ENV_MSG_CIRCLECI = "Error: The 'CIRCLECI' environment variable must *not* be set."
-ENV_MSG_CANT_GET = "Error: Cannot get config vars for this service. Check you are added to the ft-next-config-vars service on Heroku with operate permissions. Do that here: https://docs.google.com/spreadsheets/d/1mbJQYJOgXAH2KfgKUM1Vgxq8FUIrahumb39wzsgStu0 (or ask someone to do it for you). Check that your package.json's name property is correct. Check that your project has config-vars set up in https://github.com/Financial-Times/next-config-vars/blob/master/models/development.js."
-UPDATE_TO_VAULT = "Warning: next-config-vars is now DEPRECATED. Please update to next-vault: https://github.com/Financial-Times/next-vault-sync/wiki/Migration-Guide"
-SET_UP_VAULT = "Warning: You don't have Vault installed, which is replacing next-config-vars. Follow the guide at https://github.com/Financial-Times/vault/wiki/Getting-Started"
+ENV_MSG_IGNORE_ENV =
 
-# Environment variables previously came from `next-config-vars`. That's now deprecated.
-# From now on, environment variables come from https://github.com/Financial-Times/vault
+# Environment variables come from https://github.com/Financial-Times/next-vault-sync
 .env:
-ifneq ($(shell which vault),)
-# Has Vault installed
-	@$(MAKE) .env-vault
-else
-# No Vault installed, so run .env-config-vars
-	@echo $(SET_UP_VAULT)
-	@$(MAKE) .env-config-vars
-endif
+	@if [[ -z "$(shell command -v vault)" ]]; then echo "Error: You don't have Vault installed. Follow the guide at https://github.com/Financial-Times/vault/wiki/Getting-Started"; exit 1; fi
+	@if [[ -z "$(shell find ~/.vault-token -mmin -480)" ]]; then echo "Error: You are not logged into Vault. Try vault auth --method github."; exit 1; fi
+	@if [[ -z "$(shell grep *.env* .gitignore)" ]]; then echo "Error: .gitignore must include: *.env* (including the asterisks)"; exit 1; fi
+	@if [[ ! -e package.json ]]; then echo "Error: package.json not found."; exit 1; fi
+	@if [[ ! -z "$(CIRCLECI)" ]]; then echo "Error: The CIRCLECI environment variable must *not* be set."; exit 1; fi
 
-.env-config-vars:
-	@echo $(UPDATE_TO_VAULT)
-	@if [[ $(shell grep --count *.env* .gitignore) -eq 0 ]]; then (echo $(ENV_MSG_IGNORE_ENV) && exit 1); fi
-	@if [ ! -e package.json ]; then (echo $(ENV_MSG_PACKAGE_JSON) && exit 1); fi
-	@if [ ! -z $(CIRCLECI) ]; then (echo $(ENV_MSG_CIRCLECI) && exit 1); fi
-	@$(call CONFIG_VARS,development,env) > .env && perl -pi -e 's/="(.*)"/=\1/' .env && $(DONE) || (echo $(ENV_MSG_CANT_GET) && rm .env && exit 1);
-
-.env-vault: vault-token
-	@if [[ $(shell grep --count *.env* .gitignore) -eq 0 ]]; then (echo $(ENV_MSG_IGNORE_ENV) && exit 1); fi
-	@if [ ! -e package.json ]; then (echo $(ENV_MSG_PACKAGE_JSON) && exit 1); fi
-	@if [ ! -z $(CIRCLECI) ]; then (echo $(ENV_MSG_CIRCLECI) && exit 1); fi
 	@ngage get-config --team $(TEAM)
+
 	@$(DONE)
 
 # for use with CI deployments that need the env vars in a file (dotenv format)
@@ -198,17 +178,6 @@ endif
 .env-vault-circleci-json:
 	@ngage get-config --env prod --format json --team $(TEAM)
 	@$(DONE)
-
-MSG_HEROKU_CLI = "Please make sure the Heroku CLI toolbelt is installed - see https://toolbelt.heroku.com/. And make sure you are authenticated by running ‘heroku login’. If this is not an app, delete Procfile."
-heroku-cli:
-	@if [ -e Procfile ]; then heroku auth:whoami &>/dev/null || (echo $(MSG_HEROKU_CLI) && exit 1); fi
-
-heroku-login-check:
-	@if [[ `heroku whoami 2>/dev/null` != *'@ft.com' ]]; then (HEROKU_ORGANIZATION=financial-times heroku login --sso); fi
-
-MSG_VAULT_CLI = "Please make sure the Vault CLI is installed - see https://github.com/Financial-Times/vault/wiki/Getting-Started. And make sure you are authenticated, a valid token should exist at ~/vault-token."
-vault-token:
-	@if [ -e Procfile ] && [[ $$(vault token-lookup 2>&1 | grep -c error) -gt 0 ]]; then (echo $(MSG_VAULT_CLI) && exit 1); fi
 
 # VERIFY SUB-TASKS
 
