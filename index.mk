@@ -155,22 +155,19 @@ _install_scss_lint:
 .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js:
 	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
 
-ENV_MSG_IGNORE_ENV = "Error: '.gitignore' must include: *.env* (including the asterisks)"
-ENV_MSG_PACKAGE_JSON = "Error: 'package.json' not found."
-ENV_MSG_CIRCLECI = "Error: The 'CIRCLECI' environment variable must *not* be set."
+ENV_MSG_IGNORE_ENV =
 
 # Environment variables come from https://github.com/Financial-Times/next-vault-sync
 .env:
-ifneq ($(shell which vault),)
-	# Has Vault installed
-	@if [[ $(shell grep --count *.env* .gitignore) -eq 0 ]]; then (echo $(ENV_MSG_IGNORE_ENV) && exit 1); fi
-	@if [ ! -e package.json ]; then (echo $(ENV_MSG_PACKAGE_JSON) && exit 1); fi
-	@if [ ! -z $(CIRCLECI) ]; then (echo $(ENV_MSG_CIRCLECI) && exit 1); fi
+	@if [[ -z "$(shell command -v vault)" ]]; then echo "Error: You don't have Vault installed. Follow the guide at https://github.com/Financial-Times/vault/wiki/Getting-Started"; exit 1; fi
+	@if [[ -z "$(shell find ~/.vault-token -mmin -480)" ]]; then echo "Error: You are not logged into Vault. Try vault auth --method github."; exit 1; fi
+	@if [[ -z "$(shell grep *.env* .gitignore)" ]]; then echo "Error: .gitignore must include: *.env* (including the asterisks)"; exit 1; fi
+	@if [[ ! -e package.json ]]; then echo "Error: package.json not found."; exit 1; fi
+	@if [[ ! -z "$(CIRCLECI)" ]]; then echo "Error: The CIRCLECI environment variable must *not* be set."; exit 1; fi
+
 	@ngage get-config --team $(TEAM)
+
 	@$(DONE)
-else
-	$(error "Error: You don't have Vault installed. Follow the guide at https://github.com/Financial-Times/vault/wiki/Getting-Started")
-endif	
 
 # for use with CI deployments that need the env vars in a file (dotenv format)
 .env-vault-circleci-dotenv:
