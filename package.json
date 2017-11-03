@@ -26,6 +26,7 @@
     "@financial-times/n-fetch": "^1.0.0-beta.4",
     "@financial-times/secret-squirrel": "^2.5.7",
     "eslint": "^4.0.0",
+    "eslint-plugin-no-only-tests": "^2.0.0",
     "husky": "^0.13.4",
     "jsonfile": "^3.0.0",
     "lintspaces-cli": "^0.6.0",
