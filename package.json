@@ -30,8 +30,9 @@
     "husky": "^0.14.3",
     "jsonfile": "^4.0.0",
     "lintspaces-cli": "^0.6.0",
-    "yargs": "^8.0.2",
-    "stylelint": "^8.2.0"
+    "npm-prepublish": "^1.2.3",
+    "stylelint": "^8.2.0",
+    "yargs": "^8.0.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
