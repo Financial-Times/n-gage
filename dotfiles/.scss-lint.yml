@@ -1,20 +1,91 @@
+# Documentation:
+# https://stylelint.io/user-guide/rules/
+
 plugins:
 - stylelint-order
 - stylelint-scss
 - stylelint-property-unknown
+
 rules:
+
+  # ERRORS
+
+  # disallow "@debug"
   at-rule-blacklist:
   - debug
+
+  # value !important NOT value! important
   declaration-bang-space-before: always
   declaration-bang-space-after: never
+
+  # border: 0 NOT border: none
   declaration-property-value-blacklist:
     "/^border/":
     - none
+
+  # require a newline at the end of the file
+  no-missing-eof-newline: true
+
+  # #aabbcc NOT #abc
+  # makes the codebase more searchable
   color-hex-length: long
-  color-hex-case:
-  - lower
-  - severity: warning
+
+  # hex colors must be actual colors (i.e. not #ab or #00mm00)
   color-no-invalid-hex: true
+
+  # 0.1 NOT .1
+  # (differs from Guardian)
+  number-leading-zero: always
+
+  # allow camelcase but forbid non-alphanumeric characters
+  # in mixin and function names
+  scss/at-function-pattern: '^[a-z_][a-zA-Z0-9_-]+$'
+
+  # @extend %placeholders NOT @extend .a-class
+  scss/at-extend-no-missing-placeholder: true
+
+  # .class, [foo] NOT span.class, div[foo]
+  selector-no-qualifying-type: true
+
+  # allow lowercase selectors obut forbid non-alphanumeric characters
+  selector-class-pattern: '^[a-z0-9_-]+$'
+
+  # margin: 1px NOT margin: 1px 1px 1px 1px;
+  shorthand-property-no-redundant-values: true
+
+  # disallow properties on the same line (margin: 0; padding: 0;)
+  # but enable simple rules to be on a single line "el { margin: 0; }"
+  declaration-block-semicolon-newline-after: always-multi-line
+
+  # rulesets with multiple (comma delimited) selectors
+  # must have each selector on a separate line
+  selector-list-comma-newline-after: always
+
+  # rgb(0, 0, 0) NOT rgb(0,0,0)
+  function-comma-space-after: always
+
+  # margin: 0px NOT margin:0px
+  declaration-colon-space-after: always
+
+  # margin: 0px NOT margin : 0px
+  declaration-colon-space-before: never
+
+  # .thing { NOT .thing{
+  block-opening-brace-space-before: always
+
+  # rgb(0, 0, 0) NOT rgb( 0, 0, 0 )
+  function-parentheses-space-inside: never
+
+  # every property value must end with a semicolon
+  declaration-block-trailing-semicolon: always
+
+  # margin: .5em; NOT margin: .500em;
+  # no unnecessary fractions: 1 NOT 1.0
+  number-no-trailing-zeros: true
+
+  # WARNINGS
+
+  # declaration order: custom properties, $vars, @extend, declarations, then rulesets
   order/order:
   - - custom-properties
     - dollar-variables
@@ -29,59 +100,69 @@ rules:
       hasBlock: true
     - rules
   - severity: warning
+
+  # warn when the same property appears more than once in the same ruleset
+  # this is not a deal breaker, as authors may repeat properties
+  # in the case where both a value and its fallback are needed
   declaration-block-no-duplicate-properties:
   - true
-  - ignore:
-    - consecutive-duplicates-with-different-values
-    severity: warning
-  at-else-empty-line-before:
-  - never
   - severity: warning
-  no-missing-eof-newline: true
-  selector-no-id:
-  - true
-  - severity: warning
-  at-import-no-partial-leading-underscore:
-  - true
-  - severity: warning
-  at-import-partial-extension-blacklist:
-  - - scss
-  - severity: warning
-  declaration-no-important:
-  - true
-  - severity: warning
-  number-leading-zero: always
-  no-duplicate-selectors:
-  - true
-  - severity: warning
-  max-nesting-depth:
-  - 3
-  - severity: warning
-  scss/at-extend-no-missing-placeholder: true
+
+  # warn about unknown property names
   property-unknown:
   - true
   - severity: warning
-  selector-pseudo-element-colon-notation:
-  - double
+
+  # "} else {" not "}\n else {"
+  scss/at-else-empty-line-before:
+  - never
   - severity: warning
-  selector-no-qualifying-type: true
+
+  # require hex colors to be lowercase
+  color-hex-case:
+  - lower
+  - severity: warning
+
+  # avoid #id selectors
+  selector-no-id:
+  - true
+  - severity: warning
+
+  # "@import 'path/to/partial'" not "@import 'path/to/_partial'"
+  scss/at-import-no-partial-leading-underscore:
+  - true
+  - severity: warning
+
+  # "@import 'path/to/partial'" not "@import 'path/to/partial.scss'"
+  scss/at-import-partial-extension-blacklist:
+  - - scss
+  - severity: warning
+
+  # avoid using !important
+  declaration-no-important:
+  - true
+  - severity: warning
+
+  # avoid more than one ruleset with the same selector in the same file
+  no-duplicate-selectors:
+  - true
+  - severity: warning
+
+  # discourage nesting over 3 levels deep
+  # there is no actually maximum authorized depth
+  # we decided to deal with this via peer review in
+  max-nesting-depth:
+  - 3
+  - severity: warning
+
+  # max compound selector depth
   selector-max-compound-selectors:
   - 3
   - severity: warning
-  selector-class-pattern: '^[a-z0-9_-]+$'
-  shorthand-property-no-redundant-values: true
-  declaration-block-semicolon-newline-after: always-multi-line
-  selector-list-comma-newline-after: always
-  function-comma-space-after: always
-  declaration-colon-space-after: always
-  declaration-colon-space-before: never
-  block-opening-brace-space-before: always
-  function-parentheses-space-inside: never
-  string-quotes:
-  - single
-  - severity: warning
-  declaration-block-trailing-semicolon: always
-  number-no-trailing-zeros: true
+
+  # no vendor prefixes
+  # ideally products should use autoprefixer or equivalent,
+  # since we might eventually enable error severity
   property-no-vendor-prefix:
   - true
   - severity: warning
@@ -97,7 +178,14 @@ rules:
   value-no-vendor-prefix:
   - true
   - severity: warning
-  scss/at-function-pattern: '^[a-z_][a-zA-Z0-9_-]+$'
+
+  # encourage ::before NOT :before
+  # like Origami
+  selector-pseudo-element-colon-notation:
+  - double
+  - severity: warning
+
+  # encourage new line between blocks
   rule-empty-line-before:
   - always-multi-line
   - except:
