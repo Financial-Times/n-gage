@@ -77,7 +77,7 @@ ini%:
 	@$(DONE)
 
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components .editorconfig .eslintrc.js .stylelintrc.js .pa11yci.js
+instal%: node_modules bower_components .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js
 	@$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
@@ -149,7 +149,7 @@ functions/%/bower_components:
 	@cd $(dir $@) && if [ -e bower.json ]; then $(BOWER_INSTALL) && $(DONE); fi
 
 # Manage various dot/config files if they're in the .gitignore
-.editorconfig .eslintrc.js .stylelintrc.js .pa11yci.js:
+.editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js:
 	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
 
 ENV_MSG_IGNORE_ENV =
@@ -185,7 +185,7 @@ _verify_lintspaces:
 	@if [ -e .editorconfig ] && [ -e package.json ]; then $(call GLOB) | grep -Ev '(package.json|bower.json|circle.yml)' | xargs lintspaces -e .editorconfig -i js-comments -i html-comments && $(DONE); fi
 
 _verify_scss_lint:
-	@if [ -e .stylelintrc.js ]; then stylelint $(call GLOB,'*.scss') --config ./.stylelintrc.js && $(DONE); fi
+	@if [ -e .scss-lint.yml ]; then stylelint $(call GLOB,'*.scss') --config ./.scss-lint.yml && $(DONE); fi
 
 VERIFY_MSG_NO_DEMO = "Error: Components with templates must have a demo app, so that pa11y can test against it. This component doesn’t seem to have one. Add a demo app to continue peacefully. See n-image for an example."
 VERIFY_MSG_NO_PA11Y = "\n**** Error ****\nIt looks like your code is user-facing; your Makefile should include make a11y\nIf you need to disable a11y, use export IGNORE_A11Y = true in your Makefile\n********\n\n"

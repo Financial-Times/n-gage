@@ -1,0 +1,107 @@
+plugins:
+- stylelint-order
+- stylelint-scss
+- stylelint-property-unknown
+rules:
+  at-rule-blacklist:
+  - debug
+  declaration-bang-space-before: always
+  declaration-bang-space-after: never
+  declaration-property-value-blacklist:
+    "/^border/":
+    - none
+  color-hex-length: long
+  color-hex-case:
+  - lower
+  - severity: warning
+  color-no-invalid-hex: true
+  order/order:
+  - - custom-properties
+    - dollar-variables
+    - type: at-rule
+      name: extend
+    - type: at-rule
+      name: include
+      hasBlock: false
+    - declarations
+    - type: at-rule
+      name: include
+      hasBlock: true
+    - rules
+  - severity: warning
+  declaration-block-no-duplicate-properties:
+  - true
+  - ignore:
+    - consecutive-duplicates-with-different-values
+    severity: warning
+  at-else-empty-line-before:
+  - never
+  - severity: warning
+  no-missing-eof-newline: true
+  selector-no-id:
+  - true
+  - severity: warning
+  at-import-no-partial-leading-underscore:
+  - true
+  - severity: warning
+  at-import-partial-extension-blacklist:
+  - - scss
+  - severity: warning
+  declaration-no-important:
+  - true
+  - severity: warning
+  number-leading-zero: always
+  no-duplicate-selectors:
+  - true
+  - severity: warning
+  max-nesting-depth:
+  - 3
+  - severity: warning
+  scss/at-extend-no-missing-placeholder: true
+  property-unknown:
+  - true
+  - severity: warning
+  selector-pseudo-element-colon-notation:
+  - double
+  - severity: warning
+  selector-no-qualifying-type: true
+  selector-max-compound-selectors:
+  - 3
+  - severity: warning
+  selector-class-pattern: '^[a-z0-9_-]+$'
+  shorthand-property-no-redundant-values: true
+  declaration-block-semicolon-newline-after: always-multi-line
+  selector-list-comma-newline-after: always
+  function-comma-space-after: always
+  declaration-colon-space-after: always
+  declaration-colon-space-before: never
+  block-opening-brace-space-before: always
+  function-parentheses-space-inside: never
+  string-quotes:
+  - single
+  - severity: warning
+  declaration-block-trailing-semicolon: always
+  number-no-trailing-zeros: true
+  property-no-vendor-prefix:
+  - true
+  - severity: warning
+  selector-no-vendor-prefix:
+  - true
+  - severity: warning
+  media-feature-name-no-vendor-prefix:
+  - true
+  - severity: warning
+  at-rule-no-vendor-prefix:
+  - true
+  - severity: warning
+  value-no-vendor-prefix:
+  - true
+  - severity: warning
+  scss/at-function-pattern: '^[a-z_][a-zA-Z0-9_-]+$'
+  rule-empty-line-before:
+  - always-multi-line
+  - except:
+    - first-nested
+    ignore:
+    - after-comment
+    severity: warning
