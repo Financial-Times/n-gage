@@ -29,4 +29,3 @@ rule-nam%: ## rule-name: Rule description.
 
 - Try to end each rule with a friendly `@$(DONE)`
 - For npm dev dependencies, assume they're there (hope that the devDependencies bring them), optionally warn the developer to install them.  Don't try to install them from `n-makefile`.
-- Scss-lint is a special case because of Ruby.  That is allowed to be installed here but let's try to avoid doing that unless we absolutely have to.
