@@ -23,7 +23,7 @@ rule-nam%: ## rule-name: Rule description.
 
 - Name must match the directory name they generate, if they generate a directory
 - Otherwise, `_snake_case_is_used` with a `_` prefix
-- The name should match the pattern _commonrulename_subrulename.  E.g. _install_scss_lint
+- The name should match the pattern _commonrulename_subrulename.  E.g. _run_pa11y
 
 ### All rule conventions
 

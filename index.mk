@@ -83,7 +83,7 @@ instal%: node_modules bower_components .editorconfig .eslintrc.js .scss-lint.yml
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
 
 verif%: ## verify: Verify this repository.
-verif%: ci-n-ui-check _verify_lintspaces _verify_eslint _verify_scss_lint _verify_pa11y_testable
+verif%: ci-n-ui-check _verify_lintspaces _verify_eslint _verify_stylelint _verify_pa11y_testable
 	@$(DONE)
 
 a11%: ## a11y: Check accessibility for this repository.
@@ -184,7 +184,7 @@ _verify_eslint:
 _verify_lintspaces:
 	@if [ -e .editorconfig ] && [ -e package.json ]; then $(call GLOB) | grep -Ev '(package.json|bower.json|circle.yml)' | xargs lintspaces -e .editorconfig -i js-comments -i html-comments && $(DONE); fi
 
-_verify_scss_lint:
+_verify_stylelint:
 	@if [ -e .scss-lint.yml ]; then stylelint $(call GLOB,'*.scss') --config ./.scss-lint.yml && $(DONE); fi
 
 VERIFY_MSG_NO_DEMO = "Error: Components with templates must have a demo app, so that pa11y can test against it. This component doesn’t seem to have one. Add a demo app to continue peacefully. See n-image for an example."
