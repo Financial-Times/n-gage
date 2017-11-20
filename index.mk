@@ -185,7 +185,8 @@ _verify_lintspaces:
 	@if [ -e .editorconfig ] && [ -e package.json ]; then $(call GLOB) | grep -Ev '(package.json|bower.json|circle.yml)' | xargs lintspaces -e .editorconfig -i js-comments -i html-comments && $(DONE); fi
 
 _verify_stylelint:
-	@if [ -e .scss-lint.yml ]; then stylelint $(call GLOB,'*.scss') --config ./.scss-lint.yml && $(DONE); fi
+	@if [ -e .scss-lint.yml ]; then stylelint $(call GLOB,'*.scss') --config ./.scss-lint.yml && $(DONE); fi \
+	echo "Some of these warnings will fail your build onward from 27th November 2017. Here's your grace period for sorting them out. Please consult .scss-lint.yml for more information."
 
 VERIFY_MSG_NO_DEMO = "Error: Components with templates must have a demo app, so that pa11y can test against it. This component doesn’t seem to have one. Add a demo app to continue peacefully. See n-image for an example."
 VERIFY_MSG_NO_PA11Y = "\n**** Error ****\nIt looks like your code is user-facing; your Makefile should include make a11y\nIf you need to disable a11y, use export IGNORE_A11Y = true in your Makefile\n********\n\n"
