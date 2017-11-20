@@ -11,7 +11,7 @@ defaultSeverity: warning
 
 rules:
 
-  # ERRORS
+  # ERRORS (as of 27th November 2017)
 
   # disallow "@debug"
   at-rule-blacklist:
