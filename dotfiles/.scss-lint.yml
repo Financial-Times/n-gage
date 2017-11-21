@@ -81,9 +81,18 @@ rules:
   # every property value must end with a semicolon
   declaration-block-trailing-semicolon: always
 
+  # top: 0; NOT top: 0 ;
+  declaration-block-semicolon-space-before: never
+
   # margin: .5em; NOT margin: .500em;
   # no unnecessary fractions: 1 NOT 1.0
   number-no-trailing-zeros: true
+  
+  # disallow units for zero lengths
+  length-zero-no-unit: true
+
+  # specify lowercase units
+  unit-case: lower
 
   # WARNINGS
 
@@ -107,6 +116,17 @@ rules:
   # this is not a deal breaker, as authors may repeat properties
   # in the case where both a value and its fallback are needed
   declaration-block-no-duplicate-properties:
+  - true
+  - severity: warning
+
+  # warn about longhand properties that can be combined
+  # into one shorthand property
+  declaration-block-no-redundant-longhand-properties:
+  - true
+  - severity: warning
+
+  # warn about shorthand properties that override related longhand properties
+  declaration-block-no-shorthand-property-overrides:
   - true
   - severity: warning
 
@@ -195,3 +215,8 @@ rules:
     ignore:
     - after-comment
     severity: warning
+
+  # warn about unknown units
+  unit-no-unknown:
+  - true
+  - severity: warning
