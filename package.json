@@ -33,7 +33,6 @@
     "npm-prepublish": "^1.2.3",
     "stylelint": "^8.2.0",
     "stylelint-order": "^0.7.0",
-    "stylelint-property-unknown": "^1.0.1",
     "stylelint-scss": "^2.1.0",
     "yargs": "^8.0.2"
   },
