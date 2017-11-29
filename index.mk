@@ -77,7 +77,7 @@ ini%:
 	@$(DONE)
 
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components .editorconfig .eslintrc.js stylelint-transition .stylelintrc .pa11yci.js
+instal%: node_modules bower_components stylelint-transition .editorconfig .eslintrc.js .stylelintrc .pa11yci.js
 	@$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
