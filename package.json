@@ -25,13 +25,14 @@
   "dependencies": {
     "@financial-times/n-fetch": "^1.0.0-beta.4",
     "@financial-times/secret-squirrel": "^2.5.16",
-    "eslint": "^4.11.0",
+    "eslint": "^4.12.0",
     "eslint-plugin-no-only-tests": "^2.0.0",
     "husky": "^0.14.3",
     "jsonfile": "^4.0.0",
     "lintspaces-cli": "^0.6.0",
     "npm-prepublish": "^1.2.3",
-    "stylelint": "^8.2.0",
+    "postcss-sass": "^0.2.0",
+    "stylelint": "^8.3.1",
     "stylelint-order": "^0.7.0",
     "stylelint-scss": "^2.1.0",
     "yargs": "^8.0.2"

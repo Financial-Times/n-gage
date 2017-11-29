@@ -4,7 +4,7 @@
 
 `make` has ‘rules’.  These are groups of commands that can be executed by entering `make RULE-NAME` your terminal.  In all Next projects we have rules such as `install`, `run`, `deploy`, etc.
 
-In `n-makefile` we have two main types of rules.  Common and sub.
+In `Makefile` we have two main types of rules.  Common and sub.
 
 - Common rules are the public facing API of the Makefile.  Developers/CI should run these commands.
 - Sub-rules are the inner, private workings of n-makefile.  Developers/CI ought not to run these commands.
