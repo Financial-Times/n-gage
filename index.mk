@@ -153,9 +153,8 @@ functions/%/bower_components:
 	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
 
 stylelint-transition:
-	@if $(call IS_GIT_IGNORED,'.scss-lint.yml'); \
+	@if ! $(call IS_GIT_IGNORED,'.stylelintrc') && $(call IS_GIT_IGNORED,'.scss-lint.yml'); \
 		then $(call REPLACE_IN_GITIGNORE,'.scss-lint.yml','.stylelintrc') \
-			&& rm .scss-lint.yml \
 			&& echo "*** Next developers: Projects making use of SCSS linting must now include .stylelintrc instead of .scss-lint.yml in .gitignore. Please commit your modified .gitignore ***" \
 			&& $(DONE); \
 	fi
