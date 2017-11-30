@@ -1,6 +1,8 @@
 module.exports = {
 	files: {
-		allow: [],
+		allow: [
+			'dotfiles/.stylelintrc'
+		],
 		allowOverrides: []
 	},
 	strings: {

@@ -45,7 +45,7 @@ APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
 DONE = echo ✓ $@ done
 IS_USER_FACING = `find . -type d \( -path ./bower_components -o -path ./node_modules -o -path ./coverage \) -prune -o -name '*.html' -print`
 MAKEFILE_HAS_A11Y = `grep -rli "a11y" Makefile`
-
+REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm .gitignore-e
 
 #
 # META TASKS
@@ -77,13 +77,13 @@ ini%:
 	@$(DONE)
 
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js
+instal%: node_modules bower_components stylelint-transition .editorconfig .eslintrc.js .stylelintrc .pa11yci.js
 	@$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
 
 verif%: ## verify: Verify this repository.
-verif%: ci-n-ui-check _verify_lintspaces _verify_eslint _verify_scss_lint _verify_pa11y_testable
+verif%: ci-n-ui-check _verify_lintspaces _verify_eslint _verify_stylelint _verify_pa11y_testable
 	@$(DONE)
 
 a11%: ## a11y: Check accessibility for this repository.
@@ -148,12 +148,16 @@ functions/%/node_modules:
 functions/%/bower_components:
 	@cd $(dir $@) && if [ -e bower.json ]; then $(BOWER_INSTALL) && $(DONE); fi
 
-_install_scss_lint:
-	@if [ ! -x "$(shell which scss-lint)" ] && [ "$(shell $(call GLOB,'*.scss'))" != "" ]; then gem install scss-lint -v 0.35.0 && $(DONE); fi
-
 # Manage various dot/config files if they're in the .gitignore
-.editorconfig .eslintrc.js .scss-lint.yml .pa11yci.js:
+.editorconfig .eslintrc.js .stylelintrc .pa11yci.js:
 	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
+
+stylelint-transition:
+	@if ! $(call IS_GIT_IGNORED,'.stylelintrc') && $(call IS_GIT_IGNORED,'.scss-lint.yml'); \
+		then $(call REPLACE_IN_GITIGNORE,'.scss-lint.yml','.stylelintrc') \
+			&& echo "*** Next developers***\nProjects making use of SCSS linting must now include .stylelintrc instead of .scss-lint.yml in .gitignore. Please commit your modified .gitignore" \
+			&& $(DONE); \
+	fi
 
 ENV_MSG_IGNORE_ENV =
 
@@ -187,9 +191,12 @@ _verify_eslint:
 _verify_lintspaces:
 	@if [ -e .editorconfig ] && [ -e package.json ]; then $(call GLOB) | grep -Ev '(package.json|bower.json|circle.yml)' | xargs lintspaces -e .editorconfig -i js-comments -i html-comments && $(DONE); fi
 
-_verify_scss_lint:
-# HACK: Use backticks rather than xargs because xargs swallow exit codes (everything becomes 1 and stoopidly scss-lint exits with 1 if warnings, 2 if errors)
-	@if [ -e .scss-lint.yml ]; then { scss-lint -c ./.scss-lint.yml `$(call GLOB,'*.scss')`; if [ $$? -ne 0 -a $$? -ne 1 ]; then exit 1; fi; $(DONE); } fi
+_verify_stylelint:
+	@if [ -e .stylelintrc ]; \
+		then $(call GLOB,'*.scss') | xargs stylelint \
+			&& echo "*** Next developers ***\nSome SCSS linting warnings will become errors from 11th December 2017. Here's your grace period for sorting them out. Please consult .stylelintrc for more information. PS here's a protip: stylelint client/**.scss --fix" \
+			&& $(DONE); \
+	fi
 
 VERIFY_MSG_NO_DEMO = "Error: Components with templates must have a demo app, so that pa11y can test against it. This component doesn’t seem to have one. Add a demo app to continue peacefully. See n-image for an example."
 VERIFY_MSG_NO_PA11Y = "\n**** Error ****\nIt looks like your code is user-facing; your Makefile should include make a11y\nIf you need to disable a11y, use export IGNORE_A11Y = true in your Makefile\n********\n\n"
