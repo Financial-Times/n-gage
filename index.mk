@@ -45,7 +45,7 @@ APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
 DONE = echo ✓ $@ done
 IS_USER_FACING = `find . -type d \( -path ./bower_components -o -path ./node_modules -o -path ./coverage \) -prune -o -name '*.html' -print`
 MAKEFILE_HAS_A11Y = `grep -rli "a11y" Makefile`
-REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && @if [ -e .gitignore-e ]; then rm .gitignore-e; fi
+REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
 
 #
 # META TASKS
