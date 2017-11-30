@@ -155,7 +155,7 @@ functions/%/bower_components:
 stylelint-transition:
 	@if ! $(call IS_GIT_IGNORED,'.stylelintrc') && $(call IS_GIT_IGNORED,'.scss-lint.yml'); \
 		then $(call REPLACE_IN_GITIGNORE,'.scss-lint.yml','.stylelintrc') \
-			&& echo "*** Next developers: Projects making use of SCSS linting must now include .stylelintrc instead of .scss-lint.yml in .gitignore. Please commit your modified .gitignore ***" \
+			&& echo "*** Next developers***\nProjects making use of SCSS linting must now include .stylelintrc instead of .scss-lint.yml in .gitignore. Please commit your modified .gitignore" \
 			&& $(DONE); \
 	fi
 
@@ -194,7 +194,7 @@ _verify_lintspaces:
 _verify_stylelint:
 	@if [ -e .stylelintrc ]; \
 		then $(call GLOB,'*.scss') | xargs stylelint \
-			&& echo "*** Next developers: SCSS linting warnings will become errors from 11th December 2017. Here's your grace period for sorting them out. Please consult .stylelintrc for more information. ***" \
+			&& echo "*** Next developers ***\nSome SCSS linting warnings will become errors from 11th December 2017. Here's your grace period for sorting them out. Please consult .stylelintrc for more information. PS here's a protip: stylelint client/**.scss --fix" \
 			&& $(DONE); \
 	fi
 
