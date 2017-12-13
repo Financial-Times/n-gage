@@ -96,12 +96,12 @@ asset%: ## assets-production: Build the static assets for production.
 
 buil%: ## build: Build this repository.
 buil%: ## build-production: Build this repository for production.
-buil%: dev-n-ui public/__about.json
+buil%: public/__about.json
 	@if [ -e webpack.config.js ]; then $(MAKE) $(subst build,assets,$@); fi
 	@if [ -e Procfile ] && [ "$(findstring build-production,$@)" == "build-production" ]; then haikro build; fi
 	@$(DONE)
 
-watc%: dev-n-ui ## watch: Watch for static asset changes.
+watc%: ## watch: Watch for static asset changes.
 	@if [ -e webpack.config.js ]; then webpack --watch --debug; fi
 	@$(DONE)
 
@@ -120,11 +120,6 @@ ifneq ($(shell awk '$$1 == "\"version\":" {print $$2}' bower_components/n-ui/.bo
 endif
 endif
 endif
-
-# Remind developers that if they want to use a local version of n-ui,
-# they need to `export NEXT_APP_SHELL=local`
-dev-n-ui:
-	node node_modules/@financial-times/n-gage/scripts/dev-n-ui.js
 
 # INSTALL SUB-TASKS
 
