@@ -130,6 +130,7 @@ dev-n-ui:
 
 # Regular npm install
 node_modules: package.json
+	@if [ -e package-lock.json ]; then rm package-lock.json; fi
 	@if [ -e package.json ]; then $(NPM_INSTALL) && $(DONE); fi
 
 # Regular bower install
