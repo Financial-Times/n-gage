@@ -23,7 +23,6 @@ const config = {
 		'no-irregular-whitespace': 2,
 		'no-loop-func': 2,
 		'no-multi-spaces': 2,
-		'no-only-tests/no-only-tests': 2,
 		'no-undef': 2,
 		'no-underscore-dangle': 0,
 		'no-unused-vars': 2,
@@ -41,7 +40,15 @@ const config = {
 	'plugins': [
 		'no-only-tests'
 	],
-	'extends': []
+	'extends': [],
+	'overrides': [
+		{
+			'files': [ 'test/**/*.js', 'tests/**/*.js' ],
+			'rules': {
+				'no-only-tests/no-only-tests': 2
+			}
+		}
+	]
 };
 
 const packageJson = fs.existsSync('./package.json') && require('./package.json');
