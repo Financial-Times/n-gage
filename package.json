@@ -24,24 +24,24 @@
   "homepage": "https://github.com/Financial-Times/n-gage#readme",
   "dependencies": {
     "@financial-times/n-fetch": "^1.0.0-beta.4",
-    "@financial-times/secret-squirrel": "^2.5.16",
-    "eslint": "^4.12.0",
+    "@financial-times/secret-squirrel": "^2.6.0",
+    "eslint": "^4.14.0",
     "eslint-plugin-no-only-tests": "^2.0.0",
     "husky": "^0.14.3",
     "jsonfile": "^4.0.0",
     "lintspaces-cli": "^0.6.0",
     "npm-prepublish": "^1.2.3",
     "postcss-sass": "^0.2.0",
-    "stylelint": "^8.3.1",
-    "stylelint-order": "^0.7.0",
-    "stylelint-scss": "^2.1.0",
-    "yargs": "^8.0.2"
+    "stylelint": "^8.4.0",
+    "stylelint-order": "^0.8.0",
+    "stylelint-scss": "^2.2.0",
+    "yargs": "^10.0.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^4.0.1",
+    "mocha": "^4.1.0",
     "proxyquire": "^1.8.0",
-    "sinon": "^4.1.2",
+    "sinon": "^4.1.3",
     "sinon-chai": "^2.14.0"
   }
 }
