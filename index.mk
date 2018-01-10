@@ -190,7 +190,7 @@ _verify_lintspaces:
 _verify_stylelint:
 	@if [ -e .stylelintrc ]; \
 		then $(call GLOB,'*.scss') | xargs stylelint \
-			&& echo "*** Next developers ***\nSome SCSS linting warnings will become errors from 9th January 2018. Here's your grace period for sorting them out. Please consult .stylelintrc for more information. PS here's a protip: stylelint client/**.scss --fix" \
+			&& echo "*** Next developers ***\nPro tip for fixing SCSS linting errors: stylelint client/**.scss --fix" \
 			&& $(DONE); \
 	fi
 

@@ -5,8 +5,7 @@ plugins:
 - stylelint-order
 - stylelint-scss
 
-# This will change to : error as of 27th November 2017
-defaultSeverity: warning
+defaultSeverity: error
 
 rules:
 
