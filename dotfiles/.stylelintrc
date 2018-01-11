@@ -86,136 +86,136 @@ rules:
   # margin: .5em; NOT margin: .500em;
   # no unnecessary fractions: 1 NOT 1.0
   number-no-trailing-zeros: true
-  
+
   # disallow units for zero lengths
   length-zero-no-unit: true
 
   # specify lowercase units
   unit-case: lower
 
-  # WARNINGS
-
-  # declaration order: custom properties, $vars, @extend, declarations, then rulesets
-  order/order:
-  - - custom-properties
-    - dollar-variables
-    - type: at-rule
-      name: extend
-    - type: at-rule
-      name: include
-      hasBlock: false
-    - declarations
-    - type: at-rule
-      name: include
-      hasBlock: true
-    - rules
-  - severity: warning
-
-  # warn when the same property appears more than once in the same ruleset
-  # this is not a deal breaker, as authors may repeat properties
-  # in the case where both a value and its fallback are needed
-  declaration-block-no-duplicate-properties:
-  - true
-  - severity: warning
-
-  # warn about longhand properties that can be combined
-  # into one shorthand property
-  declaration-block-no-redundant-longhand-properties:
-  - true
-  - severity: warning
-
-  # warn about shorthand properties that override related longhand properties
-  declaration-block-no-shorthand-property-overrides:
-  - true
-  - severity: warning
-
-  # warn about unknown property names
-  property-no-unknown:
-  - true
-  - severity: warning
-
-  # "} else {" not "}\n else {"
-  scss/at-else-empty-line-before:
-  - never
-  - severity: warning
-
-  # require hex colors to be lowercase
-  color-hex-case:
-  - lower
-  - severity: warning
-
-  # avoid #id selectors
-  selector-max-id:
-  - 0
-  - severity: warning
-
-  # "@import 'path/to/partial'" not "@import 'path/to/_partial'"
-  scss/at-import-no-partial-leading-underscore:
-  - true
-  - severity: warning
-
-  # "@import 'path/to/partial'" not "@import 'path/to/partial.scss'"
-  scss/at-import-partial-extension-blacklist:
-  - - scss
-  - severity: warning
-
-  # avoid using !important
-  declaration-no-important:
-  - true
-  - severity: warning
-
-  # avoid more than one ruleset with the same selector in the same file
-  no-duplicate-selectors:
-  - true
-  - severity: warning
-
-  # discourage nesting over 3 levels deep
-  # there is no actually maximum authorized depth
-  # we decided to deal with this via peer review in
-  max-nesting-depth:
-  - 3
-  - severity: warning
-
-  # max compound selector depth
-  selector-max-compound-selectors:
-  - 3
-  - severity: warning
-
-  # no vendor prefixes
-  # ideally products should use autoprefixer or equivalent,
-  # since we might eventually enable error severity
-  property-no-vendor-prefix:
-  - true
-  - severity: warning
-  selector-no-vendor-prefix:
-  - true
-  - severity: warning
-  media-feature-name-no-vendor-prefix:
-  - true
-  - severity: warning
-  at-rule-no-vendor-prefix:
-  - true
-  - severity: warning
-  value-no-vendor-prefix:
-  - true
-  - severity: warning
-
-  # encourage ::before NOT :before
-  # like Origami
-  selector-pseudo-element-colon-notation:
-  - double
-  - severity: warning
-
-  # encourage new line between blocks
-  rule-empty-line-before:
-  - always-multi-line
-  - except:
-    - first-nested
-    ignore:
-    - after-comment
-    severity: warning
-
-  # warn about unknown units
-  unit-no-unknown:
-  - true
-  - severity: warning
+  #  # WARNINGS
+  #
+  #  # declaration order: custom properties, $vars, @extend, declarations, then rulesets
+  #  order/order:
+  #  - - custom-properties
+  #    - dollar-variables
+  #    - type: at-rule
+  #      name: extend
+  #    - type: at-rule
+  #      name: include
+  #      hasBlock: false
+  #    - declarations
+  #    - type: at-rule
+  #      name: include
+  #      hasBlock: true
+  #    - rules
+  #  - severity: warning
+  #
+  #  # warn when the same property appears more than once in the same ruleset
+  #  # this is not a deal breaker, as authors may repeat properties
+  #  # in the case where both a value and its fallback are needed
+  #  declaration-block-no-duplicate-properties:
+  #  - true
+  #  - severity: warning
+  #
+  #  # warn about longhand properties that can be combined
+  #  # into one shorthand property
+  #  declaration-block-no-redundant-longhand-properties:
+  #  - true
+  #  - severity: warning
+  #
+  #  # warn about shorthand properties that override related longhand properties
+  #  declaration-block-no-shorthand-property-overrides:
+  #  - true
+  #  - severity: warning
+  #
+  #  # warn about unknown property names
+  #  property-no-unknown:
+  #  - true
+  #  - severity: warning
+  #
+  #  # "} else {" not "}\n else {"
+  #  scss/at-else-empty-line-before:
+  #  - never
+  #  - severity: warning
+  #
+  #  # require hex colors to be lowercase
+  #  color-hex-case:
+  #  - lower
+  #  - severity: warning
+  #
+  #  # avoid #id selectors
+  #  selector-max-id:
+  #  - 0
+  #  - severity: warning
+  #
+  #  # "@import 'path/to/partial'" not "@import 'path/to/_partial'"
+  #  scss/at-import-no-partial-leading-underscore:
+  #  - true
+  #  - severity: warning
+  #
+  #  # "@import 'path/to/partial'" not "@import 'path/to/partial.scss'"
+  #  scss/at-import-partial-extension-blacklist:
+  #  - - scss
+  #  - severity: warning
+  #
+  #  # avoid using !important
+  #  declaration-no-important:
+  #  - true
+  #  - severity: warning
+  #
+  #  # avoid more than one ruleset with the same selector in the same file
+  #  no-duplicate-selectors:
+  #  - true
+  #  - severity: warning
+  #
+  #  # discourage nesting over 3 levels deep
+  #  # there is no actually maximum authorized depth
+  #  # we decided to deal with this via peer review in
+  #  max-nesting-depth:
+  #  - 3
+  #  - severity: warning
+  #
+  #  # max compound selector depth
+  #  selector-max-compound-selectors:
+  #  - 3
+  #  - severity: warning
+  #
+  #  # no vendor prefixes
+  #  # ideally products should use autoprefixer or equivalent,
+  #  # since we might eventually enable error severity
+  #  property-no-vendor-prefix:
+  #  - true
+  #  - severity: warning
+  #  selector-no-vendor-prefix:
+  #  - true
+  #  - severity: warning
+  #  media-feature-name-no-vendor-prefix:
+  #  - true
+  #  - severity: warning
+  #  at-rule-no-vendor-prefix:
+  #  - true
+  #  - severity: warning
+  #  value-no-vendor-prefix:
+  #  - true
+  #  - severity: warning
+  #
+  #  # encourage ::before NOT :before
+  #  # like Origami
+  #  selector-pseudo-element-colon-notation:
+  #  - double
+  #  - severity: warning
+  #
+  #  # encourage new line between blocks
+  #  rule-empty-line-before:
+  #  - always-multi-line
+  #  - except:
+  #    - first-nested
+  #    ignore:
+  #    - after-comment
+  #    severity: warning
+  #
+  #  # warn about unknown units
+  #  unit-no-unknown:
+  #  - true
+  #  - severity: warning
