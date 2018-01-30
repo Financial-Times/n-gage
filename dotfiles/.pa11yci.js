@@ -87,7 +87,8 @@ smoke.forEach((smokeConfig) => {
 			isException = isException || url.indexOf(path) !== -1;
 		});
 
-		if (smokeConfig.urls[url] !== 200 || url === '/__health' || isException) {
+		const expectedStatus = typeof smokeConfig.urls[url] === 'number' ? smokeConfig.urls[url] : smokeConfig.urls[url].status;
+		if (expectedStatus !== 200 || url === '/__health' || isException) {
 			continue;
 		}
 
