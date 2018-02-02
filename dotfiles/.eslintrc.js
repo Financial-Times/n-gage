@@ -28,19 +28,21 @@ const config = {
 		'no-unused-vars': 2,
 		'no-var': 2,
 		'one-var': [2, 'never'],
-		'quotes': [2, 'single'],
-		'semi': [1, 'always'],
-		'space-before-function-paren': [2, 'always'],
-		'wrap-iife': 2
+		'wrap-iife': 2,
+		'prettier/prettier': ['error', {
+			singleQuote: true,
+			useTabs: true
+		}]
 	},
 	'globals': {
 		'fetch': true,
 		'requireText': true
 	},
 	'plugins': [
-		'no-only-tests'
+		'no-only-tests',
+		'prettier'
 	],
-	'extends': [],
+	'extends': ['prettier'],
 	'overrides': [
 		{
 			'files': [ 'test/**/*.js', 'tests/**/*.js' ],
