@@ -51,12 +51,17 @@ const config = {
 	]
 };
 
-const packageJson = fs.existsSync('./package.json') && require('./package.json');
+const packageJson = require('./package.json');
 
-if (
-	(packageJson && packageJson.dependencies && (packageJson.dependencies.react || packageJson.dependencies.preact)) ||
-	(packageJson && packageJson.devDependencies && (packageJson.devDependencies.react || packageJson.devDependencies.preact))
-) {
+const packageJsonContainsPackage = packageName => {
+	const { dependencies, devDependencies} = packageJson;
+	return (
+		(dependencies && dependencies[packageName])
+		|| (devDependencies && devDependencies[packageName])
+	)
+}
+
+if ((packageJsonContainsPackage('react') || packageJsonContainsPackage('preact'))) {
 	config.plugins.push('react');
 	config.extends.push('plugin:react/recommended');
 
@@ -66,6 +71,10 @@ if (
 		'react/no-danger': 0,
 		'react/no-render-return-value': 0
 	});
+}
+
+if (packageJsonContainsPackage('jest')) {
+	config.env.jest = true;
 }
 
 if (packageJson && packageJson.eslintConfig) {
