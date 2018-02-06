@@ -101,6 +101,17 @@ buil%: public/__about.json
 	@if [ -e Procfile ] && [ "$(findstring build-production,$@)" == "build-production" ]; then haikro build; fi
 	@$(DONE)
 
+smok%:
+ifneq ($(CIRCLE_BRANCH),)
+	TEST_URL=${TEST_APP}; \
+	echo ${TEST_APP} | grep http -s || TEST_URL=http://${TEST_APP}.herokuapp.com; \
+	n-test smoke -H $$TEST_URL;
+else
+	@if [ -z "$(TEST_URL)" ]; then TEST_URL=local.ft.com:3002; fi; \
+	n-test smoke -H $$TEST_URL;
+endif
+	@$(DONE)
+
 watc%: ## watch: Watch for static asset changes.
 	@if [ -e webpack.config.js ]; then webpack --watch --debug; fi
 	@$(DONE)
