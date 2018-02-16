@@ -211,7 +211,7 @@ VERIFY_MSG_NO_PA11Y = "\n**** Error ****\nIt looks like your code is user-facing
 #check if project has demo app if there's a make a11y command
 _verify_pa11y_testable:
 	@if [ ! -z "$(IS_USER_FACING)" ] && [ -z $(MAKEFILE_HAS_A11Y) ] && [ ! ${IGNORE_A11Y} ]; then (printf $(VERIFY_MSG_NO_PA11Y) && exit 1); fi
-	@if [ ! -z "$(IS_USER_FACING)" ] && [ ! -d server ] && [ ! -f demos/app.js ] && [ ! ${IGNORE_A11Y} ]; then (echo $(VERIFY_MSG_NO_DEMO) && exit 1); fi
+	@if [ ! -z "$(IS_USER_FACING)" ] && [ ! -d server ] && [ ! -f demos/app.js ] && [ ! -f demos/app.ts ] && [ ! ${IGNORE_A11Y} ]; then (echo $(VERIFY_MSG_NO_DEMO) && exit 1); fi
 	@$(DONE)
 
 
