@@ -28,21 +28,16 @@ const config = {
 		'no-unused-vars': 2,
 		'no-var': 2,
 		'one-var': [2, 'never'],
-		'wrap-iife': 2,
-		'prettier/prettier': ['error', {
-			singleQuote: true,
-			useTabs: true
-		}]
+		'wrap-iife': 2
 	},
 	'globals': {
 		'fetch': true,
 		'requireText': true
 	},
 	'plugins': [
-		'no-only-tests',
-		'prettier'
+		'no-only-tests'
 	],
-	'extends': ['prettier'],
+	'extends': [],
 	'overrides': [
 		{
 			'files': [ 'test/**/*.js', 'tests/**/*.js' ],
@@ -72,6 +67,18 @@ if ((packageJsonContainsPackage('react') || packageJsonContainsPackage('preact')
 		'react/prop-types': 0,
 		'react/no-danger': 0,
 		'react/no-render-return-value': 0
+	});
+}
+
+if (packageJsonContainsPackage('prettier')) {
+	config.plugins.push('prettier');
+	config.extends.push('prettier');
+
+	Object.assign(config.rules, {
+		'prettier/prettier': ['error', {
+			singleQuote: true,
+			useTabs: true
+		}]
 	});
 }
 
