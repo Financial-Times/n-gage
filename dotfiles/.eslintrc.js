@@ -28,6 +28,9 @@ const config = {
 		'no-unused-vars': 2,
 		'no-var': 2,
 		'one-var': [2, 'never'],
+		'quotes': [2, 'single'],
+		'semi': [1, 'always'],
+		'space-before-function-paren': [2, 'always'],
 		'wrap-iife': 2
 	},
 	'globals': {
@@ -80,6 +83,10 @@ if (packageJsonContainsPackage('prettier')) {
 			useTabs: true
 		}]
 	});
+
+	delete config.values['quotes'];
+	delete config.values['semi'];
+	delete config.values['space-before-function-paren'];
 }
 
 if (packageJsonContainsPackage('jest')) {
