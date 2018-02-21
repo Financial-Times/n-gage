@@ -255,3 +255,9 @@ ifeq ($(FT_NIGHTLY_BUILD),)
 else
 	echo "Nightly build - exiting before deploy"
 endif
+
+# some aliases
+css:
+	nui build --sass-only
+js:
+	nui build --js-only
