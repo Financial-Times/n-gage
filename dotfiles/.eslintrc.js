@@ -34,6 +34,9 @@ const config = {
 		'wrap-iife': 2
 	},
 	'globals': {
+		'cy': true,
+		'cypress': true,
+		'Cypress': true,
 		'fetch': true,
 		'requireText': true
 	},
