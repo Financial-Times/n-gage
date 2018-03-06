@@ -74,12 +74,12 @@ const parseKeys = (app, appShared, envShared) => {
 	if (opts.env === 'ci') {
 		return Object.assign({}, app.env, envShared);
 	} else {
-		const shared = appShared.env.reduce((keys, key) => {
+		const shared = appShared.env ? appShared.env.reduce((keys, key) => {
 			if (key in envShared) {
 				keys[key] = envShared[key];
 			}
 			return keys;
-		}, {});
+		}, {}) : {};
 		return Object.assign({}, shared, app);
 	}
 };
