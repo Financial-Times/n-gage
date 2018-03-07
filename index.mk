@@ -195,6 +195,18 @@ ENV_MSG_IGNORE_ENV =
 _verify_eslint:
 	@if [ -e .eslintrc.js ]; then $(call GLOB,'*.js') | xargs eslint --ignore-pattern '!' && $(DONE); fi
 
+# convert two spaces to one tab
+# convert tab-space to tab with all files
+# convert space-tab to tab with all files
+# convert "blank" lines to be actually blank
+fix-lintspaces:
+	$(call GLOB,'*') | xargs sed -i '' 's/  /	/g' \
+		&& $(call GLOB,'*') | xargs sed -i '' 's/	 /	/g' \
+		&& $(call GLOB,'*') | xargs sed -i '' 's/ 	/	/g' \
+		&& $(call GLOB,'*') | xargs sed -i '' 's/^ $$//g' \
+		&& $(call GLOB,'*') | xargs sed -i '' 's/^	$$//g' \
+		&& $(DONE)
+
 _verify_lintspaces:
 	@if [ -e .editorconfig ] && [ -e package.json ]; then $(call GLOB) | grep -Ev '(package.json|bower.json|circle.yml)' | xargs lintspaces -e .editorconfig -i js-comments -i html-comments && $(DONE); fi
 
