@@ -193,19 +193,7 @@ ENV_MSG_IGNORE_ENV =
 # VERIFY SUB-TASKS
 
 _verify_eslint:
-	@if [ -e .eslintrc.js ]; then $(call GLOB,'*.js') | xargs eslint --ignore-pattern '!' && $(DONE); fi
-
-# convert two spaces to one tab
-# convert tab-space to tab with all files
-# convert space-tab to tab with all files
-# convert "blank" lines to be actually blank
-fix-lintspaces:
-	$(call GLOB,'*') | xargs sed -i '' 's/  /	/g' \
-		&& $(call GLOB,'*') | xargs sed -i '' 's/	 /	/g' \
-		&& $(call GLOB,'*') | xargs sed -i '' 's/ 	/	/g' \
-		&& $(call GLOB,'*') | xargs sed -i '' 's/^ $$//g' \
-		&& $(call GLOB,'*') | xargs sed -i '' 's/^	$$//g' \
-		&& $(DONE)
+	@if [ -e .eslintrc.js ]; then $(call GLOB,'*.js') | xargs eslint --ignore-pattern '!' --fix && $(DONE); fi
 
 _verify_lintspaces:
 	@if [ -e .editorconfig ] && [ -e package.json ]; then $(call GLOB) | grep -Ev '(package.json|bower.json|circle.yml)' | xargs lintspaces -e .editorconfig -i js-comments -i html-comments && $(DONE); fi
@@ -236,6 +224,20 @@ ifneq ($(CIRCLE_BRANCH),)
 else
 	@if [ -z "$(TEST_URL)" ]; then export TEST_URL=https://local.ft.com:3002; fi; pa11y-ci;
 endif
+
+# autofix common lintspaces issues
+#
+# 1. convert two spaces to one tab
+# 2. convert space-tab to tab with all files
+# 3. convert solitary space at the beginning of line to tab
+# 4 convert "blank" lines to be actually blank
+fix-lintspaces:
+	$(call GLOB,'*.js') | xargs sed -Ei '' 's/  /	/g' \
+		&& $(call GLOB,'*.js') | xargs sed -Ei '' 's/ 	/	/g' \
+		&& $(call GLOB,'*.js') | xargs sed -Ei '' 's/^ /	/g' \
+		&& $(call GLOB,'*') | xargs sed -Ei '' 's/[[:blank:]]+$$//g' \
+		&& $(DONE)
+
 
 # DEPLOY SUB-TASKS
 
