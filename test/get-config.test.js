@@ -116,4 +116,43 @@ describe('get-config', () => {
 		}, 0);
 	});
 
+	it('fetches session tokens when needed', (done) => {
+		const fetch = sinon.stub();
+		const homedir = sinon.stub();
+		const readFile = (path, opts, cb) => {
+			if (path === '/path/to/home/.vault-token') {
+				cb(null, 'my-token');
+			}
+		};
+		const writeFileSync = sinon.spy();
+		delete process.env.CIRCLECI;
+		homedir.returns('/path/to/home');
+		fetch.withArgs('http://test-sessions-url/premium?api_key=test_api_key').returns(Promise.resolve({ FTSession: 'p-token', FTSession_s: 'p-token_s' }));
+		fetch.withArgs('http://test-sessions-url/standard?api_key=test_api_key').returns(Promise.resolve({ FTSession: 's-token', FTSession_s: 's-token_s' }));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/development', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { TEST_SESSIONS_URL: 'http://test-sessions-url', TEST_SESSIONS_API_KEY: 'test_api_key', TEST_USER_TYPES: 'premium,standard' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/shared', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/shared/development', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { TEST_SESSIONS_URL: 'http://test-sessions-url', TEST_SESSIONS_API_KEY: 'test_api_key', TEST_USER_TYPES: 'premium,standard' }}));
+		const appendSessionTokens = proxyquire('../scripts/append-session-tokens', {
+			'@financial-times/n-fetch': fetch
+		});
+		proxyquire('../scripts/get-config', {
+			'yargs': { argv: require('yargs')(['', '', '--app', 'myapp', '--env', 'dev', '--format', 'simple']).argv },
+			'@financial-times/n-fetch': fetch,
+			'fs': { readFile, writeFileSync },
+			'os': { homedir },
+			'./append-session-tokens': appendSessionTokens
+		})();
+		setTimeout(() => {
+			expect(writeFileSync).to.have.been.called;
+			expect(writeFileSync).to.have.been.calledWith(sinon.match.string,
+				'PREMIUM_FTSession=p-token\n' +
+				'PREMIUM_FTSession_s=p-token_s\n' +
+				'STANDARD_FTSession=s-token\n' +
+				'STANDARD_FTSession_s=s-token_s\n' +
+				'TEST_SESSIONS_API_KEY=test_api_key\n' +
+				'TEST_SESSIONS_URL=http://test-sessions-url\n' +
+				'TEST_USER_TYPES=premium,standard\n');
+			done();
+		}, 0);
+	});
 });

@@ -70,6 +70,18 @@ $ ngage get-config --team myteam
 
 The `--team` option lets you specify a team if not `next` (must match Vault path).
 
+### FT User Sessions
+
+To get `FTSession` and `FTSession_s` environment variables to be populated with up-to-date session tokens, add these environment variables to your config in the Vault:
+
+| | |
+|---|---|
+| `TEST_SESSIONS_URL` | url to [`next-test-sessions-lambda`](http://github.com/financial-times/next-test-sessions-lambda) |
+| `TEST_SESSIONS_API_KEY` | api_key for the lambda |
+| `TEST_USER_TYPE` | type of user (options: `premium`, `standard`, `expired`) |
+
+As a result of this, `FTSession` and `FTSession_s` environment variables will be populated in the `.env` file.
+ 
 ## Bootstrapping
 
 Curious how the bootstrapping bit at top of the `Makefile` works?  Here's the annotated code:
