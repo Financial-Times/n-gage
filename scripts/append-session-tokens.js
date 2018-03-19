@@ -2,7 +2,7 @@ const fetch = require('@financial-times/n-fetch');
 
 module.exports = async (keys) => {
 	const { TEST_USER_TYPES, TEST_SESSIONS_URL, TEST_SESSIONS_API_KEY } = keys;
-	if (!TEST_USER_TYPES || !TEST_SESSIONS_API_KEY || !TEST_SESSIONS_URL) {
+	if (!(TEST_USER_TYPES && TEST_SESSIONS_API_KEY && TEST_SESSIONS_URL)) {
 		return keys;
 	}
 
