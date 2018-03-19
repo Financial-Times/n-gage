@@ -2,6 +2,7 @@ const fetch = require('@financial-times/n-fetch');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const appendSessionTokens = require('./append-session-tokens');
 
 const opts = require('yargs')
   .option('app', (() => {
@@ -103,8 +104,9 @@ module.exports = () => {
 				return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
 					.then(json => json.data || {})
 			}))
-				.then(([app, appShared, envShared]) => {
-					const keys = parseKeys(app, appShared, envShared)
+				.then(([app, appShared, envShared]) => parseKeys(app, appShared, envShared))
+				.then((keys) => appendSessionTokens(keys))
+				.then((keys) => {
 					const content = format(keys, opts.format);
 					const file = path.join(process.cwd(), opts.filename || '.env');
 					fs.writeFileSync(file, content);
