@@ -5,5 +5,3 @@ unit-test:
 
 install:
 	npm install --no-package-lock
-
-test: unit-test
