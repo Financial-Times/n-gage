@@ -222,7 +222,7 @@ ifneq ($(CIRCLE_BRANCH),)
 	echo ${TEST_APP} | grep http -s || export TEST_URL=http://${TEST_APP}.herokuapp.com; \
 	pa11y-ci;
 else
-	@if [ -z "$(TEST_URL)" ]; then export TEST_URL=https://local.ft.com:3002; fi; pa11y-ci;
+	@if [ -z "$(TEST_URL)" ]; then export TEST_URL=https://local.ft.com:5050; fi; pa11y-ci;
 endif
 
 # autofix common lintspaces issues
