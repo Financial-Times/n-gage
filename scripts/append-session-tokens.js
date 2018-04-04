@@ -16,7 +16,7 @@ module.exports = (keys) => {
 };
 
 const appendToken = (keys, userType, url, apiKey) => {
-	fetch(`${url}/${userType}?api_key=${apiKey}`)
+	return fetch(`${url}/${userType}?api_key=${apiKey}`)
 		.then((tokens) => {
 			if (tokens.FTSession) {
 				keys[`${userType.toUpperCase()}_FTSession`] = tokens.FTSession;
