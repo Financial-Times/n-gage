@@ -31,7 +31,7 @@ const urls = [];
 
 /**
  * Headers can be set:
- * - globally for all apps, in config.defaults.page.headers here
+ * - globally for all apps, in config.defaults.headers here
  * - per test, in smoke.js
  * Headers objects will be merged, cookies and flags will be concatenated
  * No flags allowed inside the cookie for easier merging: use the FT-Flags header instead
@@ -43,11 +43,9 @@ const DEFAULT_FLAGS = 'ads:off,sourcepoint:off,cookieMessage:off';
 // Add any global config (inc headers) here
 const config = {
 	defaults: {
-		page: {
-			headers: {
-				'Cookie': DEFAULT_COOKIE,
-				'FT-Flags': DEFAULT_FLAGS
-			}
+		headers: {
+			'Cookie': DEFAULT_COOKIE,
+			'FT-Flags': DEFAULT_FLAGS
 		},
 		timeout: 50000,
 		wait: 300 || process.env.PA11Y_WAIT,
@@ -70,12 +68,12 @@ config.defaults.hideElements = process.env.PA11Y_HIDE ? `${process.env.PA11Y_HID
 console.log('PA11Y_ROUTE_EXCEPTIONS:', process.env.PA11Y_ROUTE_EXCEPTIONS);
 console.log('exceptions:', exceptions);
 console.log('PA11Y_ROUTE_HEADERS:', process.env.PA11Y_ROUTE_HEADERS);
-console.log('headers:', config.defaults.page.headers);
+console.log('headers:', config.defaults.headers);
 console.log('PA11Y_HIDE:', process.env.PA11Y_HIDE);
 console.log('config.defaults.hideElements:', config.defaults.hideElements);
 
 // Don't console.log headers once backend key is added to the object
-config.defaults.page.headers['FT-Next-Backend-Key'] = process.env.FT_NEXT_BACKEND_KEY;
+config.defaults.headers['FT-Next-Backend-Key'] = process.env.FT_NEXT_BACKEND_KEY;
 
 
 smoke.forEach((smokeConfig) => {
@@ -96,15 +94,13 @@ smoke.forEach((smokeConfig) => {
 			url: process.env.TEST_URL + url
 		}
 
-		thisUrl.page = {};
-
 		// Do we have test-specific headers?
 		if (smokeConfig.headers) {
 			let fullCookie;
 			let fullFlags;
 
 			// Merge the headers
-			thisUrl.page.headers = Object.assign({}, config.defaults.page.headers, smokeConfig.headers);
+			thisUrl.headers = Object.assign({}, config.defaults.headers, smokeConfig.headers);
 
 			// concatenate any test-specific cookies
 			if (smokeConfig.headers.Cookie) {
@@ -116,7 +112,7 @@ smoke.forEach((smokeConfig) => {
 				}
 
 				// Set the concatenated cookies
-				thisUrl.page.headers.Cookie = smokeConfig.headers.Cookie + '; ' + config.defaults.page.headers.Cookie;
+				thisUrl.headers.Cookie = smokeConfig.headers.Cookie + '; ' + config.defaults.headers.Cookie;
 			}
 
 			// concatenate any test-specific flags
@@ -124,17 +120,15 @@ smoke.forEach((smokeConfig) => {
 				console.log('• merging flags...');
 
 				// Set the concatenated flags
-				thisUrl.page.headers['FT-Flags'] = smokeConfig.headers['FT-Flags'] + ',' + config.defaults.page.headers['FT-Flags'];
+				thisUrl.headers['FT-Flags'] = smokeConfig.headers['FT-Flags'] + ',' + config.defaults.headers['FT-Flags'];
 			}
 		}
 
-		thisUrl.page.settings = {};
-
-		if (smokeConfig.method) thisUrl.page.settings.operation = smokeConfig.method;
+		if (smokeConfig.method) thisUrl.method = smokeConfig.method;
 
 		if (smokeConfig.body) {
 
-			thisUrl.page.settings.data = (contentType => {
+			thisUrl.postData = (contentType => {
 					switch(contentType) {
 						case 'application/x-www-form-urlencoded':
 							return querystring.stringify(smokeConfig.body);
@@ -144,8 +138,6 @@ smoke.forEach((smokeConfig) => {
 							return smokeConfig.body;
 					}
 				})(smokeConfig.headers['Content-Type']);
-
-			thisUrl.page.settings.encoding = 'utf8';
 
 		}
 
@@ -157,7 +149,7 @@ for (let viewport of viewports) {
 
 	for (let url of urls) {
 
-		const resultUrl = extend(true, {page: {viewport: viewport}}, url);
+		const resultUrl = extend(true, {viewport: viewport}, url);
 
 		if (process.env.TEST_URL.includes('local')) {
 
@@ -165,8 +157,8 @@ for (let viewport of viewports) {
 
 			let appFlags = 'no-flags';
 
-			if (resultUrl.page && resultUrl.page.headers) {
-				const flags = resultUrl.page.headers['FT-Flags'];
+			if (resultUrl.headers) {
+				const flags = resultUrl.headers['FT-Flags'];
 				appFlags = flags.substring(0, flags.indexOf(DEFAULT_FLAGS) - 1);
 			}
 
