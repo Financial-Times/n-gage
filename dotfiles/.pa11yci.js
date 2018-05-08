@@ -12,7 +12,7 @@ const parseEnvironmentViewPort = (viewportStr) => {
 		return null;
 	}
 
-	return {width:result[1],height:result[2]};
+	return {width: Number(result[1]), height: Number(result[2])};
 };
 
 const parseEnvironmentViewPorts = (env) => {
