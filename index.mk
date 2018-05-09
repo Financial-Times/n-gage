@@ -17,7 +17,7 @@ $(error 'Integrating with our tooling may result in unwanted effects e.g. nightl
 endif
 
 # ./node_modules/.bin on the PATH
-export PATH := ./node_modules/.bin:$(PATH)
+export PATH := $(PATH):./node_modules/.bin
 
 # Use bash not sh
 SHELL := /bin/bash
