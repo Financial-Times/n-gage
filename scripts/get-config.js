@@ -101,8 +101,18 @@ module.exports = () => {
 	getToken()
 		.then(token => {
 			return Promise.all(getVaultPaths(opts.app, opts.env, opts.team).map(path => {
-				return fetch('https://vault.in.ft.com/v1/' + path, { headers: { 'X-Vault-Token': token } })
-					.then(json => json.data || {})
+				const url = 'https://vault.in.ft.com/v1/' + path;
+
+				const vaultFetch = fetch(url, { headers: { 'X-Vault-Token': token } })
+				        .then(json => json.data || {});
+
+				if (opts.env === 'dev') {
+					return vaultFetch.catch(err => {
+						console.warn(`Couldn't get config at ${url}.`);
+					});
+				} else {
+					return vaultFetch;
+				}
 			}))
 				.then(([app, appShared, envShared]) => parseKeys(app, appShared, envShared))
 				.then((keys) => appendSessionTokens(keys))
