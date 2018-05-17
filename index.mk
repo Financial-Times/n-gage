@@ -266,6 +266,8 @@ hel%: ## help: Show this help message.
 # If a nightly build is triggered during the day, we want it to deploy since it is a rerun build!
 # CircleCI runs in UTC, so give an hour leeway each way.
 
+HOUR = $(shell date +%H)
+
 deploy-by-day:
 ifeq ($(FT_NIGHTLY_BUILD),)
 	$(MAKE) deploy
