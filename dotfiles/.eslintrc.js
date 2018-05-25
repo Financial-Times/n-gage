@@ -23,6 +23,7 @@ const config = {
 		'no-irregular-whitespace': 2,
 		'no-loop-func': 2,
 		'no-multi-spaces': 2,
+		'no-return-await': 1,
 		'no-undef': 2,
 		'no-underscore-dangle': 0,
 		'no-unused-vars': 2,
