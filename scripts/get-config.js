@@ -20,7 +20,7 @@ const opts = require('yargs')
 		}
 	})())
   .option('env', {
-		choices: ['dev', 'prod', 'ci'],
+		choices: ['dev', 'prod', 'ci', 'test'],
 		default: 'dev'
   })
   .option('filename', {
@@ -62,7 +62,7 @@ const getToken = () => {
 
 const getVaultPaths = (ftApp, env, team) => {
 	const app = ftApp.replace(/^ft-/, '');
-	const vaultEnvs = { dev: 'development', prod: 'production', ci: 'continuous-integration' };
+	const vaultEnvs = { dev: 'development', prod: 'production', ci: 'continuous-integration', test: 'test' };
 	const vaultEnv = vaultEnvs[env];
 	return [
 		`secret/teams/${team}/${app}/${vaultEnv}`,

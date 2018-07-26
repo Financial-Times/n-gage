@@ -48,7 +48,7 @@ $ ngage get-config --help
 Options:
   --help      Show help                                                [boolean]
   --app                                            [default: "next-page-purger"]
-  --env                          [choices: "dev", "prod", "ci"] [default: "dev"]
+  --env                  [choices: "dev", "prod", "ci", "test"] [default: "dev"]
   --filename                                                   [default: ".env"]
   --format                       [choices: "simple", "json"] [default: "simple"]
   --team                                                       [default: "next"]
@@ -88,7 +88,7 @@ Multiple user types can be specified in the TEST_USER_TYPES variable.
 
 If you set `TEST_USER_TYPES` environment variable to `premium,standard`, these variables will be populated in the `.env` file:
 `PREMIUM_FTSession`, `PREMIUM_FTSession_s`, `STANDARD_FTSession`, `STANDARD_FTSession_s`
- 
+
 ## Bootstrapping
 
 Curious how the bootstrapping bit at top of the `Makefile` works?  Here's the annotated code:
