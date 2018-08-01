@@ -1,8 +1,10 @@
 # n-gage
 
-<img src="https://user-images.githubusercontent.com/3425322/28121799-20b036d0-6714-11e7-9516-4db7cf5df6d0.png" align="right" />
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSf5InA7UJK9yNBCzidFKI_WNkfbl6of1eRlIACRspGXUcBx8A/viewform?usp=pp_url&entry.78759464=n-gage" target="_blank"><img src="https://i.imgur.com/UmScdZ4.png" alt="Yak button" border="0" align="right" width="150" title="Report a yak shaving incident for this repository"></a>
 
 `n-gage` is in every Next project, giving a standard set of `make` tasks and `ngage` CLI to help with setting up, building and deployments.
+
+<br clear="right">
 
 ## Getting started
 
