@@ -51,7 +51,8 @@ const config = {
 				'no-only-tests/no-only-tests': 2
 			}
 		}
-	]
+	],
+	'settings' : {}
 };
 
 const packageJson = require('./package.json');
@@ -85,6 +86,7 @@ if (packageJson && packageJson.eslintConfig) {
 	Object.assign(config.parserOptions, packageJson.eslintConfig.parserOptions);
 	Object.assign(config.rules, packageJson.eslintConfig.rules);
 	Object.assign(config.globals, packageJson.eslintConfig.globals);
+	Object.assign(config.settings, packageJson.eslintConfig.settings);
 }
 
 module.exports = config;
