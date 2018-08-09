@@ -58,10 +58,11 @@ const config = {
 const packageJson = require('./package.json');
 
 const packageJsonContainsPackage = packageName => {
-	const { dependencies, devDependencies} = packageJson;
+	const { dependencies, devDependencies, peerDependencies } = packageJson;
 	return (
 		(dependencies && dependencies[packageName])
 		|| (devDependencies && devDependencies[packageName])
+		|| (peerDependencies && peerDependencies[packageName])
 	)
 }
 
