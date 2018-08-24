@@ -25,7 +25,7 @@
   "dependencies": {
     "@financial-times/n-fetch": "^1.0.0-beta.4",
     "@financial-times/secret-squirrel": "^2.6.0",
-    "eslint": "^4.14.0",
+    "eslint": "^5.4.0",
     "eslint-plugin-no-only-tests": "^2.0.0",
     "husky": "^0.14.3",
     "jsonfile": "^4.0.0",
