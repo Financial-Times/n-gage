@@ -2,10 +2,13 @@ const fetch = require('@financial-times/n-fetch');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const appendSessionTokens = require('./append-session-tokens');
+const appendSessionTokens = require('../append-session-tokens');
 
-const opts = require('yargs')
-  .option('app', (() => {
+exports.command = 'get-config';
+exports.describe = 'get environment variables from Vault';
+
+exports.builder = yargs => (yargs
+	.option('app', (() => {
 		// try get app name from the package.json
 		try {
 			return {
@@ -19,24 +22,24 @@ const opts = require('yargs')
 			}
 		}
 	})())
-  .option('env', {
+	.option('env', {
 		choices: ['dev', 'prod', 'ci', 'test'],
 		default: 'dev'
   })
-  .option('filename', {
+	.option('filename', {
 		coerce: value => typeof value === 'string' ? value : '.env',
 		default: '.env'
   })
-  .option('format', {
+	.option('format', {
+
 		choices: ['simple', 'json'],
 		default: 'simple'
   })
-  .option('team', {
+	.option('team', {
 		coerce: value => typeof value === 'string' ? value : 'next',
 		default: 'next'
-  })
-  .help()
-  .argv;
+	})
+);
 
 const getToken = () => {
 	if (process.env.CIRCLECI) {
@@ -71,8 +74,8 @@ const getVaultPaths = (ftApp, env, team) => {
 	];
 };
 
-const parseKeys = (app, appShared, envShared) => {
-	if (opts.env === 'ci') {
+const parseKeys = (env, app, appShared, envShared) => {
+	if (env === 'ci') {
 		return Object.assign({}, app.env, envShared);
 	} else {
 		const shared = appShared.env.reduce((keys, key) => {
@@ -97,16 +100,16 @@ const format = (keys, mode) => {
 
 // LET'S GO!
 
-module.exports = () => {
+exports.handler = argv => {
 	getToken()
 		.then(token => {
-			return Promise.all(getVaultPaths(opts.app, opts.env, opts.team).map(path => {
+			return Promise.all(getVaultPaths(argv.app, argv.env, argv.team).map(path => {
 				const url = 'https://vault.in.ft.com/v1/' + path;
 
 				const vaultFetch = fetch(url, { headers: { 'X-Vault-Token': token } })
-				        .then(json => json.data || {});
+					.then(json => json.data || {});
 
-				if (opts.env === 'dev') {
+				if (argv.env === 'dev') {
 					return vaultFetch.catch(err => {
 						console.warn(`Couldn't get config at ${url}.`);
 					});
@@ -114,13 +117,13 @@ module.exports = () => {
 					return vaultFetch;
 				}
 			}))
-				.then(([app, appShared, envShared]) => parseKeys(app, appShared, envShared))
+				.then(([app, appShared, envShared]) => parseKeys(argv.env, app, appShared, envShared))
 				.then((keys) => appendSessionTokens(keys))
 				.then((keys) => {
-					const content = format(keys, opts.format);
-					const file = path.join(process.cwd(), opts.filename || '.env');
+					const content = format(keys, argv.format);
+					const file = path.join(process.cwd(), argv.filename || '.env');
 					fs.writeFileSync(file, content);
-					console.log(`Written ${opts.app}'s ${opts.env} config to ${file}`);
+					console.log(`Written ${argv.app}'s ${argv.env} config to ${file}`);
 			});
 		})
 			.catch(error => {
