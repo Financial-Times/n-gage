@@ -24,7 +24,7 @@ then create a new `Makefile` file with the following:
 include $(shell npx -p @financial-times/n-gage ngage bootstrap)
 ```
 
-See [the bootstrap command documentation](#bootstrap) for more explanation this logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
+See [the bootstrap command documentation](#bootstrap) for more explanation of this logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
 
 ## Make tasks
 
