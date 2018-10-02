@@ -24,7 +24,7 @@ then create a new `Makefile` file with the following:
 include $(shell npx -p @financial-times/n-gage ngage bootstrap)
 ```
 
-See [here](#bootstrapping) for more explanation of the bootstrapping logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
+See [the bootstrap command documentation](#bootstrap) for more explanation this logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
 
 ## Make tasks
 
@@ -34,18 +34,19 @@ See in [index.mk](index.mk) for all the different tasks you can use in your `Mak
 
 This includes a CLI for you to use to do some things.
 
-### get-config
-
-This tool helps you to obtain configuration for your project.
-
 ```sh
 $ ngage
 commands:
 
-  ngage bootstrap    called by makefiles to include n-gage
   ngage get-config   get environment variables from Vault
+  ngage bootstrap    called by makefiles to include n-gage
+```
 
+### `get-config`
 
+This command helps you to obtain configuration for your project.
+
+```sh
 $ ngage get-config --help
 Options:
   --help      Show help                                                [boolean]
@@ -66,13 +67,13 @@ $ cat .env-ci
 }
 ```
 
+The `--team` option lets you specify a team if not `next` (must match Vault path).
+
 ```sh
 $ ngage get-config --team myteam
 ```
 
-The `--team` option lets you specify a team if not `next` (must match Vault path).
-
-### FT User Sessions
+#### FT User Sessions
 
 To get `FTSession` and `FTSession_s` environment variables to be populated with up-to-date session tokens from test users, add the following environment variables to your `development` and/or `continuous-integration` configs in the Vault:
 
@@ -86,11 +87,13 @@ As a result of this, `{USER_TYPE}_FTSession` and `{USER_TYPE}_FTSession_s` envir
 
 Multiple user types can be specified in the TEST_USER_TYPES variable.
 
-*Example*
+##### Example
 
 If you set `TEST_USER_TYPES` environment variable to `premium,standard`, these variables will be populated in the `.env` file:
 `PREMIUM_FTSession`, `PREMIUM_FTSession_s`, `STANDARD_FTSession`, `STANDARD_FTSession_s`
 
-## Bootstrapping
+### `bootstrap`
 
-Curious how the bootstrapping bit at top of the `Makefile` works? `npx` runs the command `ngage bootstrap`, installing `@financial-times/n-gage` if it's not in `node_modules`. The bootstrap command outputs the full path to `index.mk`, which is passed to Make's `include`.
+The `bootstrap` command is the main entry point to `n-gage` for makefiles. On its own, it outputs the path to `index.mk`. It's intended to be run using `make`'s `$(shell)` function, passing the result to `include`.
+
+Running this command using [`npx`](https://www.npmjs.com/package/npx) (which is included in `npm` v5 and above) will use the `n-gage` installed in `node_modules`, if it's there; if not, it'll install it. This lets you run `make` without first running `npm install`, and subsequent runs of `make install` won't be interfered with because the automatically-installed `n-gage` is stored in `npm`'s cache, not `node_modules`.

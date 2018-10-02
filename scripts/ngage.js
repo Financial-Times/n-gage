@@ -7,7 +7,7 @@ if (process.argv.length > 1 && process.argv[2] === 'get-config') {
 } else {
 	console.log(`commands:
 
-  ngage bootstrap    called by makefiles to include n-gage
   ngage get-config   get environment variables from Vault
+  ngage bootstrap    called by makefiles to include n-gage
 `);
 }
