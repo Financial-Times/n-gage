@@ -21,11 +21,7 @@ then create a new `Makefile` file with the following:
 
 ```make
 # n-gage bootstrapping logic
-node_modules/@financial-times/n-gage/index.mk:
-	npm install --no-save --no-package-lock @financial-times/n-gage
-	touch $@
-
--include node_modules/@financial-times/n-gage/index.mk
+include $(shell npx -p @financial-times/n-gage ngage bootstrap)
 ```
 
 See [here](#bootstrapping) for more explanation of the bootstrapping logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
@@ -44,7 +40,11 @@ This tool helps you to obtain configuration for your project.
 
 ```sh
 $ ngage
-ngage get-config --help
+commands:
+
+  ngage bootstrap    called by makefiles to include n-gage
+  ngage get-config   get environment variables from Vault
+
 
 $ ngage get-config --help
 Options:
@@ -93,20 +93,4 @@ If you set `TEST_USER_TYPES` environment variable to `premium,standard`, these v
 
 ## Bootstrapping
 
-Curious how the bootstrapping bit at top of the `Makefile` works?  Here's the annotated code:
-
-```make
-# This task tells make how to 'build' n-gage. It npm installs n-gage, and
-# Once that's done it overwrites the file with its own contents - this
-# ensures the timestamp on the file is recent, so make won't think the file
-# is out of date and try to rebuild it every time
-node_modules/@financial-times/n-gage/index.mk:
-	npm install --no-save @financial-times/n-gage
-	touch $@
-
-# If, by the end of parsing your `Makefile`, `make` finds that any files
-# referenced with `-include` don't exist or are out of date, it will run any
-# tasks it finds that match the missing file. So if n-gage *is* installed
-# it will just be included; if not, it will look for a task to run
--include node_modules/@financial-times/n-gage/index.mk
-```
+Curious how the bootstrapping bit at top of the `Makefile` works? `npx` runs the command `ngage bootstrap`, installing `@financial-times/n-gage` if it's not in `node_modules`. The bootstrap command outputs the full path to `index.mk`, which is passed to Make's `include`.
