@@ -67,6 +67,7 @@ const getVaultPaths = (ftApp, env, team) => {
 	const app = ftApp.replace(/^ft-/, '');
 	const vaultEnvs = { dev: 'development', prod: 'production', ci: 'continuous-integration', test: 'test' };
 	const vaultEnv = vaultEnvs[env];
+
 	return [
 		`secret/teams/${team}/${app}/${vaultEnv}`,
 		`secret/teams/${team}/${app}/shared`,
@@ -105,6 +106,7 @@ exports.handler = argv => {
 		.then(token => {
 			return Promise.all(getVaultPaths(argv.app, argv.env, argv.team).map(path => {
 				const url = 'https://vault.in.ft.com/v1/' + path;
+				console.log(url);
 
 				const vaultFetch = fetch(url, { headers: { 'X-Vault-Token': token } })
 					.then(json => json.data || {});
@@ -126,8 +128,8 @@ exports.handler = argv => {
 					console.log(`Written ${argv.app}'s ${argv.env} config to ${file}`);
 			});
 		})
-			.catch(error => {
-				console.error(error);
-				process.exit(14);
-			});
+		.catch(error => {
+			console.error(error);
+			process.exit(14);
+		});
 };
