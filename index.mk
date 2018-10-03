@@ -46,6 +46,7 @@ DONE = echo ✓ $@ done
 IS_USER_FACING = `find . -type d \( -path ./bower_components -o -path ./node_modules -o -path ./coverage \) -prune -o -name '*.html' -print`
 MAKEFILE_HAS_A11Y = `grep -rli "a11y" Makefile`
 REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
+ENTRY_MAKEFILE = $(firstword $(MAKEFILE_LIST))
 
 #
 # META TASKS
@@ -279,6 +280,9 @@ else
 		echo "Nightly build and out of hours - exiting before deploy"; \
 	fi;
 endif
+
+update-bootstrap: ## update-bootstrap: update makefile bootstrap v1 to v2
+	ngage update-bootstrap $(ENTRY_MAKEFILE)
 
 # some aliases
 css:

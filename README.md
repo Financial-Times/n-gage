@@ -26,6 +26,8 @@ include $(shell npx -p @financial-times/n-gage ngage bootstrap)
 
 See [the bootstrap command documentation](#bootstrap) for more explanation of this logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
 
+If your Makefile is using the [old bootstrap code](https://github.com/Financial-Times/n-gage/blob/v2.0.4/README.md#getting-started), you should update to the new bootstrap by running `make update-bootstrap` (or [`ngage update-bootstrap Makefile`](#update-bootstrap)). The new bootstrapping code is backwards compatible, and old-bootstrap makefiles will continue to work, but future improvements to the bootstrap are far easier to distribute with the new method.
+
 ## Make tasks
 
 See in [index.mk](index.mk) for all the different tasks you can use in your `Makefile`.
@@ -35,11 +37,17 @@ See in [index.mk](index.mk) for all the different tasks you can use in your `Mak
 This includes a CLI for you to use to do some things.
 
 ```sh
-$ ngage
-commands:
+$ ngage --help
+ngage <command>
 
-  ngage get-config   get environment variables from Vault
-  ngage bootstrap    called by makefiles to include n-gage
+Commands:
+  ngage bootstrap                    called by makefiles to include n-gage
+  ngage get-config                   get environment variables from Vault
+  ngage update-bootstrap <makefile>  migrate a makefile from bootstrap v1 to v2
+
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
 ```
 
 ### `get-config`
@@ -97,3 +105,7 @@ If you set `TEST_USER_TYPES` environment variable to `premium,standard`, these v
 The `bootstrap` command is the main entry point to `n-gage` for makefiles. On its own, it outputs the path to `index.mk`. It's intended to be run using `make`'s `$(shell)` function, passing the result to `include`.
 
 Running this command using [`npx`](https://www.npmjs.com/package/npx) (which is included in `npm` v5 and above) will use the `n-gage` installed in `node_modules`, if it's there; if not, it'll install it. This lets you run `make` without first running `npm install`, and subsequent runs of `make install` won't be interfered with because the automatically-installed `n-gage` is stored in `npm`'s cache, not `node_modules`.
+
+### `update-bootstrap`
+
+Updates the makefile passed in from v1 bootstrap to v2. If the original bootstrap has been modified in your makefile, this command won't do anything, but print out what it expected to see and what
