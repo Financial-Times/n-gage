@@ -21,14 +21,12 @@ then create a new `Makefile` file with the following:
 
 ```make
 # n-gage bootstrapping logic
-node_modules/@financial-times/n-gage/index.mk:
-	npm install --no-save --no-package-lock @financial-times/n-gage
-	touch $@
-
--include node_modules/@financial-times/n-gage/index.mk
+include $(shell npx -p @financial-times/n-gage ngage bootstrap)
 ```
 
-See [here](#bootstrapping) for more explanation of the bootstrapping logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
+See [the bootstrap command documentation](#bootstrap) for more explanation of this logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
+
+If your Makefile is using the [old bootstrap code](https://github.com/Financial-Times/n-gage/blob/v2.0.4/README.md#getting-started), you should update to the new bootstrap by running `make update-bootstrap` (or [`ngage update-bootstrap Makefile`](#update-bootstrap)). The new bootstrapping code is backwards compatible, and old-bootstrap makefiles will continue to work, but future improvements to the bootstrap are far easier to distribute with the new method.
 
 ## Make tasks
 
@@ -38,14 +36,25 @@ See in [index.mk](index.mk) for all the different tasks you can use in your `Mak
 
 This includes a CLI for you to use to do some things.
 
-### get-config
+```sh
+$ ngage --help
+ngage <command>
 
-This tool helps you to obtain configuration for your project.
+Commands:
+  ngage bootstrap                    called by makefiles to include n-gage
+  ngage get-config                   get environment variables from Vault
+  ngage update-bootstrap <makefile>  migrate a makefile from bootstrap v1 to v2
+
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+```
+
+### `get-config`
+
+This command helps you to obtain configuration for your project.
 
 ```sh
-$ ngage
-ngage get-config --help
-
 $ ngage get-config --help
 Options:
   --help      Show help                                                [boolean]
@@ -66,13 +75,13 @@ $ cat .env-ci
 }
 ```
 
+The `--team` option lets you specify a team if not `next` (must match Vault path).
+
 ```sh
 $ ngage get-config --team myteam
 ```
 
-The `--team` option lets you specify a team if not `next` (must match Vault path).
-
-### FT User Sessions
+#### FT User Sessions
 
 To get `FTSession` and `FTSession_s` environment variables to be populated with up-to-date session tokens from test users, add the following environment variables to your `development` and/or `continuous-integration` configs in the Vault:
 
@@ -86,27 +95,17 @@ As a result of this, `{USER_TYPE}_FTSession` and `{USER_TYPE}_FTSession_s` envir
 
 Multiple user types can be specified in the TEST_USER_TYPES variable.
 
-*Example*
+##### Example
 
 If you set `TEST_USER_TYPES` environment variable to `premium,standard`, these variables will be populated in the `.env` file:
 `PREMIUM_FTSession`, `PREMIUM_FTSession_s`, `STANDARD_FTSession`, `STANDARD_FTSession_s`
 
-## Bootstrapping
+### `bootstrap`
 
-Curious how the bootstrapping bit at top of the `Makefile` works?  Here's the annotated code:
+The `bootstrap` command is the main entry point to `n-gage` for makefiles. On its own, it outputs the path to `index.mk`. It's intended to be run using `make`'s `$(shell)` function, passing the result to `include`.
 
-```make
-# This task tells make how to 'build' n-gage. It npm installs n-gage, and
-# Once that's done it overwrites the file with its own contents - this
-# ensures the timestamp on the file is recent, so make won't think the file
-# is out of date and try to rebuild it every time
-node_modules/@financial-times/n-gage/index.mk:
-	npm install --no-save @financial-times/n-gage
-	touch $@
+Running this command using [`npx`](https://www.npmjs.com/package/npx) (which is included in `npm` v5 and above) will use the `n-gage` installed in `node_modules`, if it's there; if not, it'll install it. This lets you run `make` without first running `npm install`, and subsequent runs of `make install` won't be interfered with because the automatically-installed `n-gage` is stored in `npm`'s cache, not `node_modules`.
 
-# If, by the end of parsing your `Makefile`, `make` finds that any files
-# referenced with `-include` don't exist or are out of date, it will run any
-# tasks it finds that match the missing file. So if n-gage *is* installed
-# it will just be included; if not, it will look for a task to run
--include node_modules/@financial-times/n-gage/index.mk
-```
+### `update-bootstrap`
+
+Updates the makefile passed in from v1 bootstrap to v2. See [this Pull Request](https://github.com/Financial-Times/n-gage/pull/132#issue-219628923) for context. If the original bootstrap has been modified in your makefile, this command won't do anything, but print out what it expected to see and what to replace it with.
