@@ -108,4 +108,4 @@ Running this command using [`npx`](https://www.npmjs.com/package/npx) (which is 
 
 ### `update-bootstrap`
 
-Updates the makefile passed in from v1 bootstrap to v2. If the original bootstrap has been modified in your makefile, this command won't do anything, but print out what it expected to see and what
+Updates the makefile passed in from v1 bootstrap to v2. See [this Pull Request](https://github.com/Financial-Times/n-gage/pull/132#issue-219628923) for context. If the original bootstrap has been modified in your makefile, this command won't do anything, but print out what it expected to see and what to replace it with.
