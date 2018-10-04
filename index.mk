@@ -48,9 +48,6 @@ MAKEFILE_HAS_A11Y = `grep -rli "a11y" Makefile`
 REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
 ENTRY_MAKEFILE = $(firstword $(MAKEFILE_LIST))
 
-# Show help when run without any target
-.DEFAULT_GOAL := help
-
 #
 # META TASKS
 #
