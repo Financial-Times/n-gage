@@ -281,9 +281,6 @@ else
 	fi;
 endif
 
-update-bootstrap: ## update-bootstrap: update makefile bootstrap v1 to v2
-	ngage update-bootstrap $(ENTRY_MAKEFILE)
-
 # some aliases
 css:
 	nui build --sass-only
