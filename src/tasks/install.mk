@@ -3,6 +3,9 @@ FUNCTIONS_NPM_FOLDERS = $(patsubst functions/%/package.json, functions/%/node_mo
 FUNCTIONS_BOWER_JSONS = $(wildcard functions/*/bower_components)
 FUNCTIONS_BOWER_FOLDERS = $(patsubst functions/%/bower.json, functions/%/bower_components, $(FUNCTIONS_BOWER_JSONS))
 
+# tell make not to delete these folders (it thinks they're intermediate dependencies and it's sort of right but actually not)
+.PRECIOUS: $(FUNCTIONS_NPM_FOLDERS) $(FUNCTIONS_BOWER_FOLDERS)
+
 instal%: ## install: Setup this repository.
 instal%: node_modules bower_components stylelint-transition .editorconfig .eslintrc.js .stylelintrc .pa11yci.js $(FUNCTIONS_NPM_FOLDERS) $(FUNCTIONS_BOWER_FOLDERS)
 	@$(DONE)
