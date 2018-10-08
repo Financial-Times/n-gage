@@ -1,5 +1,7 @@
-FUNCTIONS_NPM_FOLDERS = $(wildcard functions/*/node_modules)
-FUNCTIONS_BOWER_FOLDERS = $(wildcard functions/*/bower_components)
+FUNCTIONS_PACKAGE_JSONS = $(wildcard functions/*/package.json)
+FUNCTIONS_NPM_FOLDERS = $(patsubst functions/%/package.json, functions/%/node_modules, $(FUNCTIONS_PACKAGE_JSONS))
+FUNCTIONS_BOWER_JSONS = $(wildcard functions/*/bower_components)
+FUNCTIONS_BOWER_FOLDERS = $(patsubst functions/%/bower.json, functions/%/bower_components, $(FUNCTIONS_BOWER_JSONS))
 
 instal%: ## install: Setup this repository.
 instal%: node_modules bower_components stylelint-transition .editorconfig .eslintrc.js .stylelintrc .pa11yci.js $(FUNCTIONS_NPM_FOLDERS) $(FUNCTIONS_BOWER_FOLDERS)
