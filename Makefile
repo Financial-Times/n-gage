@@ -17,7 +17,7 @@ fixture-repos = next-article n-ui next-myft-email
 fixture-targets = $(addprefix integration-test-, $(fixture-repos))
 fixture-folders = $(addprefix $(fixture-base)/, $(fixture-repos))
 ngage-path = $(realpath index.mk)
-git-clone-base = $(if $(GITHUB_AUTH_TOKEN), git://$(GITHUB_AUTH_TOKEN)@github.com/financial-times, git@github.com:financial-times)
+git-clone-base = $(if $(GITHUB_AUTH_TOKEN), git://$(GITHUB_AUTH_TOKEN):x-oauth-basic@github.com/financial-times, git@github.com:financial-times)
 
 $(fixture-base)/%:
 	@git clone --depth 1 $(git-clone-base)/$* $@
