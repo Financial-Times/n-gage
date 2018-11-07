@@ -19,7 +19,7 @@ fixture-folders = $(addprefix $(fixture-base)/, $(fixture-repos))
 ngage-path = $(realpath index.mk)
 
 $(fixture-base)/%:
-	git clone git@github.com:financial-times/$* $@
+	git clone --depth 1 git@github.com:financial-times/$* $@
 
 integration-test-%: $(fixture-base)/%
 # edit the fixture's makefile to point at us, not n-gage from node_modules
