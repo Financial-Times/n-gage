@@ -93,6 +93,7 @@ jobs:
     <<: *container_config_node8
     steps:
       - *attach_workspace
+      - add_ssh_keys
       - run:
           name: Run tests
           command: make test
