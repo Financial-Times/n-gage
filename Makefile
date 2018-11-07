@@ -1,3 +1,7 @@
+# the repos in the fixtures directory are user facing,
+# which makes n-gage think it itself is user facing
+IGNORE_A11Y = true
+
 include index.mk
 
 unit-test:
