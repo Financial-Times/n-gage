@@ -10,7 +10,7 @@ unit-test:
 install:
 	npm install --no-package-lock
 
-test: unit-test
+test: unit-test integration-test
 
 fixture-repos = next-article n-ui next-myft-email
 fixture-targets = $(addprefix integration-test-, $(fixture-repos))
