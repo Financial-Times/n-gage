@@ -1,3 +1,4 @@
+$(info local)
 # find out where we are so we can include things relatively. MAKEFILE_LIST is the list
 # of all included makefiles; this makefile will be the most recent one
 this-makefile = $(realpath $(lastword $(MAKEFILE_LIST)))

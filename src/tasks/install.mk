@@ -14,25 +14,27 @@ instal%: node_modules bower_components stylelint-transition .editorconfig .eslin
 # INSTALL SUB-TASKS
 
 # Regular npm install
-node_modules: package.json
-	@if [ -e package-lock.json ]; then rm package-lock.json; fi
-	@if [ -e package.json ]; then $(NPM_INSTALL) && $(DONE); fi
+%/node_modules: %/package.json
+	cd $(@D)
+	if [ -e package-lock.json ]; then rm package-lock.json; fi
+	if [ -e package.json ]; then $(NPM_INSTALL) && $(DONE); fi
 
 # Regular bower install
-bower_components: bower.json
-	@if [ -e bower.json ]; then $(BOWER_INSTALL) && $(DONE); fi
+%/bower_components: bower.json
+	cd $(@D)
+	if [ -e bower.json ]; then $(BOWER_INSTALL) && $(DONE); fi
 
 # These tasks have been intentionally left blank
-package.json:
-bower.json:
+%/package.json:
+%/bower.json:
 
 # node_modules for Lambda functions
-functions/%/node_modules:
-	@cd $(dir $@) && if [ -e package.json ]; then $(NPM_INSTALL) && $(DONE); fi
-
-# bower_components for Lambda functions
-functions/%/bower_components:
-	@cd $(dir $@) && if [ -e bower.json ]; then $(BOWER_INSTALL) && $(DONE); fi
+# functions/%/node_modules:
+# 	cd $(dir $@) && if [ -e package.json ]; then $(NPM_INSTALL) && $(DONE); fi
+#
+# # bower_components for Lambda functions
+# functions/%/bower_components:
+# 	cd $(dir $@) && if [ -e bower.json ]; then $(BOWER_INSTALL) && $(DONE); fi
 
 # Manage various dot/config files if they're in the .gitignore
 .editorconfig .eslintrc.js .stylelintrc .pa11yci.js:
