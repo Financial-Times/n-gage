@@ -12,14 +12,16 @@ install:
 
 test: unit-test integration-test
 
+fixture-base = test/fixtures
 fixture-repos = next-article n-ui next-myft-email
 fixture-targets = $(addprefix integration-test-, $(fixture-repos))
+fixture-folders = $(addprefix $(fixture-base)/, $(fixture-repos))
 ngage-path = $(realpath index.mk)
 
-test/fixtures/%:
+$(fixture-base)/%:
 	git clone git@github.com:financial-times/$* $@
 
-integration-test-%: test/fixtures/%
+integration-test-%: $(fixture-base)/%
 # edit the fixture's makefile to point at us, not n-gage from node_modules
 	sed -i '' "s:-include node_modules/@financial-times/n-gage/index.mk:include $(ngage-path):" $</Makefile
 
@@ -27,3 +29,6 @@ integration-test-%: test/fixtures/%
 	$(MAKE) -C $< install build
 
 integration-test: $(fixture-targets)
+
+clean-fixtures:
+	rm -rf $(fixture-folders)
