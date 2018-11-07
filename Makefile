@@ -24,7 +24,7 @@ $(fixture-base)/%:
 
 integration-test-%: $(fixture-base)/%
 # edit the fixture's makefile to point at us, not n-gage from node_modules
-	sed -i '' "s:-include node_modules/@financial-times/n-gage/index.mk:include $(ngage-path):" $</Makefile
+	sed -i '.bak' "s:-include node_modules/@financial-times/n-gage/index.mk:include $(ngage-path):" $</Makefile
 
 # run a handful of standard next make commands in the fixture folder using the `-C DIRECTORY` option
 	$(MAKE) -C $< install build
