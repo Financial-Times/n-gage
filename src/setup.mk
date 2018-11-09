@@ -39,7 +39,6 @@ endif
 CHALK_PATH = $(ngage-dir)node_modules/.bin/chalk
 COLOR = $(shell /usr/bin/env FORCE_COLOR=1 $(CHALK_PATH) -t "$1")
 
-
 GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
 NPM_INSTALL = npm prune --production=false --no-package-lock && npm install --no-package-lock
 BOWER_INSTALL = bower prune && bower install --config.registry.search=https://origami-bower-registry.ft.com --config.registry.search=https://registry.bower.io
@@ -82,3 +81,7 @@ ASSERT_VARS_EXIST = $(if $(call _MISSING_VARS,$1),\
 # but to run the node_modules task instead. 'bower_components' is incuded for similar
 # reasons, though it's not strictly neccessary at this point in time.
 .PHONY: test node_modules bower_components
+
+# if make has created any files, but then errors, delete the files it created instead of
+# leaving them around
+.DELETE_ON_ERROR:
