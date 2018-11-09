@@ -1,5 +1,5 @@
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components stylelint-transition .editorconfig .eslintrc.js .stylelintrc .pa11yci.js
+instal%: node_modules bower_components .editorconfig .eslintrc.js .stylelintrc .pa11yci.js
 	$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
@@ -30,10 +30,3 @@ functions/%/bower_components:
 # Manage various dot/config files if they're in the .gitignore
 .editorconfig .eslintrc.js .stylelintrc .pa11yci.js:
 	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
-
-stylelint-transition:
-	@if ! $(call IS_GIT_IGNORED,'.stylelintrc') && $(call IS_GIT_IGNORED,'.scss-lint.yml'); \
-		then $(call REPLACE_IN_GITIGNORE,'.scss-lint.yml','.stylelintrc') \
-			&& echo "*** Next developers***\nProjects making use of SCSS linting must now include .stylelintrc instead of .scss-lint.yml in .gitignore. Please commit your modified .gitignore" \
-			&& $(DONE); \
-	fi
