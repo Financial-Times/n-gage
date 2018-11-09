@@ -28,5 +28,10 @@ functions/%/bower_components:
 	@cd $(dir $@) && if [ -e bower.json ]; then $(BOWER_INSTALL) && $(DONE); fi
 
 # Manage various dot/config files if they're in the .gitignore
-.editorconfig .eslintrc.js .stylelintrc .pa11yci.js:
-	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
+dotfiles-dir = $(ngage-dir)dotfiles
+dotfiles-source = $(wildcard $(dotfiles-dir)/.*)
+dotfiles = $(patsubst $(ngage-dir)dotfiles/%, %, $(dotfiles-source))
+
+.%: $(dotfiles-dir)/.%
+	@if $(call IS_GIT_IGNORED); then cp $< $@ && $(DONE); fi
+
