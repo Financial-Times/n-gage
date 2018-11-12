@@ -1,5 +1,5 @@
 instal%: ## install: Setup this repository.
-instal%: node_modules bower_components .editorconfig .eslintrc.js .stylelintrc .pa11yci.js
+instal%: node_modules bower_components $(dotfiles)
 	$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
@@ -28,5 +28,9 @@ functions/%/bower_components:
 	@cd $(dir $@) && if [ -e bower.json ]; then $(BOWER_INSTALL) && $(DONE); fi
 
 # Manage various dot/config files if they're in the .gitignore
-.editorconfig .eslintrc.js .stylelintrc .pa11yci.js:
-	@if $(call IS_GIT_IGNORED); then cp './node_modules/@financial-times/n-gage/dotfiles/$@' $@ && $(DONE); fi
+dotfiles-dir = $(ngage-dir)dotfiles
+dotfiles-source = $(wildcard $(dotfiles-dir)/.*)
+dotfiles = $(patsubst $(ngage-dir)dotfiles/%, %, $(dotfiles-source))
+
+.%: $(dotfiles-dir)/.%
+	@if $(call IS_GIT_IGNORED); then cp $< $@ && $(DONE); fi
