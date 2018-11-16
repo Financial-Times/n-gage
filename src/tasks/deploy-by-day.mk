@@ -1,8 +1,5 @@
 
-# Wrapper for make deploy which prevents it running when build is a nightly
-# Nightly builds are trigger by next-rebuild-bot
-# If a nightly build is triggered during the day, we want it to deploy since it is a rerun build!
-# CircleCI runs in UTC, so give an hour leeway each way.
+# Nightly builds are configured as a scheduled CircleCI workflow on a per project basis
 
 HOUR = $(shell date +%H)
 
