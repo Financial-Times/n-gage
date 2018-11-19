@@ -65,9 +65,15 @@ LOG = $(info $(call MESSAGE,blue,i,INFO,$1))
 
 DONE = echo $(call COLOR, {black.bgGreen  ✓ }{black.bgBlackBright  $@ } done)
 
-_MISSING_VARS = $(strip $(filter-out $(.VARIABLES), $1))
+_SORT_VARS_LIST = $(strip $(sort $1))
+_MISSING_VARS = $(call _SORT_VARS_LIST, $(filter-out $(.VARIABLES), $1))
+
 ASSERT_VARS_EXIST = $(if $(call _MISSING_VARS,$1),\
-  $(call ERROR, $(call COLOR, Variables {cyan $(call _MISSING_VARS,$1)} must be defined in your Makefile)))\
+  $(call ERROR, $(call COLOR, Variables {cyan $(call _MISSING_VARS,$1)} must be defined in your Makefile))\
+)
+
+ASSERT_ANY_VAR_EXISTS = $(if $(findstring $(call _SORT_VARS_LIST,$1),$(call _MISSING_VARS,$1)),\
+  $(call ERROR, $(call COLOR, At least one of the variables {cyan $(strip $1)} must be defined in your Makefile))\
 )
 
 #

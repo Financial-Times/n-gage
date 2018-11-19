@@ -1,7 +1,8 @@
 TEST_APP=$(shell cat .review-app)
 
 deplo%: ## deploy: deploy the app to heroku
-	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME HEROKU_APP_EU HEROKU_APP_US)
+	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
+	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
 # Reset repository so that the app deploys on rebuilds even though there is no code change
 	heroku repo:reset -a ${HEROKU_APP_STAGING}
 
@@ -16,8 +17,13 @@ deplo%: ## deploy: deploy the app to heroku
 
 	@n-test smoke -H https://${HEROKU_APP_STAGING}.herokuapp.com --header "FT-Next-Backend-Key: ${FT_NEXT_BACKEND_KEY}"
 
+ifdef HEROKU_APP_EU
 	nht configure ${VAULT_NAME} ${HEROKU_APP_EU} --overrides REGION=EU
+endif
+
+ifdef HEROKU_APP_US
 	nht configure ${VAULT_NAME} ${HEROKU_APP_US} --overrides REGION=US
+endif
 
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING)
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
