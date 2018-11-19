@@ -1,3 +1,5 @@
+TEST_APP=$(shell cat .review-app)
+
 deplo%: ## deploy: deploy the app to heroku
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME HEROKU_APP_EU HEROKU_APP_US)
 # Reset repository so that the app deploys on rebuilds even though there is no code change
