@@ -22,9 +22,10 @@ deplo%: ## deploy: deploy the app to heroku
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING)
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
 
-review-app:
+tidy:
 	-rm .review-app
-	make .review-app
+
+review-app: tidy .review-app
 
 .review-app:
 	@echo 'Creating review app for ${VAULT_NAME}'
@@ -34,8 +35,8 @@ review-app:
 		--commit ${CIRCLE_SHA1} \
 		--github-token ${GITHUB_AUTH_TOKEN} > $@
 
-provision: review-app
+configure-test-app: review-app
 	nht configure ${VAULT_NAME} ${TEST_APP} --overrides FT_NEXT_BACKEND_KEY=,FT_NEXT_BACKEND_KEY_OLD=,NODE_ENV=branch,TEST_APP=${TEST_APP}
 	nht gtg ${TEST_APP}
-	make smoke-test
-	make a11y
+
+provision: configure-test-app smoke-test a11y
