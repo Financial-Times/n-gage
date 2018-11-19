@@ -25,7 +25,7 @@ deplo%: ## deploy: deploy the app to heroku
 tidy:
 	-rm .review-app
 
-review-app: tidy .review-app
+review-app: tidygit  .review-app
 
 .review-app:
 	@echo 'Creating review app for ${VAULT_NAME}'
@@ -35,8 +35,8 @@ review-app: tidy .review-app
 		--commit ${CIRCLE_SHA1} \
 		--github-token ${GITHUB_AUTH_TOKEN} > $@
 
-configure-test-app: review-app
+configure-review-app: review-app
 	nht configure ${VAULT_NAME} ${TEST_APP} --overrides FT_NEXT_BACKEND_KEY=,FT_NEXT_BACKEND_KEY_OLD=,NODE_ENV=branch,TEST_APP=${TEST_APP}
 	nht gtg ${TEST_APP}
 
-provision: configure-test-app smoke-test a11y
+test-review-app: configure-test-app smoke-test a11y
