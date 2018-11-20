@@ -31,7 +31,7 @@ endif
 tidy:
 	-rm .review-app
 
-review-app: tidygit  .review-app
+review-app: tidy .review-app
 
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
