@@ -41,6 +41,6 @@ review-app: tidy .review-app
 		--github-token $(GITHUB_AUTH_TOKEN) > $@
 
 gtg-review-app: review-app
-	nht gtg $(TEST_APP)
+	nht gtg $(REVIEW_APP)
 
 test-review-app: gtg-review-app smoke a11y

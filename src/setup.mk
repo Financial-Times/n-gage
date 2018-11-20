@@ -84,12 +84,12 @@ ASSERT_ANY_VAR_EXISTS = $(if $(findstring $(call _SORT_VARS_LIST,$1),$(call _MIS
 
 # this file is created by the `review-app` task. if it exists it contains the name of
 # the review app on heroku
-TEST_APP=$(shell cat .review-app)
+REVIEW_APP=$(shell cat .review-app)
 
 # url to smoke/a11y test. prefer test url set externally
 ifndef TEST_URL
 TEST_URL = $(if $(CIRCLE_BRANCH),\
-  https://$(TEST_APP).herokuapp.com,\
+  https://$(REVIEW_APP).herokuapp.com,\
   https://local.ft.com:5050\
 )
 endif
