@@ -22,7 +22,7 @@ $(error 'Integrating with our tooling may result in unwanted effects e.g. nightl
 endif
 
 # ./node_modules/.bin on the PATH
-export PATH := $(PATH):./node_modules/.bin
+export PATH := $(PATH):./node_modules/.bin:$(ngage-dir)/node_modules/.bin
 
 # Use bash not sh
 SHELL := /bin/bash
@@ -50,9 +50,7 @@ IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
 REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
 
 # functions for eye-catching terminal output
-
-CHALK_PATH = $(ngage-dir)node_modules/.bin/chalk
-COLOR = $(shell /usr/bin/env FORCE_COLOR=1 $(CHALK_PATH) -t "$1")
+COLOR = $(shell /usr/bin/env FORCE_COLOR=1 chalk -t "$1")
 CAPITALISE = $(shell STR="$1"; echo "$$(tr '[:lower:]' '[:upper:]' <<<"$${STR:0:1}")$${STR:1}")
 
 MESSAGE = $(call COLOR,{black.bg$(call CAPITALISE,$1)  $2 }{$1.bgBlackBright.bold  $3 } $(strip $4))
