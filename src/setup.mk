@@ -89,7 +89,7 @@ TEST_APP=$(shell cat .review-app)
 # url to smoke/a11y test. prefer test url set externally
 ifndef TEST_URL
 TEST_URL = $(if $(CIRCLE_BRANCH),\
-  $(TEST_APP),\
+  https://$(TEST_APP).herokuapp.com,\
   https://local.ft.com:5050\
 )
 endif
