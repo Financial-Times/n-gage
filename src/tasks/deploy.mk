@@ -35,14 +35,14 @@ review-app: tidy .review-app
 
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
+	nht configure $(VAULT_NAME) review-app --overrides FT_NEXT_BACKEND_KEY=null,FT_NEXT_BACKEND_KEY_OLD=null,NODE_ENV=branch
 	@nht review-app $(VAULT_NAME) \
 		--repo-name $(CIRCLE_PROJECT_REPONAME) \
 		--branch $(CIRCLE_BRANCH) \
 		--commit $(CIRCLE_SHA1) \
 		--github-token $(GITHUB_AUTH_TOKEN) > $@
 
-configure-review-app: review-app
-	nht configure $(VAULT_NAME) $(TEST_APP) --overrides FT_NEXT_BACKEND_KEY=,FT_NEXT_BACKEND_KEY_OLD=,NODE_ENV=branch,TEST_APP=$(TEST_APP)
+gtg-review-app: review-app
 	nht gtg $(TEST_APP)
 
-test-review-app: configure-test-app smoke-test a11y
+test-review-app: gtg-review-app smoke-test a11y
