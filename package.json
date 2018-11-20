@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit": "node_modules/.bin/secret-squirrel",
+    "precommit": "secret-squirrel",
     "prepush": "make verify -j3",
-    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg"
+    "commitmsg": "secret-squirrel-commitmsg"
   },
   "bin": {
     "ngage": "./scripts/ngage.js"
