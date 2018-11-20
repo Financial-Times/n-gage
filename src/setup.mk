@@ -1,5 +1,9 @@
 # common variables for tasks, make flags, meta rules
 
+#
+# ENVIRONMENT SETUP
+#
+
 # Export environment variables if a .env file is present.
 ifeq ($(ENV_EXPORTED),) # ENV vars not yet exported
 ifneq ("$(wildcard .env)","")
@@ -23,35 +27,34 @@ export PATH := $(PATH):./node_modules/.bin
 # Use bash not sh
 SHELL := /bin/bash
 
-ifeq ("$(wildcard node_modules/@financial-times/n-gage/index.mk)","")
-PATH_TO_NGAGE :=
-else
-PATH_TO_NGAGE := node_modules/@financial-times/n-gage/
-endif
-
 # verify that githooks are configured correctly
-GITHOOKS := $(shell node $(PATH_TO_NGAGE)scripts/githooks.js)
+GITHOOKS := $(shell node $(ngage-dir)scripts/githooks.js)
 ifneq ("$(GITHOOKS)","")
 $(error $(GITHOOKS))
 endif
 
-# Some handy utilities
-CHALK_PATH = $(ngage-dir)node_modules/.bin/chalk
-COLOR = $(shell /usr/bin/env FORCE_COLOR=1 $(CHALK_PATH) -t "$1")
+#
+# FUNCTIONS
+#
 
+# misc/legacy
 GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
+
 NPM_INSTALL = npm prune --production=false --no-package-lock && npm install --no-package-lock
 BOWER_INSTALL = bower prune && bower install --config.registry.search=https://origami-bower-registry.ft.com --config.registry.search=https://registry.bower.io
-JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
-IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
-VERSION = master
-APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
-IS_USER_FACING = `find . -type d \( -path ./bower_components -o -path ./node_modules -o -path ./coverage \) -prune -o -name '*.html' -print`
-MAKEFILE_HAS_A11Y = `grep -rli "a11y" Makefile`
-REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
-ENTRY_MAKEFILE = $(firstword $(MAKEFILE_LIST))
 
+JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
+APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
+
+IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
+REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
+
+# functions for eye-catching terminal output
+
+CHALK_PATH = $(ngage-dir)node_modules/.bin/chalk
+COLOR = $(shell /usr/bin/env FORCE_COLOR=1 $(CHALK_PATH) -t "$1")
 CAPITALISE = $(shell STR="$1"; echo "$$(tr '[:lower:]' '[:upper:]' <<<"$${STR:0:1}")$${STR:1}")
+
 MESSAGE = $(call COLOR,{black.bg$(call CAPITALISE,$1)  $2 }{$1.bgBlackBright.bold  $3 } $(strip $4))
 
 define SPACED_MESSAGE # deliberate newline for whitespace in output
@@ -65,6 +68,7 @@ LOG = $(info $(call MESSAGE,blue,i,INFO,$1))
 
 DONE = echo $(call COLOR, {black.bgGreen  ✓ }{black.bgBlackBright  $@ } done)
 
+# functions for ensuring variables exist
 _SORT_VARS_LIST = $(strip $(sort $1))
 _MISSING_VARS = $(call _SORT_VARS_LIST, $(filter-out $(.VARIABLES), $1))
 
@@ -76,8 +80,24 @@ ASSERT_ANY_VAR_EXISTS = $(if $(findstring $(call _SORT_VARS_LIST,$1),$(call _MIS
   $(call ERROR, $(call COLOR, At least one of the variables {cyan $(strip $1)} must be defined in your Makefile))\
 )
 
+# functions for testing review or local apps
+
+# this file is created by the `review-app` task. if it exists it contains the name of
+# the review app on heroku
+TEST_APP=$(shell cat .review-app)
+
+# url to smoke/a11y test. exported for pa11y-ci's benefit
+export TEST_URL = $(if $(CIRCLE_BRANCH),\
+  $(TEST_APP),\
+  $(if $(TEST_URL),\
+    $(TEST_URL),\
+    https://local.ft.com:5050\
+  )\
+)
+
 #
 # META TASKS
+# (specially-named targets that enable certain Make behaviour)
 #
 
 # Note: A 'node_modules' directory is created when n-gage self-installs.

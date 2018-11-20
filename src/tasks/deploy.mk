@@ -1,5 +1,3 @@
-TEST_APP=$(shell cat .review-app)
-
 deplo%: ## deploy: deploy the app to heroku
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
 	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
@@ -45,4 +43,4 @@ review-app: tidy .review-app
 gtg-review-app: review-app
 	nht gtg $(TEST_APP)
 
-test-review-app: gtg-review-app smoke-test a11y
+test-review-app: gtg-review-app smoke a11y
