@@ -22,7 +22,7 @@ $(error 'Integrating with our tooling may result in unwanted effects e.g. nightl
 endif
 
 # ./node_modules/.bin on the PATH
-export PATH := $(PATH):./node_modules/.bin:$(ngage-dir)/node_modules/.bin
+export PATH := $(PATH):$(ngage-dir)node_modules/.bin:./node_modules/.bin
 
 # Use bash not sh
 SHELL := /bin/bash
