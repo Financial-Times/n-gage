@@ -7,7 +7,7 @@ deplo%: ## deploy: deploy the app to heroku
 	@echo "Deploying app to $(HEROKU_APP_STAGING)"
 	@git push https://git.heroku.com/$(HEROKU_APP_STAGING).git master
 
-	@echo "Setting ennvironment variables for $(HEROKU_APP_STAGING)..."
+	@echo "Setting environment variables for $(HEROKU_APP_STAGING)..."
 	nht configure $(VAULT_NAME) $(HEROKU_APP_STAGING)
 	heroku dyno:scale web=1 -a $(HEROKU_APP_STAGING)
 
