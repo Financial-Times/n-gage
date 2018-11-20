@@ -30,7 +30,7 @@ PATH_TO_NGAGE := node_modules/@financial-times/n-gage/
 endif
 
 # verify that githooks are configured correctly
-GITHOOKS := $(shell node ${PATH_TO_NGAGE}scripts/githooks.js)
+GITHOOKS := $(shell node $(PATH_TO_NGAGE)scripts/githooks.js)
 ifneq ("$(GITHOOKS)","")
 $(error $(GITHOOKS))
 endif
