@@ -1,5 +1,8 @@
 const extend = require('node.extend');
 const querystring = require('querystring');
+const { URL } = require('url');
+const path = require('path');
+const mkdirp = require('mkdirp');
 
 const defaultViewPortSize = {
 	width: 1280,
@@ -152,8 +155,8 @@ for (let viewport of viewports) {
 		const resultUrl = extend(true, {viewport: viewport}, url);
 
 		if (process.env.TEST_URL.includes('local')) {
-
-			const path = resultUrl.url.substring(resultUrl.url.lastIndexOf('/'));
+			const pathname = new URL(resultUrl.url).pathname;
+			const screenshotName = pathname.substring(1).replace(/\//g, '_');
 
 			let appFlags = 'no-flags';
 
@@ -162,7 +165,10 @@ for (let viewport of viewports) {
 				appFlags = flags.substring(0, flags.indexOf(DEFAULT_FLAGS) - 1);
 			}
 
-			resultUrl.screenCapture = `./pa11y_screenCapture/${viewport.width}x${viewport.height}/${appFlags}/${path || 'root'}.png`;
+			const folderName = `/pa11y_screenCapture/${viewport.width}x${viewport.height}-${appFlags}`;
+
+			mkdirp.sync(path.join(process.cwd(), folderName));
+			resultUrl.screenCapture = `.${folderName}/${screenshotName || 'root'}.png`;
 
 		}
 

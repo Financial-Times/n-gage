@@ -30,6 +30,7 @@
     "husky": "^0.14.3",
     "jsonfile": "^4.0.0",
     "lintspaces-cli": "^0.6.0",
+    "node-mkdirp": "0.0.1",
     "npm-prepublish": "^1.2.3",
     "postcss-sass": "^0.2.0",
     "stylelint": "^8.4.0",
