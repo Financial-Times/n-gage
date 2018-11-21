@@ -51,7 +51,7 @@ const config = {
 			'FT-Flags': DEFAULT_FLAGS
 		},
 		timeout: 50000,
-		wait: 300 || process.env.PA11Y_WAIT,
+		wait: process.env.PA11Y_WAIT || 300,
 		hideElements: 'iframe[src*=google],iframe[src*=proxy]',
 		rules: ['Principle1.Guideline1_3.1_3_1_AAA']
 	},
