@@ -1,7 +1,7 @@
 a11%: ## a11y: Check accessibility for this repository.
 a11%: _run_pa11y
-	pa11y-ci
+	@if [ -e .pa11yci.js ]; then pa11y-ci; fi
 	@$(DONE)
 
 _run_pa11y:
-	pa11y-ci
+	@if [ -e .pa11yci.js ]; then pa11y-ci; fi
