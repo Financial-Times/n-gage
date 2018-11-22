@@ -1,3 +1,7 @@
+#Must be above deplo%
+deploy-asset%:
+	@if [ -e public/asset-hashes.json ]; then nht deploy-hashed-assets --monitor-assets; fi
+
 deplo%: ## deploy: deploy the app to heroku
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
 	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
@@ -49,5 +53,5 @@ heroku-postbuil%:
 	npm update
 	@if [ -e bower.json ]; then $(BOWER_INSTALL); fi
 	make build-production
-	@if [ -e public/asset-hashes.json ]; then nht deploy-hashed-assets --monitor-assets; fi
+	make deploy-assets
 
