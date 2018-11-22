@@ -165,7 +165,7 @@ for (let viewport of viewports) {
 				appFlags = flags.substring(0, flags.indexOf(DEFAULT_FLAGS) - 1);
 			}
 
-			const folderName = `/pa11y_screenCapture/${viewport.width}x${viewport.height}-${appFlags}`;
+			const folderName = `/pa11y_screenCapture/${viewport.width}x${viewport.height}/${appFlags}`;
 
 			mkdirp.sync(path.join(process.cwd(), folderName));
 			resultUrl.screenCapture = `.${folderName}/${screenshotName || 'root'}.png`;
