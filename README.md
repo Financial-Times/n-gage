@@ -91,6 +91,16 @@ Multiple user types can be specified in the TEST_USER_TYPES variable.
 If you set `TEST_USER_TYPES` environment variable to `premium,standard`, these variables will be populated in the `.env` file:
 `PREMIUM_FTSession`, `PREMIUM_FTSession_s`, `STANDARD_FTSession`, `STANDARD_FTSession_s`
 
+### Pa11y environment variables
+
+| | |
+|---|---|
+| `PA11Y_WAIT` | The time to wait before running tests in milliseconds |
+| `PA11Y_ROUTE_EXCEPTIONS` | api_key for the lambda |
+| `PA11Y_ROUTE_HEADERS` | user types to get the tokens for (options: `premium`, `standard`, `expired`) |
+| `PA11Y_HIDE` | A CSS selector to hide elements from testing, selectors can be comma separated |
+| `PA11Y_VIEWPORTS` | Set viewports for puppeteer (`w1024h768,w375h667`) |
+
 ## Bootstrapping
 
 Curious how the bootstrapping bit at top of the `Makefile` works?  Here's the annotated code:
