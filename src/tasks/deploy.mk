@@ -44,3 +44,10 @@ gtg-review-app: review-app
 	nht gtg $(REVIEW_APP)
 
 test-review-app: gtg-review-app smoke a11y
+
+heroku-postbuil%:
+	npm update
+	@if [ -e bower.json ]; then $(BOWER_INSTALL); fi
+	make build-production
+	@if [ -e public/asset-hashes.json ]; then nht deploy-hashed-assets --monitor-assets; fi
+
