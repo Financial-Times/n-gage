@@ -37,7 +37,7 @@ review-app: tidy .review-app
 
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
-	nht configure $(VAULT_NAME) review-app --overrides FT_NEXT_BACKEND_KEY=null,FT_NEXT_BACKEND_KEY_OLD=null,NODE_ENV=branch
+	nht configure $(VAULT_NAME) review-app --overrides NODE_ENV=branch
 	@nht review-app $(VAULT_NAME) \
 		--repo-name $(CIRCLE_PROJECT_REPONAME) \
 		--branch $(CIRCLE_BRANCH) \
