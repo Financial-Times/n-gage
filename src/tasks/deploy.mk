@@ -8,11 +8,12 @@ deplo%: ## deploy: deploy the app to heroku
 # Reset repository so that the app deploys on rebuilds even though there is no code change
 	heroku repo:reset -a $(HEROKU_APP_STAGING)
 
+	@echo "Setting environment variables for $(HEROKU_APP_STAGING)..."
+	nht configure $(VAULT_NAME) $(HEROKU_APP_STAGING)
+
 	@echo "Deploying app to $(HEROKU_APP_STAGING)"
 	@git push https://git.heroku.com/$(HEROKU_APP_STAGING).git master
 
-	@echo "Setting environment variables for $(HEROKU_APP_STAGING)..."
-	nht configure $(VAULT_NAME) $(HEROKU_APP_STAGING)
 	heroku dyno:scale web=1 -a $(HEROKU_APP_STAGING)
 
 	nht gtg $(HEROKU_APP_STAGING)
