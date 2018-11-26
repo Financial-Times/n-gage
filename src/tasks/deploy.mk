@@ -52,9 +52,8 @@ test-review-app: gtg-review-app smoke a11y
 
 heroku-postbuil%:
 	npm update
-	npm install --only=dev
 	@if [ -e bower.json ]; then $(BOWER_INSTALL); fi
 	make build-production
 	make deploy-assets
-	npm prune --production
+	npm prune --production #Need to explicitly run this so review apps are the same as production apps
 
