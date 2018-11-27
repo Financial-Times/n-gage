@@ -20,13 +20,13 @@ deplo%: ## deploy: deploy the app to heroku
 
 	@n-test smoke -H https://$(HEROKU_APP_STAGING).herokuapp.com --header "FT-Next-Backend-Key: $(FT_NEXT_BACKEND_KEY)" --browsers "chrome"
 
-ifdef HEROKU_APP_EU
-	nht configure $(VAULT_NAME) $(HEROKU_APP_EU) --overrides REGION=EU
-endif
+	$(if $(HEROKU_APP_EU),\
+	  nht configure $(VAULT_NAME) $(HEROKU_APP_EU) --overrides REGION=EU \
+	)
 
-ifdef HEROKU_APP_US
-	nht configure $(VAULT_NAME) $(HEROKU_APP_US) --overrides REGION=US
-endif
+	$(if $(HEROKU_APP_US),\
+	  nht configure $(VAULT_NAME) $(HEROKU_APP_US) --overrides REGION=US \
+	)
 
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING)
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
