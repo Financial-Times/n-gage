@@ -2,7 +2,8 @@ module.exports = {
 	files: {
 		allow: [
 			'dotfiles/.stylelintrc',
-			'.*.mk'
+			'.*.mk',
+			'etc/logo.sketch'
 		],
 		allowOverrides: []
 	},
