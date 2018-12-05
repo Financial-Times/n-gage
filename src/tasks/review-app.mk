@@ -1,7 +1,7 @@
-tidy:
+tidy-review-app:
 	-rm .review-app
 
-review-app: tidy .review-app
+review-app: tidy-review-app .review-app
 
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
