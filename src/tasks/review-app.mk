@@ -15,4 +15,4 @@ review-app: tidy-review-app .review-app
 gtg-review-app: review-app
 	nht gtg $(REVIEW_APP)
 
-test-review-ap%: gtg-review-app smoke a11y
+test-review-app: gtg-review-app smoke a11y
