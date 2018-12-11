@@ -84,17 +84,6 @@ ASSERT_ANY_VAR_EXISTS = $(if $(findstring $(call _SORT_VARS_LIST,$1),$(call _MIS
 # the review app on heroku
 REVIEW_APP=$(shell cat .review-app)
 
-# url to smoke/a11y test. prefer test url set externally
-ifndef TEST_URL
-TEST_URL = $(if $(CIRCLE_BRANCH),\
-  http://$(REVIEW_APP).herokuapp.com,\
-  https://local.ft.com:5050\
-)
-endif
-
-# exported for pa11y-ci's benefit
-export TEST_URL
-
 #
 # META TASKS
 # (specially-named targets that enable certain Make behaviour)
