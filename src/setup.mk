@@ -78,12 +78,6 @@ ASSERT_ANY_VAR_EXISTS = $(if $(findstring $(call _SORT_VARS_LIST,$1),$(call _MIS
   $(call ERROR, $(call COLOR, At least one of the variables {cyan $(strip $1)} must be defined in your Makefile))\
 )
 
-# functions for testing review or local apps
-
-# this file is created by the `review-app` task. if it exists it contains the name of
-# the review app on heroku
-REVIEW_APP=$(shell cat .review-app)
-
 #
 # META TASKS
 # (specially-named targets that enable certain Make behaviour)
