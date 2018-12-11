@@ -15,7 +15,8 @@ review-app: tidy-review-app .review-app
 gtg-review-app: review-app
 	nht gtg $(REVIEW_APP)
 
+run-test-review-app: gtg-review-app
+	$(MAKE) smoke a11y
+
 test-review-ap%:
-	$(MAKE) gtg-review-app
-	TEST_URL="http://$$(cat .review-app).herokuapp.com" \
-		$(MAKE) smoke a11y
+	$(MAKE) run-test-review-app
