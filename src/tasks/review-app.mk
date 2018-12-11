@@ -1,5 +1,10 @@
+# this file is created by the `review-app` task. 
+# if it exists it contains the name of the review app
+# on heroku
+REVIEW_APP_FILE := .review-app
+
 tidy-review-app:
-	-rm .review-app
+	-rm $(REVIEW_APP_FILE)
 
 review-app: tidy-review-app .review-app
 
@@ -13,9 +18,10 @@ review-app: tidy-review-app .review-app
 		--github-token $(GITHUB_AUTH_TOKEN) > $@
 
 gtg-review-app: review-app
-	nht gtg $(REVIEW_APP)
+	nht gtg $$(cat $(REVIEW_APP_FILE))
 
-test-review-ap%:
-	make gtg-review-app
-	make smoke
-	make a11y
+test-review-ap%: # test-review-app: create and test a review app on heroku
+	$(MAKE) gtg-review-app
+	TEST_URL="http://$$(cat $(REVIEW_APP_FILE)).herokuapp.com" \
+		$(MAKE) smoke a11y
+	@$(DONE)
