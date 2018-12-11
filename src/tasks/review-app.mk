@@ -16,6 +16,6 @@ gtg-review-app: review-app
 	nht gtg $(REVIEW_APP)
 
 test-review-ap%:
-	make gtg-review-app
-	make smoke
-	make a11y
+	$(MAKE) gtg-review-app
+	$(MAKE) smoke
+	$(MAKE) a11y
