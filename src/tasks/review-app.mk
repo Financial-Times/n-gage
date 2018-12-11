@@ -24,3 +24,4 @@ test-review-ap%: # test-review-app: create and test a review app on heroku
 	$(MAKE) gtg-review-app
 	TEST_URL="http://$$(cat $(REVIEW_APP_FILE)).herokuapp.com" \
 		$(MAKE) smoke a11y
+	@$(DONE)
