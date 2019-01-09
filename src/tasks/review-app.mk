@@ -10,9 +10,11 @@ review-app: tidy-review-app .review-app
 
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
-	[ -z "$REVIEW_APP_CONFIGURE_OVERRIDES" ] \
-		&& nht configure $(VAULT_NAME) review-app --overrides NODE_ENV=branch || \
-		nht configure $(VAULT_NAME) review-app --overrides "$(REVIEW_APP_CONFIGURE_OVERRIDES)"
+ifdef REVIEW_APP_CONFIGURE_OVERRIDES
+	nht configure $(VAULT_NAME) review-app --overrides "$(REVIEW_APP_CONFIGURE_OVERRIDES)"
+else
+	nht configure $(VAULT_NAME) review-app --overrides NODE_ENV=branch
+endif
 	@nht review-app $(VAULT_NAME) \
 		--repo-name $(CIRCLE_PROJECT_REPONAME) \
 		--branch $(CIRCLE_BRANCH) \
