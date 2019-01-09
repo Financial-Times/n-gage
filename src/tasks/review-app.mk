@@ -10,6 +10,7 @@ review-app: tidy-review-app .review-app
 
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
+	@echo 'REVIEW_APP_CONFIGURE_OVERRIDES = $(REVIEW_APP_CONFIGURE_OVERRIDES)'
 ifdef REVIEW_APP_CONFIGURE_OVERRIDES
 	@echo 'Using nht configure overrides: $(REVIEW_APP_CONFIGURE_OVERRIDES)'
 	nht configure $(VAULT_NAME) review-app --overrides "$(REVIEW_APP_CONFIGURE_OVERRIDES)"
