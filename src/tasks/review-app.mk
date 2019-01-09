@@ -11,6 +11,7 @@ review-app: tidy-review-app .review-app
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
 ifdef REVIEW_APP_CONFIGURE_OVERRIDES
+	@echo 'Using nht configure overrides: $(REVIEW_APP_CONFIGURE_OVERRIDES)'
 	nht configure $(VAULT_NAME) review-app --overrides "$(REVIEW_APP_CONFIGURE_OVERRIDES)"
 else
 	nht configure $(VAULT_NAME) review-app --overrides NODE_ENV=branch
