@@ -42,7 +42,6 @@ deploy-canary: ## deploy-canary: deploy canary app to staging
 	nht configure $(VAULT_NAME) $(HEROKU_APP_CANARY) --overrides "FT_APP_VARIANT=canary" \
 
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING) --to $(HEROKU_APP_CANARY)
-	heroku ps:scale web=$(HEROKU_APP_CANARY_SCALE) -a $(HEROKU_APP_CANARY)
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
 
 deplo%: ## deploy: deploy the app to heroku
