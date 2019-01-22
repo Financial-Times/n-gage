@@ -1,6 +1,10 @@
-# n-gage
+<h1>
+	<img src="etc/header.svg" width="898" alt="n-gage">
+</h1>
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSf5InA7UJK9yNBCzidFKI_WNkfbl6of1eRlIACRspGXUcBx8A/viewform?usp=pp_url&entry.78759464=n-gage" target="_blank"><img src="https://i.imgur.com/UmScdZ4.png" alt="Yak button" border="0" align="right" width="150" title="Report a yak shaving incident for this repository"></a>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSf5InA7UJK9yNBCzidFKI_WNkfbl6of1eRlIACRspGXUcBx8A/viewform?usp=pp_url&entry.78759464=n-gage" target="_blank">
+	<img src="https://i.imgur.com/UmScdZ4.png" alt="Yak button" border="0" align="right" width="150" title="Report a yak shaving incident for this repository">
+</a>
 
 `n-gage` is in every Next project, giving a standard set of `make` tasks and `ngage` CLI to help with setting up, building and deployments.
 
@@ -134,3 +138,5 @@ node_modules/@financial-times/n-gage/index.mk:
 # it will just be included; if not, it will look for a task to run
 -include node_modules/@financial-times/n-gage/index.mk
 ```
+
+<img src="etc/footer.svg" width="898" alt="make it so">
