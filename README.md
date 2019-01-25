@@ -116,7 +116,7 @@ These variables should be declared in the `Makefile` to set up deployment tasks 
 | `HEROKU_APP_EU` | [Required] The main Heroku app or the EU Heroku app if it is a multi-region app eg, `ft-next-search-page-eu` for multi region or `ft-next-video-page` for single region |
 | `HEROKU_APP_US` | [Optional] The US Heroku app. Only needed if it is a multi region app |
 | `HEROKU_APP_CANARY` | [Optional] The canary Heroku app. Only needed if there is a canary app eg, `ft-next-preflight-canary` |
-| `HEROKU_APP_CANARY_SCALE` | Specify the number of dynos for the canary app. Only required if there is a canary app |
+| `HEROKU_APP_CANARY_SCALE` | [Optional] Canary apps only. Specify the number of web dynos for the canary app. If not specified, it will use the `HEROKU_APP_EU` scale configuration |
 | `REVIEW_APP_CONFIGURE_OVERRIDES` | [Optional] Override environment variables for the review apps. By default it is `NODE_ENV=branch`, so to add new ones add `REVIEW_APP_CONFIGURE_OVERRIDES="NODE_ENV=branch,OTHER_VAR=something"` |
 
 ## Bootstrapping
