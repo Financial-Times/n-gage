@@ -10,6 +10,8 @@ review-app: tidy-review-app .review-app
 
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
+	
+	# Configure the pipeline
 	$(if $(REVIEW_APP_CONFIGURE_OVERRIDES),\
 	  nht configure $(VAULT_NAME) review-app --overrides "$(REVIEW_APP_CONFIGURE_OVERRIDES)", \
 	  nht configure $(VAULT_NAME) review-app --overrides NODE_ENV=branch \
@@ -20,6 +22,12 @@ review-app: tidy-review-app .review-app
 		--branch $(CIRCLE_BRANCH) \
 		--commit $(CIRCLE_SHA1) \
 		--github-token $(GITHUB_AUTH_TOKEN) > $@
+
+	# Configure the review app
+	$(if $(REVIEW_APP_CONFIGURE_OVERRIDES),\
+	  nht configure $(VAULT_NAME) $$(cat $(REVIEW_APP_FILE)) --overrides "$(REVIEW_APP_CONFIGURE_OVERRIDES)", \
+	  nht configure $(VAULT_NAME) $$(cat $(REVIEW_APP_FILE)) --overrides NODE_ENV=branch \
+	)
 
 gtg-review-app: review-app
 	nht gtg $$(cat $(REVIEW_APP_FILE))
