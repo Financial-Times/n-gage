@@ -1,8 +1,12 @@
 #Must be above deplo%
 deploy-asset%:
-	@if [ -e public/asset-hashes.json ] && [ -e anvil.config.js ]; then nht deploy-hashed-assets --monitor-assets --app anvil; fi
-	@if [ -e public/asset-hashes.json ] && [ -e n-ui-build.config.js ]; then nht deploy-hashed-assets --monitor-assets; fi
-
+ifeq (, $([-e public/asset-hashes.json]))
+ifeq (, $([-e anvil.config.js]))
+  nht deploy-hashed-assets --monitor-assets --app anvil
+else
+  nht deploy-hashed-assets --monitor-assets
+endif
+endif
 
 #Must be above deplo%
 deploy-production: ## deploy-production: deploy staging to production eu and us apps. Also scale down canary app
