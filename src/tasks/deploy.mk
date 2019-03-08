@@ -2,9 +2,9 @@
 deploy-asset%:
 ifeq (, $([-e public/asset-hashes.json]))
 ifeq (, $([-e anvil.config.js]))
-  nht deploy-hashed-assets --monitor-assets --app anvil
+	nht deploy-hashed-assets --monitor-assets --app anvil
 else
-  nht deploy-hashed-assets --monitor-assets
+	nht deploy-hashed-assets --monitor-assets
 endif
 endif
 
