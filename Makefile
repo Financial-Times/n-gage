@@ -29,6 +29,10 @@ integration-test-%: $(fixture-base)/%
 # run a handful of standard next make commands in the fixture folder using the `-C DIRECTORY` option
 	$(MAKE) -C $< install build
 
+# ensure the folders have some basic things we would expect from install
+	[ -d $</node_modules ]
+	[ -f $</.editorconfig ]
+
 integration-test: $(fixture-targets)
 
 clean-fixtures:
