@@ -7,11 +7,8 @@ const config = {
 		'node': true
 	},
 	'parserOptions': {
-		'ecmaVersion': 2017,
-		'sourceType': 'module',
-		'ecmaFeatures': {
-			'experimentalObjectRestSpread': true
-		}
+		'ecmaVersion': 2018,
+		'sourceType': 'module'
 	},
 	'rules': {
 		'eqeqeq': 'error',
