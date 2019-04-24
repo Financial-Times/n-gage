@@ -28,7 +28,7 @@
     "chalk-cli": "^4.1.0",
     "eslint": "^5.0.0",
     "eslint-plugin-no-only-tests": "^2.0.0",
-    "husky": "^0.14.3",
+    "husky": "^2.0.0",
     "jsonfile": "^4.0.0",
     "lintspaces-cli": "^0.6.0",
     "mkdirp": "^0.5.1",
