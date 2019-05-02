@@ -4,13 +4,6 @@ const path = require('path');
 const os = require('os');
 const appendSessionTokens = require('../append-session-tokens');
 
-const {ADDITIONAL_VAULT_ENVIRONMENTS} = process.env;
-const envChoices = ['dev', 'prod', 'ci', 'test'];
-
-if (ADDITIONAL_VAULT_ENVIRONMENTS) {
-	envChoices.push(...ADDITIONAL_VAULT_ENVIRONMENTS.split(','))
-}
-
 exports.command = 'get-config';
 exports.describe = 'get environment variables from Vault';
 
@@ -30,9 +23,9 @@ exports.builder = yargs => (yargs
 		}
 	})())
 	.option('env', {
-		choices: envChoices,
+		choices: ['dev', 'prod', 'ci', 'test'],
 		default: 'dev'
-  	})
+  })
 	.option('filename', {
 		coerce: value => typeof value === 'string' ? value : '.env',
 		default: '.env'
