@@ -13,6 +13,7 @@ const config = {
 	'rules': {
 		'eqeqeq': 'error',
 		'guard-for-in': 'error',
+		'indent': ['error', 'tab'],
 		'new-cap': 'off',
 		'no-caller': 'error',
 		'no-console': 'error',
@@ -20,6 +21,7 @@ const config = {
 		'no-irregular-whitespace': 'error',
 		'no-loop-func': 'error',
 		'no-multi-spaces': 'error',
+		'no-trailing-spaces': 'error',
 		'no-undef': 'error',
 		'no-underscore-dangle': 'off',
 		'no-unused-vars': 'error',
