@@ -13,7 +13,7 @@ const config = {
 	'rules': {
 		'eqeqeq': 'error',
 		'guard-for-in': 'error',
-		'indent': ['error', 'tab'],
+		'indent': ['error', 'tab', {'SwitchCase': 1}],
 		'new-cap': 'off',
 		'no-caller': 'error',
 		'no-console': 'error',
