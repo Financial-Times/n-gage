@@ -1,4 +1,4 @@
-# this file is created by the `review-app` task. 
+# this file is created by the `review-app` task.
 # if it exists it contains the name of the review app
 # on heroku
 REVIEW_APP_FILE := .review-app
@@ -10,7 +10,7 @@ review-app: tidy-review-app .review-app
 
 .review-app:
 	@echo 'Creating review app for $(VAULT_NAME)'
-	
+
 	# Configure the pipeline
 	$(if $(REVIEW_APP_CONFIGURE_OVERRIDES),\
 	  nht configure $(VAULT_NAME) review-app --overrides "$(REVIEW_APP_CONFIGURE_OVERRIDES)", \
@@ -34,7 +34,7 @@ gtg-review-app: review-app
 
 test-review-ap%: # test-review-app: create and test a review app on heroku. To override custom environment variables when running `nht configure`, add `REVIEW_APP_CONFIGURE_OVERRIDES="NODE_ENV=branch,OTHER_VAR=something" to the Makefile`
 	$(MAKE) gtg-review-app
-	TEST_URL="http://$$(cat $(REVIEW_APP_FILE)).herokuapp.com" \
+	TEST_URL="https://$$(cat $(REVIEW_APP_FILE)).herokuapp.com" \
 		$(MAKE) smoke a11y
 	# Destroy review app if it passes tests on the master branch
 ifeq ($(CIRCLE_BRANCH),master)
