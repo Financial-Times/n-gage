@@ -85,6 +85,20 @@ deplo%: ## deploy: deploy the app to heroku
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING)
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
 
+	curl \
+  		--header "Content-Type: application/json" \
+  		--header "x-api-key: $(CHANGE_API_KEY)" \
+		--request POST \
+  		--data "{ \
+			\"user\": { \
+				\"githubName\": \"$(CIRCLE_USERNAME)\" \
+			}, \
+			\"environment\": \"production\", \
+			\"systemCode\": \"$(VAULT_NAME)\", \
+			\"commit\": \"$(CIRCLE_SHA1)\" \
+		}" \
+		https://api.ft.com/change-log/v1/create
+
 heroku-postbuil%:
 	npm update
 	@if [ -e bower.json ]; then $(BOWER_INSTALL); fi
