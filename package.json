@@ -34,7 +34,7 @@
     "lintspaces-cli": "^0.7.0",
     "mkdirp": "^0.5.1",
     "npm-prepublish": "^1.2.3",
-    "postcss-sass": "^0.2.0",
+    "postcss-sass": "^0.4.0",
     "stylelint": "^8.4.0",
     "stylelint-order": "^0.8.0",
     "stylelint-scss": "^2.2.0",
