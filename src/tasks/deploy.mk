@@ -1,8 +1,8 @@
 #Must be above deplo%
 deploy-asset%:
 	@if [ -e public/asset-hashes.json ]; then\
-		if [ -e anvil.config.js ]; then\
-			nht deploy-hashed-assets --monitor-assets --app anvil;\
+		if [ -e page-kit.config.js ]; then\
+			nht deploy-hashed-assets --monitor-assets --manifest-file manifest.json --destination-directory page-kit;\
 		else\
 			nht deploy-hashed-assets --monitor-assets;\
 		fi;\
