@@ -23,6 +23,8 @@ deploy-production: ## deploy-production: deploy staging to production eu and us 
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING) --to $(HEROKU_APP_EU),$(HEROKU_APP_US)
 	heroku ps:scale web=0 -a $(HEROKU_APP_CANARY)
 
+	$(MAKE) change-api
+
 #Must be above deplo%
 deploy-canary: ## deploy-canary: deploy canary app to staging
 	@echo "Checking for existing canary app..."
@@ -56,6 +58,8 @@ deploy-canary: ## deploy-canary: deploy canary app to staging
 	)
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
 
+	$(MAKE) change-api
+
 deplo%: ## deploy: deploy the app to heroku
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
 	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
@@ -84,6 +88,23 @@ deplo%: ## deploy: deploy the app to heroku
 
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING)
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
+
+	$(MAKE) change-api
+
+change-api:
+	curl \
+  		--header "Content-Type: application/json" \
+  		--header "x-api-key: $(CHANGE_API_KEY)" \
+		--request POST \
+  		--data "{ \
+			\"user\": { \
+				\"githubName\": \"$(CIRCLE_USERNAME)\" \
+			}, \
+			\"environment\": \"production\", \
+			\"systemCode\": \"$(VAULT_NAME)\", \
+			\"commit\": \"$(CIRCLE_SHA1)\" \
+		}" \
+		https://api.ft.com/change-log/v1/create
 
 heroku-postbuil%:
 	npm update
