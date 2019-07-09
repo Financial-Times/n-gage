@@ -36,7 +36,7 @@
     "npm-prepublish": "^1.2.3",
     "postcss-sass": "^0.4.0",
     "stylelint": "^10.0.0",
-    "stylelint-order": "^0.8.0",
+    "stylelint-order": "^3.0.0",
     "stylelint-scss": "^2.2.0",
     "yargs": "^10.0.3"
   },
