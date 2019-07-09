@@ -101,7 +101,7 @@ change-api:
 				\"githubName\": \"$(CIRCLE_USERNAME)\" \
 			}, \
 			\"environment\": \"production\", \
-			\"systemCode\": \"$(VAULT_NAME)\", \
+			\"systemCode\": \"$(CIRCLE_PROJECT_REPONAME)\", \
 			\"commit\": \"$(CIRCLE_SHA1)\" \
 		}" \
 		https://api.ft.com/change-log/v1/create
