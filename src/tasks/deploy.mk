@@ -1,11 +1,11 @@
 #Must be above deplo%
-deploy-asset%:
+deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3 based on the contents of a manifest file
+	@if [ -e public/manifest.json ]; then\
+		nht deploy-hashed-assets --monitor-assets --manifest-file manifest.json --destination-directory page-kit;\
+	fi
+
 	@if [ -e public/asset-hashes.json ]; then\
-		if [ -e page-kit.config.js ]; then\
-			nht deploy-hashed-assets --monitor-assets --manifest-file manifest.json --destination-directory page-kit;\
-		else\
-			nht deploy-hashed-assets --monitor-assets;\
-		fi;\
+		nht deploy-hashed-assets --monitor-assets;\
 	fi
 
 #Must be above deplo%
