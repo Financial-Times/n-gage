@@ -7,32 +7,31 @@ const config = {
 		'node': true
 	},
 	'parserOptions': {
-		'ecmaVersion': 2017,
-		'sourceType': 'module',
-		'ecmaFeatures': {
-			'experimentalObjectRestSpread': true
-		}
+		'ecmaVersion': 2018,
+		'sourceType': 'module'
 	},
 	'rules': {
-		'eqeqeq': 2,
-		'guard-for-in': 2,
-		'new-cap': 0,
-		'no-caller': 2,
-		'no-console': 2,
-		'no-extend-native': 2,
-		'no-irregular-whitespace': 2,
-		'no-loop-func': 2,
-		'no-multi-spaces': 2,
-		'no-return-await': 1,
-		'no-undef': 2,
-		'no-underscore-dangle': 0,
-		'no-unused-vars': 2,
-		'no-var': 2,
-		'one-var': [2, 'never'],
-		'quotes': [2, 'single'],
-		'semi': [1, 'always'],
-		'space-before-function-paren': [2, 'always'],
-		'wrap-iife': 2
+		'eqeqeq': 'error',
+		'guard-for-in': 'error',
+		'indent': ['error', 'tab', {'SwitchCase': 1}],
+		'new-cap': 'off',
+		'no-caller': 'error',
+		'no-console': 'error',
+		'no-extend-native': 'error',
+		'no-irregular-whitespace': 'error',
+		'no-loop-func': 'error',
+		'no-multi-spaces': 'error',
+		'no-return-await': 'warning',
+		'no-trailing-spaces': 'error',
+		'no-undef': 'error',
+		'no-underscore-dangle': 'off',
+		'no-unused-vars': 'error',
+		'no-var': 'error',
+		'one-var': ['error', 'never'],
+		'quotes': ['error', 'single'],
+		'semi': ['warn', 'always'],
+		'space-before-function-paren': ['error', 'always'],
+		'wrap-iife': 'error'
 	},
 	'globals': {
 		'cy': true,
@@ -49,19 +48,21 @@ const config = {
 		{
 			'files': [ 'test/**/*.js', 'tests/**/*.js' ],
 			'rules': {
-				'no-only-tests/no-only-tests': 2
+				'no-only-tests/no-only-tests': 'error'
 			}
 		}
-	]
+	],
+	'settings' : {}
 };
 
 const packageJson = require('./package.json');
 
 const packageJsonContainsPackage = packageName => {
-	const { dependencies, devDependencies} = packageJson;
+	const { dependencies, devDependencies, peerDependencies } = packageJson;
 	return (
 		(dependencies && dependencies[packageName])
 		|| (devDependencies && devDependencies[packageName])
+		|| (peerDependencies && peerDependencies[packageName])
 	)
 }
 
@@ -70,10 +71,10 @@ if ((packageJsonContainsPackage('react') || packageJsonContainsPackage('preact')
 	config.extends.push('plugin:react/recommended');
 
 	Object.assign(config.rules, {
-		'react/display-name': 0,
-		'react/prop-types': 0,
-		'react/no-danger': 0,
-		'react/no-render-return-value': 0
+		'react/display-name': 'off',
+		'react/prop-types': 'off',
+		'react/no-danger': 'off',
+		'react/no-render-return-value': 'off'
 	});
 }
 
@@ -86,6 +87,7 @@ if (packageJson && packageJson.eslintConfig) {
 	Object.assign(config.parserOptions, packageJson.eslintConfig.parserOptions);
 	Object.assign(config.rules, packageJson.eslintConfig.rules);
 	Object.assign(config.globals, packageJson.eslintConfig.globals);
+	Object.assign(config.settings, packageJson.eslintConfig.settings);
 }
 
 module.exports = config;

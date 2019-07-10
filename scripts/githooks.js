@@ -34,8 +34,8 @@ const addScript = (json, config) => {
 const addScripts = () => {
 	const json = getPackageJson();
 	const newJson = [
-		{ name: 'precommit', value: 'node_modules/.bin/secret-squirrel' },
-		{ name: 'commitmsg', value: 'node_modules/.bin/secret-squirrel-commitmsg' },
+		{ name: 'precommit', value: 'secret-squirrel' },
+		{ name: 'commitmsg', value: 'secret-squirrel-commitmsg' },
 		{ name: 'prepush', value: 'make verify -j3' }
 	].reduce((returnObject, row) => addScript(returnObject, row), json);
 	return newJson;
@@ -59,12 +59,12 @@ const find = test => {
 
 const secretSquirrelPreCommitScriptExists = () => {
 	const json = getPackageJson();
-	return find(() => json.scripts.precommit.indexOf('node_modules/.bin/secret-squirrel') !== -1);
+	return find(() => json.scripts.precommit.indexOf('secret-squirrel') !== -1);
 };
 
 const secretSquirrelCommitmsgScriptExists = () => {
 	const json = getPackageJson();
-	return find(() => json.scripts.commitmsg.indexOf('node_modules/.bin/secret-squirrel-commitmsg') !== -1);
+	return find(() => json.scripts.commitmsg.indexOf('secret-squirrel-commitmsg') !== -1);
 };
 
 const preGitHookExists = () => {
