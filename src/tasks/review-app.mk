@@ -4,7 +4,7 @@
 REVIEW_APP_FILE := .review-app
 
 tidy-review-app:
-	-rm $(REVIEW_APP_FILE)
+	rm -f $(REVIEW_APP_FILE)
 
 review-app: tidy-review-app .review-app
 
