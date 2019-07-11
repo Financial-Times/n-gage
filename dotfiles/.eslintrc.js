@@ -21,7 +21,7 @@ const config = {
 		'no-irregular-whitespace': 'error',
 		'no-loop-func': 'error',
 		'no-multi-spaces': 'error',
-		'no-return-await': 'warning',
+		'no-return-await': 'warn',
 		'no-trailing-spaces': 'error',
 		'no-undef': 'error',
 		'no-underscore-dangle': 'off',
