@@ -95,15 +95,13 @@ change-api:
 	@echo "Saving deployment to the Change API..."
 	@curl -s \
 		--header "Content-Type: application/json" \
-		--header "x-api-key: $(CHANGE_API_KEY)" \
+		--header "X-Api-Key: $(CHANGE_API_KEY)" \
 		--request POST \
 		--data "{ \
-			\"user\": { \
-				\"githubName\": \"$(CIRCLE_USERNAME)\" \
-			}, \
+			\"user\": { \"githubName\": \"$(CIRCLE_USERNAME)\" }, \
 			\"environment\": \"production\", \
 			\"systemCode\": \"$(shell curl -s https://next-registry.ft.com/v2/ | jq -r ".[] | select(.repository == \"https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}\") | .code")\", \
-			\"gitRepositoryName\": \"$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME)\", \ 
+			\"gitRepositoryName\": \"$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME)\", \
 			\"commit\": \"$(CIRCLE_SHA1)\" \
 		}" \
 		https://api.ft.com/change-log/v1/create
