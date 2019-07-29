@@ -92,7 +92,8 @@ deplo%: ## deploy: deploy the app to heroku
 	$(MAKE) change-api
 
 change-api:
-	curl \
+	@$(LOG "Saving deployment to the Change API...")
+	@curl \
 		--header "Content-Type: application/json" \
 		--header "x-api-key: $(CHANGE_API_KEY)" \
 		--request POST \
@@ -106,6 +107,7 @@ change-api:
 			\"commit\": \"$(CIRCLE_SHA1)\" \
 		}" \
 		https://api.ft.com/change-log/v1/create
+	@$(DONE)
 
 heroku-postbuil%:
 	npm update
