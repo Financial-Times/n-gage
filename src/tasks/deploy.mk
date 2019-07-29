@@ -92,8 +92,8 @@ deplo%: ## deploy: deploy the app to heroku
 	$(MAKE) change-api
 
 change-api:
-	@$(LOG "Saving deployment to the Change API...")
-	@curl \
+	@echo "Saving deployment to the Change API..."
+	@curl -s \
 		--header "Content-Type: application/json" \
 		--header "x-api-key: $(CHANGE_API_KEY)" \
 		--request POST \
@@ -102,7 +102,7 @@ change-api:
 				\"githubName\": \"$(CIRCLE_USERNAME)\" \
 			}, \
 			\"environment\": \"production\", \
-			\"systemCode\": \"$(shell curl https://next-registry.ft.com/v2/ | jq ".[] | select(.repository == \"https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}\") | .code")\", \
+			\"systemCode\": \"$(shell curl -s https://next-registry.ft.com/v2/ | jq -r ".[] | select(.repository == \"https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}\") | .code")\", \
 			\"gitRepositoryName\": \"$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME)\", \ 
 			\"commit\": \"$(CIRCLE_SHA1)\" \
 		}" \
