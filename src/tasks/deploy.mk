@@ -101,8 +101,8 @@ change-api:
 				\"githubName\": \"$(CIRCLE_USERNAME)\" \
 			}, \
 			\"environment\": \"production\", \
-			\"systemCode\": \"$(shell curl https://next-registry.ft.com/v2/ | jq ".[] | select(.repository == \"https://github.com/${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}\") | .code")\", \
-			\"gitRepositoryName\": \"$(CIRCLE_USERNAME)/$(CIRCLE_PROJECT_REPONAME)\", \ 
+			\"systemCode\": \"$(shell curl https://next-registry.ft.com/v2/ | jq ".[] | select(.repository == \"https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}\") | .code")\", \
+			\"gitRepositoryName\": \"$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME)\", \ 
 			\"commit\": \"$(CIRCLE_SHA1)\" \
 		}" \
 		https://api.ft.com/change-log/v1/create
