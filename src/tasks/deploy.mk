@@ -92,19 +92,22 @@ deplo%: ## deploy: deploy the app to heroku
 	$(MAKE) change-api
 
 change-api:
-	curl \
-  		--header "Content-Type: application/json" \
-  		--header "x-api-key: $(CHANGE_API_KEY)" \
+	@$(LOG "Saving deployment to the Change API...")
+	@curl \
+		--header "Content-Type: application/json" \
+		--header "x-api-key: $(CHANGE_API_KEY)" \
 		--request POST \
-  		--data "{ \
+		--data "{ \
 			\"user\": { \
 				\"githubName\": \"$(CIRCLE_USERNAME)\" \
 			}, \
 			\"environment\": \"production\", \
-			\"systemCode\": \"$(CIRCLE_PROJECT_REPONAME)\", \
+			\"systemCode\": \"$(shell curl https://next-registry.ft.com/v2/ | jq ".[] | select(.repository == \"https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}\") | .code")\", \
+			\"gitRepositoryName\": \"$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME)\", \ 
 			\"commit\": \"$(CIRCLE_SHA1)\" \
 		}" \
 		https://api.ft.com/change-log/v1/create
+	@$(DONE)
 
 heroku-postbuil%:
 	npm update
@@ -112,4 +115,3 @@ heroku-postbuil%:
 	make build-production
 	make deploy-assets
 	npm prune --production #Need to explicitly run this so review apps are the same as production apps
-
