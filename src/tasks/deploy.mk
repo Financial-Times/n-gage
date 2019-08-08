@@ -60,10 +60,10 @@ deploy-canary: ## deploy-canary: deploy canary app to staging
 
 	$(MAKE) change-api
 
-deplo%: ## deploy: deploy the app to heroku
+deploy-staging: ## deploy-staging: deploy the app to staging.
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
 	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
-# Reset repository so that the app deploys on rebuilds even though there is no code change
+	# Reset repository so that the app deploys on rebuilds even though there is no code change
 	heroku repo:reset -a $(HEROKU_APP_STAGING)
 
 	@echo "Setting environment variables for $(HEROKU_APP_STAGING)..."
@@ -78,6 +78,10 @@ deplo%: ## deploy: deploy the app to heroku
 
 	@n-test smoke -H http://$(HEROKU_APP_STAGING).herokuapp.com --header "FT-Next-Backend-Key: $(FT_NEXT_BACKEND_KEY)" --browsers "chrome"
 
+deploy-promote: ## deploy-promote: promote the staging app to production.
+	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
+	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
+
 	$(if $(HEROKU_APP_EU),\
 	  nht configure $(VAULT_NAME) $(HEROKU_APP_EU) --overrides REGION=EU \
 	)
@@ -90,6 +94,10 @@ deplo%: ## deploy: deploy the app to heroku
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
 
 	$(MAKE) change-api
+
+deplo%: ## deploy: deploy the app to heroku
+	$(MAKE) deploy-staging
+	$(MAKE) deploy-promote
 
 change-api:
 	@echo "Saving deployment to the Change API..."
