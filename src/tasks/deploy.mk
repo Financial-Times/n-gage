@@ -78,10 +78,6 @@ deploy-staging: ## deploy-staging: deploy the app to staging.
 
 	@n-test smoke -H http://$(HEROKU_APP_STAGING).herokuapp.com --header "FT-Next-Backend-Key: $(FT_NEXT_BACKEND_KEY)" --browsers "chrome"
 
-deploy-promote: ## deploy-promote: promote the staging app to production.
-	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
-	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
-
 	$(if $(HEROKU_APP_EU),\
 	  nht configure $(VAULT_NAME) $(HEROKU_APP_EU) --overrides REGION=EU \
 	)
@@ -89,6 +85,9 @@ deploy-promote: ## deploy-promote: promote the staging app to production.
 	$(if $(HEROKU_APP_US),\
 	  nht configure $(VAULT_NAME) $(HEROKU_APP_US) --overrides REGION=US \
 	)
+
+deploy-promote: ## deploy-promote: promote the staging app to production.
+	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING)
 
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING)
 	heroku dyno:scale web=0 -a $(HEROKU_APP_STAGING)
