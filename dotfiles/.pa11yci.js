@@ -52,7 +52,7 @@ const config = {
 		},
 		timeout: 50000,
 		wait: process.env.PA11Y_WAIT || 300,
-		hideElements: 'iframe[src*=google],iframe[src*=proxy]',
+		hideElements: 'iframe[src*=google],iframe[src*=proxy],iframe[src*=doubleclick],',
 		rules: ['Principle1.Guideline1_3.1_3_1_AAA']
 	},
 	urls: []
