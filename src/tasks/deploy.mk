@@ -63,7 +63,7 @@ deploy-canary: ## deploy-canary: deploy canary app to staging
 deploy-staging: ## deploy-staging: deploy the app to staging.
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
 	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
-	# Reset repository so that the app deploys on rebuilds even though there is no code change
+# Reset repository so that the app deploys on rebuilds even though there is no code change
 	heroku repo:reset -a $(HEROKU_APP_STAGING)
 
 	@echo "Setting environment variables for $(HEROKU_APP_STAGING)..."
