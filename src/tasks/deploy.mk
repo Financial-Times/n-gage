@@ -7,7 +7,7 @@ deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3 b
 			.circleci/shared-helpers/helper-upload-assets-to-s3 \
 		else \
 			echo "Could not find the shared-helpers directory" \
-		fi
+		fi \
 	else \
 		echo "Could not find a manifest.json" \
 	fi
