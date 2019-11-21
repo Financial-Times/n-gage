@@ -2,14 +2,14 @@
 deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3 based on the contents of a manifest file
 	@if [ -e public/manifest.json ]; then \
 		if [ -e .circleci/shared-helpers ]; then \
-			.circleci/shared-helpers/helper-install-awscli \
-			.circleci/shared-helpers/helper-configure-awscli $(aws_access_hashed_assets) $(aws_secret_hashed_assets) \
-			.circleci/shared-helpers/helper-upload-assets-to-s3 public hashed-assets/page-kit \
+			.circleci/shared-helpers/helper-install-awscli; \
+			&& .circleci/shared-helpers/helper-configure-awscli $(aws_access_hashed_assets) $(aws_secret_hashed_assets); \
+			&& .circleci/shared-helpers/helper-upload-assets-to-s3 public hashed-assets/page-kit; \
 		else \
-			echo "Could not find the shared-helpers directory" \
+			echo "Could not find the shared-helpers directory"; \
 		fi \
 	else \
-		echo "Could not find a manifest.json" \
+		echo "Could not find a manifest.json"; \
 	fi
 
 	@if [ -e public/asset-hashes.json ]; then \
