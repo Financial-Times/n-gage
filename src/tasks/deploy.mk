@@ -4,7 +4,7 @@ deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3 b
 		if [ -e .circleci/shared-helpers ]; then \
 			.circleci/shared-helpers/helper-install-awscli \
 			.circleci/shared-helpers/helper-configure-awscli $(aws_access_hashed_assets) $(aws_secret_hashed_assets) \
-			.circleci/shared-helpers/helper-upload-assets-to-s3 \
+			.circleci/shared-helpers/helper-upload-assets-to-s3 public hashed-assets/page-kit \
 		else \
 			echo "Could not find the shared-helpers directory" \
 		fi \
