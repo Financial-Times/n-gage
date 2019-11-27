@@ -1,11 +1,22 @@
 #Must be above deplo%
-deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3 based on the contents of a manifest file
-	@if [ -e public/manifest.json ]; then\
-		nht deploy-hashed-assets --monitor-assets --manifest-file manifest.json --assets-are-hashed --destination-directory page-kit;\
+deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3
+	@if [ -e public/manifest.json ]; then \
+		nht upload-assets-to-s3 \
+			--accessKeyId=$(aws_access_hashed_assets) \
+			--secretAccessKey=$(aws_secret_hashed_assets) \
+			--directory="public" \
+			--bucket="ft-next-hashed-assets-prod" \
+			--destination="hashed-assets/page-kit" \
+		&& nht upload-assets-to-s3 \
+			--accessKeyId=$(aws_access_hashed_assets) \
+			--secretAccessKey=$(aws_secret_hashed_assets) \
+			--directory="public" \
+			--bucket="ft-next-hashed-assets-prod-us" \
+			--destination="hashed-assets/page-kit"; \
 	fi
 
-	@if [ -e public/asset-hashes.json ]; then\
-		nht deploy-hashed-assets --monitor-assets;\
+	@if [ -e public/asset-hashes.json ]; then \
+		nht deploy-hashed-assets --monitor-assets; \
 	fi
 
 #Must be above deplo%
