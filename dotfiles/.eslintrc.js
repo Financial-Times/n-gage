@@ -46,7 +46,7 @@ const config = {
 	'extends': [],
 	'overrides': [
 		{
-			'files': [ 'test/**/*.js', 'tests/**/*.js' ],
+			'files': [ 'test/**/*.js', 'tests/**/*.js', 'cypress/**/*.js' ],
 			'rules': {
 				'no-only-tests/no-only-tests': 'error'
 			}
