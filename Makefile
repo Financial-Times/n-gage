@@ -13,7 +13,7 @@ install:
 test: unit-test integration-test
 
 fixture-base = test/fixtures
-fixture-repos = next-article n-ui next-myft-email
+fixture-repos = next-article next-myft-email
 fixture-targets = $(addprefix integration-test-, $(fixture-repos))
 fixture-folders = $(addprefix $(fixture-base)/, $(fixture-repos))
 ngage-path = $(realpath index.mk)
