@@ -1,7 +1,6 @@
 buil%: ## build: Build this repository.
 buil%: ## build-production: Build this repository for production.
 buil%: public/__about.json
-	@if [ -e webpack.config.js ]; then $(MAKE) $(subst build,assets,$@); fi
 	@$(DONE)
 
 # BUILD SUB-TASKS
