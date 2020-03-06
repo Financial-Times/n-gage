@@ -62,7 +62,7 @@ const find = test => {
 
 const huskyConfigNeedsUpgrade = () => {
 	const { scripts } = getPackageJson();
-	return Boolean(scripts && (scripts.precommit || scripts.commitmsg || scripts.commitmsg));
+	return Boolean(scripts && (scripts.precommit || scripts.commitmsg || scripts.prepush));
 };
 
 const secretSquirrelPreCommitScriptExists = () => {
