@@ -73,29 +73,26 @@ const preGitHookExists = () => {
 };
 
 const run = () => {
-	return new Promise(resolve => {
-		var response = '';
+	var response = '';
 
-		// Only run locally (not in CI)
-		if (process.env.CIRCLECI) {
-			return resolve(response);
-		}
+	// Only run locally (not in CI)
+	if (process.env.CIRCLECI) {
+		return response;
+	}
 
-		if (!secretSquirrelPreCommitScriptExists() || !secretSquirrelCommitmsgScriptExists()) {
-			writePackageJsonFile(addScripts);
-			response += 'It added some githook scripts. ';
-		};
-		if (preGitHookExists()) {
-			writePackageJsonFile(removePreGitHooks);
-			response += 'It deleted some config > pre-git hooks. IMPORTANT: Delete the old local hooks with: "rm -rf .git/hooks/*" ';
-		};
-		if (response !== '') {
-			response = `✗ Note: n-gage just edited package.json. ${response} Please review and commit`;
-		}
-		return resolve(response);
-	});
+	if (!secretSquirrelPreCommitScriptExists() || !secretSquirrelCommitmsgScriptExists()) {
+		writePackageJsonFile(addScripts);
+		response += 'It added some githook scripts. ';
+	};
+	if (preGitHookExists()) {
+		writePackageJsonFile(removePreGitHooks);
+		response += 'It deleted some config > pre-git hooks. IMPORTANT: Delete the old local hooks with: "rm -rf .git/hooks/*" ';
+	};
+	if (response !== '') {
+		response = `✗ Note: n-gage just edited package.json. ${response} Please review and commit`;
+	}
+	return response;
 }
 
-run().then(response => {
-	console.log(response)
-});
+const response = run();
+console.log(response);
