@@ -18,15 +18,18 @@ const addScript = (json, config) => {
 	const name = config.name;
 	const value = config.value;
 	const newJson = JSON.parse(JSON.stringify(json));
-	if (!newJson.scripts) {
-		newJson.scripts = {};
+	if (!newJson.husky) {
+		newJson.husky = {};
+	}
+	if (!newJson.husky.hooks) {
+		newJson.husky.hooks = {};
 	}
 
-	if (!newJson.scripts[name]) {
-		newJson.scripts[name] = value;
+	if (!newJson.husky.hooks[name]) {
+		newJson.husky.hooks[name] = value;
 	}
-	else if (newJson.scripts[name].indexOf(value) === -1) {
-		newJson.scripts[name] = `${newJson.scripts[name]} && ${value}`;
+	else if (newJson.husky.hooks[name].indexOf(value) === -1) {
+		newJson.husky.hooks[name] = `${newJson.husky.hooks[name]} && ${value}`;
 	}
 	return newJson;
 }
@@ -34,9 +37,9 @@ const addScript = (json, config) => {
 const addScripts = () => {
 	const json = getPackageJson();
 	const newJson = [
-		{ name: 'precommit', value: 'secret-squirrel' },
-		{ name: 'commitmsg', value: 'secret-squirrel-commitmsg' },
-		{ name: 'prepush', value: 'make verify -j3' }
+		{ name: 'pre-commit', value: 'secret-squirrel' },
+		{ name: 'commit-msg', value: 'secret-squirrel-commitmsg' },
+		{ name: 'pre-push', value: 'make verify -j3' }
 	].reduce((returnObject, row) => addScript(returnObject, row), json);
 	return newJson;
 }
@@ -64,12 +67,20 @@ const huskyConfigNeedsUpgrade = () => {
 
 const secretSquirrelPreCommitScriptExists = () => {
 	const json = getPackageJson();
-	return find(() => json.scripts.precommit.indexOf('secret-squirrel') !== -1);
+	try {
+		return find(() => json.husky.hooks['pre-commit'].indexOf('secret-squirrel') !== -1);
+	} catch (e) {
+		return false;
+	}
 };
 
 const secretSquirrelCommitmsgScriptExists = () => {
 	const json = getPackageJson();
-	return find(() => json.scripts.commitmsg.indexOf('secret-squirrel-commitmsg') !== -1);
+	try {
+		return find(() => json.husky.hooks['commit-msg'].indexOf('secret-squirrel-commitmsg') !== -1);
+	} catch (e) {
+		return false;
+	}
 };
 
 const preGitHookExists = () => {
