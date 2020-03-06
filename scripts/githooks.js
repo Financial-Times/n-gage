@@ -57,6 +57,11 @@ const find = test => {
 	};
 };
 
+const huskyConfigNeedsUpgrade = () => {
+	const { scripts } = getPackageJson();
+	return Boolean(scripts && (scripts.precommit || scripts.commitmsg || scripts.commitmsg));
+};
+
 const secretSquirrelPreCommitScriptExists = () => {
 	const json = getPackageJson();
 	return find(() => json.scripts.precommit.indexOf('secret-squirrel') !== -1);
@@ -80,6 +85,10 @@ const run = () => {
 		return response;
 	}
 
+	if (huskyConfigNeedsUpgrade()) {
+		require(`${process.cwd()}/node_modules/.bin/husky-upgrade`);
+		response += 'It upgraded the Husky config format - see https://github.com/Financial-Times/n-gage/issues/220. ';
+	}
 	if (!secretSquirrelPreCommitScriptExists() || !secretSquirrelCommitmsgScriptExists()) {
 		writePackageJsonFile(addScripts);
 		response += 'It added some githook scripts. ';
