@@ -18,15 +18,18 @@ const addScript = (json, config) => {
 	const name = config.name;
 	const value = config.value;
 	const newJson = JSON.parse(JSON.stringify(json));
-	if (!newJson.scripts) {
-		newJson.scripts = {};
+	if (!newJson.husky) {
+		newJson.husky = {};
+	}
+	if (!newJson.husky.hooks) {
+		newJson.husky.hooks = {};
 	}
 
-	if (!newJson.scripts[name]) {
-		newJson.scripts[name] = value;
+	if (!newJson.husky.hooks[name]) {
+		newJson.husky.hooks[name] = value;
 	}
-	else if (newJson.scripts[name].indexOf(value) === -1) {
-		newJson.scripts[name] = `${newJson.scripts[name]} && ${value}`;
+	else if (newJson.husky.hooks[name].indexOf(value) === -1) {
+		newJson.husky.hooks[name] = `${newJson.husky.hooks[name]} && ${value}`;
 	}
 	return newJson;
 }
@@ -34,9 +37,9 @@ const addScript = (json, config) => {
 const addScripts = () => {
 	const json = getPackageJson();
 	const newJson = [
-		{ name: 'precommit', value: 'secret-squirrel' },
-		{ name: 'commitmsg', value: 'secret-squirrel-commitmsg' },
-		{ name: 'prepush', value: 'make verify -j3' }
+		{ name: 'pre-commit', value: 'secret-squirrel' },
+		{ name: 'commit-msg', value: 'secret-squirrel-commitmsg' },
+		{ name: 'pre-push', value: 'make verify -j3' }
 	].reduce((returnObject, row) => addScript(returnObject, row), json);
 	return newJson;
 }
@@ -57,14 +60,19 @@ const find = test => {
 	};
 };
 
+const huskyConfigNeedsUpgrade = () => {
+	const { scripts } = getPackageJson();
+	return find(() => scripts.precommit || scripts.commitmsg || scripts.prepush);
+};
+
 const secretSquirrelPreCommitScriptExists = () => {
 	const json = getPackageJson();
-	return find(() => json.scripts.precommit.indexOf('secret-squirrel') !== -1);
+	return find(() => json.husky.hooks['pre-commit'].indexOf('secret-squirrel') !== -1);
 };
 
 const secretSquirrelCommitmsgScriptExists = () => {
 	const json = getPackageJson();
-	return find(() => json.scripts.commitmsg.indexOf('secret-squirrel-commitmsg') !== -1);
+	return find(() => json.husky.hooks['commit-msg'].indexOf('secret-squirrel-commitmsg') !== -1);
 };
 
 const preGitHookExists = () => {
@@ -73,29 +81,30 @@ const preGitHookExists = () => {
 };
 
 const run = () => {
-	return new Promise(resolve => {
-		var response = '';
+	var response = '';
 
-		// Only run locally (not in CI)
-		if (process.env.CIRCLECI) {
-			return resolve(response);
-		}
+	// Only run locally (not in CI)
+	if (process.env.CIRCLECI) {
+		return response;
+	}
 
-		if (!secretSquirrelPreCommitScriptExists() || !secretSquirrelCommitmsgScriptExists()) {
-			writePackageJsonFile(addScripts);
-			response += 'It added some githook scripts. ';
-		};
-		if (preGitHookExists()) {
-			writePackageJsonFile(removePreGitHooks);
-			response += 'It deleted some config > pre-git hooks. IMPORTANT: Delete the old local hooks with: "rm -rf .git/hooks/*" ';
-		};
-		if (response !== '') {
-			response = `✗ Note: n-gage just edited package.json. ${response} Please review and commit`;
-		}
-		return resolve(response);
-	});
+	if (huskyConfigNeedsUpgrade()) {
+		require(`${process.cwd()}/node_modules/.bin/husky-upgrade`);
+		response += 'It upgraded the Husky config format - see https://github.com/Financial-Times/n-gage/issues/220. ';
+	}
+	if (!secretSquirrelPreCommitScriptExists() || !secretSquirrelCommitmsgScriptExists()) {
+		writePackageJsonFile(addScripts);
+		response += 'It added some githook scripts. ';
+	};
+	if (preGitHookExists()) {
+		writePackageJsonFile(removePreGitHooks);
+		response += 'It deleted some config > pre-git hooks. IMPORTANT: Delete the old local hooks with: "rm -rf .git/hooks/*" ';
+	};
+	if (response !== '') {
+		response = `✗ Note: n-gage just edited package.json. ${response} Please review and commit`;
+	}
+	return response;
 }
 
-run().then(response => {
-	console.log(response)
-});
+const response = run();
+console.log(response);
