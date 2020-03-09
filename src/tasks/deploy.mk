@@ -39,7 +39,7 @@ deploy-production: ## deploy-production: deploy staging to production eu and us 
 #Must be above deplo%
 deploy-canary: ## deploy-canary: deploy canary app to staging
 	@echo "Checking for existing canary app..."
-	! curl http://$(HEROKU_APP_CANARY).herokuapp.com/__gtg -Is --fail
+	! curl https://$(HEROKU_APP_CANARY).herokuapp.com/__gtg -Is --fail
 # Exits early on successful curl to the canary app
 	@echo "Continuing with build as no existing canary app detected"
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME HEROKU_APP_CANARY)
@@ -56,7 +56,7 @@ deploy-canary: ## deploy-canary: deploy canary app to staging
 
 	nht gtg $(HEROKU_APP_STAGING)
 
-	@n-test smoke -H http://$(HEROKU_APP_STAGING).herokuapp.com --header "FT-Next-Backend-Key: $(FT_NEXT_BACKEND_KEY)" --browsers "chrome"
+	@n-test smoke -H https://$(HEROKU_APP_STAGING).herokuapp.com --header "FT-Next-Backend-Key: $(FT_NEXT_BACKEND_KEY)" --browsers "chrome"
 
 	nht configure $(VAULT_NAME) $(HEROKU_APP_CANARY) --overrides "FT_APP_VARIANT=canary" \
 
@@ -87,7 +87,7 @@ deploy-staging: ## deploy-staging: deploy the app to staging.
 
 	nht gtg $(HEROKU_APP_STAGING)
 
-	@n-test smoke -H http://$(HEROKU_APP_STAGING).herokuapp.com --header "FT-Next-Backend-Key: $(FT_NEXT_BACKEND_KEY)" --browsers "chrome"
+	@n-test smoke -H https://$(HEROKU_APP_STAGING).herokuapp.com --header "FT-Next-Backend-Key: $(FT_NEXT_BACKEND_KEY)" --browsers "chrome"
 
 	$(if $(HEROKU_APP_EU),\
 	  nht configure $(VAULT_NAME) $(HEROKU_APP_EU) --overrides REGION=EU \
