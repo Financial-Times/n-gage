@@ -62,25 +62,17 @@ const find = test => {
 
 const huskyConfigNeedsUpgrade = () => {
 	const { scripts } = getPackageJson();
-	return Boolean(scripts && (scripts.precommit || scripts.commitmsg || scripts.prepush));
+	return find(() => scripts.precommit || scripts.commitmsg || scripts.prepush);
 };
 
 const secretSquirrelPreCommitScriptExists = () => {
 	const json = getPackageJson();
-	try {
-		return find(() => json.husky.hooks['pre-commit'].indexOf('secret-squirrel') !== -1);
-	} catch (e) {
-		return false;
-	}
+	return find(() => json.husky.hooks['pre-commit'].indexOf('secret-squirrel') !== -1);
 };
 
 const secretSquirrelCommitmsgScriptExists = () => {
 	const json = getPackageJson();
-	try {
-		return find(() => json.husky.hooks['commit-msg'].indexOf('secret-squirrel-commitmsg') !== -1);
-	} catch (e) {
-		return false;
-	}
+	return find(() => json.husky.hooks['commit-msg'].indexOf('secret-squirrel-commitmsg') !== -1);
 };
 
 const preGitHookExists = () => {
