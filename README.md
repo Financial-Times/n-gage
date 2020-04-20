@@ -30,6 +30,16 @@ node_modules/@financial-times/n-gage/index.mk:
 
 See [here](#bootstrapping) for more explanation of the bootstrapping logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
 
+## Git hooks
+
+By default `n-gage` will automatically configure [some git hooks](scripts/githooks.js)
+to be run by [Husky](https://www.npmjs.com/package/husky). If you want to disable
+this behaviour, add the following line to the very top of your `Makefile`:
+
+```makefile
+DISABLE_GITHOOKS=true
+```
+
 ## Make tasks
 
 See in [index.mk](index.mk) for all the different tasks you can use in your `Makefile`.
