@@ -21,9 +21,11 @@ export PATH := $(PATH):$(ngage-dir)node_modules/.bin:./node_modules/.bin
 SHELL := /bin/bash
 
 # verify that githooks are configured correctly
+ifeq ($(DISABLE_GITHOOKS),)
 GITHOOKS := $(shell node $(ngage-dir)scripts/githooks.js)
 ifneq ("$(GITHOOKS)","")
 $(error $(GITHOOKS))
+endif
 endif
 
 #
