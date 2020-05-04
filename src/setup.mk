@@ -18,7 +18,7 @@ endif
 export PATH := $(PATH):$(ngage-dir)node_modules/.bin:./node_modules/.bin
 
 # Use bash not sh + forward path
-SHELL := env PATH=$(PATH) /bin/bash
+SHELL := env "PATH=$(PATH)" /bin/bash
 
 # verify that githooks are configured correctly
 ifeq ($(DISABLE_GITHOOKS),)
