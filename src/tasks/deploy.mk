@@ -15,10 +15,6 @@ deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3
 			--destination="hashed-assets/page-kit"; \
 	fi
 
-	@if [ -e public/asset-hashes.json ]; then \
-		nht deploy-hashed-assets --monitor-assets; \
-	fi
-
 #Must be above deplo%
 deploy-production: ## deploy-production: deploy staging to production eu and us apps. Also scale down canary app
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME HEROKU_APP_CANARY)
