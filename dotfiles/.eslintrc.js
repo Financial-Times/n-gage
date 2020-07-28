@@ -76,6 +76,12 @@ if ((packageJsonContainsPackage('react') || packageJsonContainsPackage('preact')
 		'react/no-danger': 'off',
 		'react/no-render-return-value': 'off'
 	});
+	
+	Object.assign(config.settings, {
+		react: {
+			version: 'detect'
+		}
+	});
 }
 
 if (packageJsonContainsPackage('jest')) {
