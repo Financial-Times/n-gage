@@ -1,5 +1,5 @@
 #Must be above deplo%
-deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3
+deploy-asset%: ## deploy-assets: Uploads static files such as CSS and JS to S3
 	@if [ -e public/manifest.json ]; then \
 		nht upload-assets-to-s3 \
 			--accessKeyId=$(aws_access_hashed_assets) \
@@ -16,7 +16,7 @@ deploy-asset%: ## deploy-assets: uploads static files such as CSS and JS to S3
 	fi
 
 #Must be above deplo%
-deploy-production: ## deploy-production: deploy staging to production eu and us apps. Also scale down canary app
+deploy-production: ## deploy-production: Deploy staging to production eu and us apps. Also scale down canary app
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME HEROKU_APP_CANARY)
 	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
 	$(if $(HEROKU_APP_EU),\
@@ -33,7 +33,7 @@ deploy-production: ## deploy-production: deploy staging to production eu and us 
 	$(MAKE) change-api
 
 #Must be above deplo%
-deploy-canary: ## deploy-canary: deploy canary app to staging
+deploy-canary: ## deploy-canary: Deploy canary app to staging
 	@echo "Checking for existing canary app..."
 	! curl https://$(HEROKU_APP_CANARY).herokuapp.com/__gtg -Is --fail
 # Exits early on successful curl to the canary app
@@ -67,7 +67,7 @@ deploy-canary: ## deploy-canary: deploy canary app to staging
 
 	$(MAKE) change-api
 
-deploy-staging: ## deploy-staging: deploy the app to staging.
+deploy-staging: ## deploy-staging: Deploy the app to staging
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING VAULT_NAME)
 	$(call ASSERT_ANY_VAR_EXISTS, HEROKU_APP_EU HEROKU_APP_US)
 # Reset repository so that the app deploys on rebuilds even though there is no code change
@@ -93,7 +93,7 @@ deploy-staging: ## deploy-staging: deploy the app to staging.
 	  nht configure $(VAULT_NAME) $(HEROKU_APP_US) --overrides REGION=US \
 	)
 
-deploy-promote: ## deploy-promote: promote the staging app to production.
+deploy-promote: ## deploy-promote: Promote the staging app to production
 	$(call ASSERT_VARS_EXIST, HEROKU_APP_STAGING)
 
 	heroku pipelines:promote -a $(HEROKU_APP_STAGING)
@@ -101,7 +101,7 @@ deploy-promote: ## deploy-promote: promote the staging app to production.
 
 	$(MAKE) change-api
 
-deplo%: ## deploy: deploy the app to heroku
+deplo%: ## deploy: Deploy the app to heroku
 	$(MAKE) deploy-staging
 	$(MAKE) deploy-promote
 

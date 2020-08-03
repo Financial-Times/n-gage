@@ -1,36 +1,82 @@
-# n-gage
+# n-gage [![CircleCI](https://circleci.com/gh/Financial-Times/n-gage.svg?style=svg&circle-token=33bcf2eb98fe2e875cc66de93d7e4a50369c952d)](https://github.com/Financial-Times/n-gage)
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSf5InA7UJK9yNBCzidFKI_WNkfbl6of1eRlIACRspGXUcBx8A/viewform?usp=pp_url&entry.78759464=n-gage" target="_blank"><img src="https://i.imgur.com/UmScdZ4.png" alt="Yak button" border="0" align="right" width="150" title="Report a yak shaving incident for this repository"></a>
+`n-gage` is in every FT.com project, giving a standard set of `make` tasks and `ngage` CLI to help with setting up, building and deployments.
 
-`n-gage` is in every Next project, giving a standard set of `make` tasks and `ngage` CLI to help with setting up, building and deployments.
 
-<br clear="right">
+## Requirements
 
-## Getting started
+* Node 8.x
 
-Starting a new repo?  You can do the following:
+
+## Installation
 
 ```sh
-mkdir my-new-project
-cd my-new-project
-npm init -y
-npm install --save-dev --no-package-lock @financial-times/n-gage
+git clone git@github.com:Financial-Times/n-gage.git
+cd n-gage
+make install
 ```
 
-then create a new `Makefile` file with the following:
+## Development
+
+### Testing
+
+In order to run the tests locally you'll need to run:
+
+```sh
+make test
+```
+
+### Install from NPM
+
+```sh
+npm install --save @financial-times/n-gage
+```
+
+### Usage
+
+Create a new `Makefile` file with the following:
 
 ```make
-# n-gage bootstrapping logic
+# This task tells make how to 'build' n-gage. It npm installs n-gage, and
+# Once that's done it overwrites the file with its own contents - this
+# ensures the timestamp on the file is recent, so make won't think the file
+# is out of date and try to rebuild it every time
 node_modules/@financial-times/n-gage/index.mk:
-	npm install --no-save --no-package-lock @financial-times/n-gage
+	npm install --no-save @financial-times/n-gage
 	touch $@
 
+# If, by the end of parsing your `Makefile`, `make` finds that any files
+# referenced with `-include` don't exist or are out of date, it will run any
+# tasks it finds that match the missing file. So if n-gage *is* installed
+# it will just be included; if not, it will look for a task to run
 -include node_modules/@financial-times/n-gage/index.mk
 ```
 
-See [here](#bootstrapping) for more explanation of the bootstrapping logic.  You will want to add `unit-test`, `test`, `provision`, `smoke` and `deploy` tasks to the `Makefile`. See other, similar Next projects for ideas.
+### Make tasks
 
-## Git hooks
+| Task | Description |
+|-|-|
+| a11y                | Run automated accessibility tests |
+| build               | Build this repository |
+| build-production    | Build this repository for production |
+| clean               | Clean this git repository |
+| deploy-assets       | Uploads static files such as CSS and JS to S3 |
+| deploy-production   | Deploy staging to production eu and us apps. Also scale down canary app |
+| deploy-canary       | Deploy canary app to staging |
+| deploy-staging      | Deploy the app to staging |
+| deploy-promote      | Promote the staging app to production |
+| deploy              | Deploy the app to heroku |
+| .env                | Downloads environment variables from Vault |
+| fix-lintspaces      | Autofix common lintspaces issues |
+| help                | Show this help message |
+| init                | Clean this repository and start from a fresh build |
+| install             | Install dependencies and copy common dotfiles |
+| test-review-app     | Create and test a review app on heroku. <br /><br />To override custom environment variables when running `nht configure`, add: <br />`REVIEW_APP_CONFIGURE_OVERRIDES="NODE_ENV=branch,OTHER_VAR=something"` <br /> to the Makefile |
+| smoke               | Run smoke tests on the local or review app, by setting the TEST_URL environment variable |
+| verify              | Check files for linting errors |
+| watch               | Watch for static asset changes |
+
+### Git hooks
 
 By default `n-gage` will automatically configure [some git hooks](scripts/githooks.js)
 to be run by [Husky](https://www.npmjs.com/package/husky). If you want to disable
@@ -40,47 +86,42 @@ this behaviour, add the following line to the very top of your `Makefile`:
 DISABLE_GITHOOKS=true
 ```
 
-## Make tasks
-
-See in [index.mk](index.mk) for all the different tasks you can use in your `Makefile`.
-
-## CLI
-
-This includes a CLI for you to use to do some things.
-
-### get-config
+### CLI
 
 This tool helps you to obtain configuration for your project.
 
 ```sh
-$ ngage
-ngage get-config --help
+$ ngage get-config
 
-$ ngage get-config --help
+get environment variables from Vault
+
 Options:
-  --help      Show help                                                [boolean]
-  --app                                            [default: "next-page-purger"]
-  --env                  [choices: "dev", "prod", "ci", "test"] [default: "dev"]
-  --filename                                                   [default: ".env"]
-  --format                       [choices: "simple", "json"] [default: "simple"]
-  --team                                                       [default: "next"]
-
-$ ngage get-config --env ci --filename .env-ci --format json
-Written next-page-purger's ci config to /Users/ben.fletcher/projects/next-page-purger/.env-ci
-
-$ cat .env-ci
-{
-  "AWS_ACCESS_KEY_ID": "...",
-  "AWS_SECRET_ACCESS_KEY": "...",
-	...
-}
+  --version     Show version number                            [boolean]
+  --help        Show help                                      [boolean]
+  --app                                     [default: "ft-next-article"]
+  --env                           [choices: "dev", "prod", "ci", "test"]
+  --custom-env
+  --filename                                           [default: ".env"]
+  --format               [choices: "simple", "json"] [default: "simple"]
+  --team                                               [default: "next"]
 ```
+
+For example, to fetch the `ci` environment variables:
+
+```sh
+$ ngage get-config --env ci --filename .env-ci --format json
+# {
+#   "AWS_ACCESS_KEY_ID": "...",
+#   "AWS_SECRET_ACCESS_KEY": "...",
+# 	...
+# }
+```
+
+There is an additional `--team` flag that lets you specify a team if not `next` (must match Vault path).
 
 ```sh
 $ ngage get-config --team myteam
 ```
-
-The `--team` option lets you specify a team if not `next` (must match Vault path).
 
 ### FT User Sessions
 
@@ -124,23 +165,3 @@ These variables should be declared in the `Makefile` to set up deployment tasks 
 | `HEROKU_APP_CANARY` | [Optional] The canary Heroku app. Only needed if there is a canary app eg, `ft-next-preflight-canary` |
 | `HEROKU_APP_CANARY_SCALE` | [Optional] Canary apps only. Specify the number of web dynos for the canary app. If not specified, it will use the `HEROKU_APP_EU` scale configuration |
 | `REVIEW_APP_CONFIGURE_OVERRIDES` | [Optional] Override environment variables for the review apps. By default it is `NODE_ENV=branch`, so to add new ones add `REVIEW_APP_CONFIGURE_OVERRIDES="NODE_ENV=branch,OTHER_VAR=something"` |
-
-## Bootstrapping
-
-Curious how the bootstrapping bit at top of the `Makefile` works?  Here's the annotated code:
-
-```make
-# This task tells make how to 'build' n-gage. It npm installs n-gage, and
-# Once that's done it overwrites the file with its own contents - this
-# ensures the timestamp on the file is recent, so make won't think the file
-# is out of date and try to rebuild it every time
-node_modules/@financial-times/n-gage/index.mk:
-	npm install --no-save @financial-times/n-gage
-	touch $@
-
-# If, by the end of parsing your `Makefile`, `make` finds that any files
-# referenced with `-include` don't exist or are out of date, it will run any
-# tasks it finds that match the missing file. So if n-gage *is* installed
-# it will just be included; if not, it will look for a task to run
--include node_modules/@financial-times/n-gage/index.mk
-```

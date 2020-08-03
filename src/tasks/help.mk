@@ -1,5 +1,5 @@
 
-hel%: ## help: Show this help message.
+hel%: ## help: Show this help message
 	@echo "usage: make [target] ..."
 	@echo ""
 	@echo "targets:"

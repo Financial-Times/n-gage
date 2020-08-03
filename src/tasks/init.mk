@@ -1,4 +1,4 @@
-ini%: ## init: Clean this repository and start from a fresh build.
+ini%: ## init: Clean this repository and start from a fresh build
 ini%:
 	$(MAKE) clean
 	$(MAKE) install

@@ -1,4 +1,4 @@
-instal%: ## install: Setup this repository.
+instal%: ## install: Install dependencies and copy common dotfiles
 instal%: node_modules bower_components dotfiles
 	$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules $f/bower_components)
 	@$(DONE)
