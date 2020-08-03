@@ -5,7 +5,7 @@ IGNORE_A11Y = true
 include index.mk
 
 unit-test:
-	mocha --recursive "./test/{,!(fixtures)/**/}*.js"
+	mocha --recursive "./test/{,!(fixtures)/**/}*.test.js"
 
 install:
 	npm install --no-package-lock
