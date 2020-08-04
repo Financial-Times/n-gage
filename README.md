@@ -58,9 +58,9 @@ node_modules/@financial-times/n-gage/index.mk:
 | Task | Description |
 |-|-|
 | a11y                | Run automated accessibility tests |
-| build               | Build this repository |
-| build-production    | Build this repository for production |
-| clean               | Clean this git repository |
+| build               | Build the repository |
+| build-production    | Build the repository for production |
+| clean               | Git clean the repository |
 | deploy-assets       | Uploads static files such as CSS and JS to S3 |
 | deploy-production   | Deploy staging to production eu and us apps. Also scale down canary app |
 | deploy-canary       | Deploy canary app to staging |
@@ -70,7 +70,7 @@ node_modules/@financial-times/n-gage/index.mk:
 | .env                | Downloads environment variables from Vault |
 | fix-lintspaces      | Autofix common lintspaces issues |
 | help                | Show this help message |
-| init                | Clean this repository and start from a fresh build |
+| init                | Clean the repository and start from a fresh build |
 | install             | Install dependencies and copy common dotfiles |
 | test-review-app     | Create and test a review app on heroku. <br /><br />To override custom environment variables when running `nht configure`, add: <br />`REVIEW_APP_CONFIGURE_OVERRIDES="NODE_ENV=branch,OTHER_VAR=something"` <br /> to the Makefile |
 | smoke               | Run smoke tests on the local or review app, by setting the TEST_URL environment variable |
