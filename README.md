@@ -39,7 +39,7 @@ Create a new `Makefile` file with the following:
 ```make
 # This task tells `make` how to 'build' n-gage. It npm installs n-gage, and
 # Once that's done it overwrites the file with its own contents - this
-# ensures the timestamp on the file is recent, so make won't think the file
+# ensures the timestamp on the file is recent, so `make` won't think the file
 # is out of date and try to rebuild it every time
 node_modules/@financial-times/n-gage/index.mk:
 	npm install --no-save @financial-times/n-gage
