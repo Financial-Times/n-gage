@@ -6,6 +6,7 @@
 ## Requirements
 
 * Node 8.x
+* [Vault](https://github.com/Financial-Times/vault/wiki/Getting-Started-With-Vault)
 
 
 ## Installation
