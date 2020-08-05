@@ -30,7 +30,7 @@ make test
 ### Install from NPM
 
 ```sh
-npm install --save @financial-times/n-gage
+npm install --save-dev --no-package-lock @financial-times/n-gage
 ```
 
 ### Usage
