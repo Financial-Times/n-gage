@@ -1,4 +1,4 @@
-verif%: ## verify: Verify this repository.
+verif%: ## verify: Check files for linting errors
 verif%: _verify_lintspaces _verify_eslint _verify_stylelint
 	@$(DONE)
 

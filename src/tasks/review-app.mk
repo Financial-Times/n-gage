@@ -1,4 +1,4 @@
-# this file is created by the `review-app` task.
+# The REVIEW_APP_FILE is created by the `review-app` task.
 # if it exists it contains the name of the review app
 # on heroku
 REVIEW_APP_FILE := .review-app
@@ -32,7 +32,9 @@ review-app: tidy-review-app .review-app
 gtg-review-app: review-app
 	nht gtg $$(cat $(REVIEW_APP_FILE))
 
-test-review-ap%: # test-review-app: create and test a review app on heroku. To override custom environment variables when running `nht configure`, add `REVIEW_APP_CONFIGURE_OVERRIDES="NODE_ENV=branch,OTHER_VAR=something" to the Makefile`
+# To override custom environment variables when running `nht configure`,
+# add `REVIEW_APP_CONFIGURE_OVERRIDES="NODE_ENV=branch,OTHER_VAR=something" to the Makefile`
+test-review-ap%: ## test-review-app: Create and test a review app on heroku
 	$(MAKE) gtg-review-app
 	TEST_URL="https://$$(cat $(REVIEW_APP_FILE)).herokuapp.com" \
 		$(MAKE) smoke a11y

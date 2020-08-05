@@ -1,5 +1,5 @@
-buil%: ## build: Build this repository.
-buil%: ## build-production: Build this repository for production.
+buil%: ## build: Build the repository
+buil%: ## build-production: Build the repository for production
 buil%: public/__about.json
 	@$(DONE)
 
