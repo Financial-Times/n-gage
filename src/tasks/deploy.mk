@@ -1,18 +1,27 @@
 #Must be above deplo%
 deploy-asset%: ## deploy-assets: Uploads static files such as CSS and JS to S3
-	@if [ -e public/manifest.json ]; then \
-		nht upload-assets-to-s3 \
-			--accessKeyId=$(aws_access_hashed_assets) \
-			--secretAccessKey=$(aws_secret_hashed_assets) \
-			--directory="public" \
-			--bucket="ft-next-hashed-assets-prod" \
-			--destination="hashed-assets/page-kit" \
-		&& nht upload-assets-to-s3 \
-			--accessKeyId=$(aws_access_hashed_assets) \
-			--secretAccessKey=$(aws_secret_hashed_assets) \
-			--directory="public" \
-			--bucket="ft-next-hashed-assets-prod-us" \
-			--destination="hashed-assets/page-kit"; \
+	if [ -e public/manifest.json ]; then \
+		if [ "$(NODE_ENV)" = "branch" ]; then \
+			nht upload-assets-to-s3 \
+				--accessKeyId=$(aws_access_hashed_assets) \
+				--secretAccessKey=$(aws_secret_hashed_assets) \
+				--directory="public" \
+				--bucket="ft-next-hashed-assets-preview" \
+				--destination="hashed-assets/page-kit"; \
+		else \
+			nht upload-assets-to-s3 \
+				--accessKeyId=$(aws_access_hashed_assets) \
+				--secretAccessKey=$(aws_secret_hashed_assets) \
+				--directory="public" \
+				--bucket="ft-next-hashed-assets-prod" \
+				--destination="hashed-assets/page-kit" \
+			&& nht upload-assets-to-s3 \
+				--accessKeyId=$(aws_access_hashed_assets) \
+				--secretAccessKey=$(aws_secret_hashed_assets) \
+				--directory="public" \
+				--bucket="ft-next-hashed-assets-prod-us" \
+				--destination="hashed-assets/page-kit"; \
+			fi \
 	fi
 
 #Must be above deplo%
