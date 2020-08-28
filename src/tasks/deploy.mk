@@ -1,6 +1,6 @@
 #Must be above deplo%
 deploy-asset%: ## deploy-assets: Uploads static files such as CSS and JS to S3
-	if [ -e public/manifest.json ]; then \
+	@if [ -e public/manifest.json ]; then \
 		if [ "$(NODE_ENV)" = "branch" ]; then \
 			nht upload-assets-to-s3 \
 				--accessKeyId=$(aws_access_hashed_assets) \
