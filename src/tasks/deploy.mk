@@ -21,7 +21,7 @@ deploy-asset%: ## deploy-assets: Uploads static files such as CSS and JS to S3
 				--directory="public" \
 				--bucket="ft-next-hashed-assets-prod-us" \
 				--destination="hashed-assets/page-kit"; \
-			fi \
+		fi \
 	fi
 
 #Must be above deplo%
