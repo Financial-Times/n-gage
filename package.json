@@ -21,11 +21,11 @@
   },
   "homepage": "https://github.com/Financial-Times/n-gage#readme",
   "dependencies": {
+    "@financial-times/eslint-config-next": "^1.0.0",
     "@financial-times/n-fetch": "^1.0.0-beta.4",
     "@financial-times/secret-squirrel": "^2.6.0",
     "chalk-cli": "^4.1.0",
     "eslint": "^5.0.0",
-    "eslint-plugin-no-only-tests": "^2.0.0",
     "husky": "^3.0.0",
     "jsonfile": "^5.0.0",
     "lintspaces-cli": "^0.7.0",
