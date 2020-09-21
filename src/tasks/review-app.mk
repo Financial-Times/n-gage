@@ -29,7 +29,9 @@ review-app: tidy-review-app .review-app
 	  nht configure $(VAULT_NAME) $$(cat $(REVIEW_APP_FILE)) --overrides NODE_ENV=branch \
 	)
 
-gtg-review-app: review-app
+gtg-review-app: review-app test-review-app
+
+test-review-app:
 	nht gtg $$(cat $(REVIEW_APP_FILE))
 
 # To override custom environment variables when running `nht configure`,
