@@ -49,5 +49,8 @@
       "pre-commit": "secret-squirrel",
       "pre-push": "make verify -j3"
     }
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
