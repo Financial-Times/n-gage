@@ -4,7 +4,7 @@
 	@if [[ -z "$(shell command -v vault)" ]]; then echo "Error: You don't have Vault installed. Follow the guide at https://github.com/Financial-Times/vault/wiki/Getting-Started-With-Vault"; exit 1; fi
 	@if [  -z "$(shell find ~/.vault-token -mmin -480)" ]; then \
 		if [ -z "$(VAULT_AUTH_GITHUB_TOKEN)" ]; then \
-			echo "Error: VAULT_AUTH_GITHUB_TOKEN variable is not set."; exit 1; \
+			echo "Error: VAULT_AUTH_GITHUB_TOKEN variable is not set. Follow the guide at https://github.com/Financial-Times/vault/wiki/Getting-Started-With-Vault"; exit 1; \
 		else \
 			echo "You are not logged in, logging you in..." && vault login --method github token=$$VAULT_AUTH_GITHUB_TOKEN; \
 		fi \
