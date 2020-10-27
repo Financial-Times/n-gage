@@ -38,8 +38,6 @@ GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
 JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
 APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
 
-REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
-
 # functions for eye-catching terminal output
 COLOR = $(shell /usr/bin/env PATH=$(PATH) FORCE_COLOR=1 chalk --no-stdin -t "$1 ")
 CAPITALISE = $(shell STR="$1"; echo "$$(tr '[:lower:]' '[:upper:]' <<<"$${STR:0:1}")$${STR:1}")
