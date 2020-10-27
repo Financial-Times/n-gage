@@ -38,7 +38,6 @@ GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
 JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
 APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
 
-IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
 REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
 
 # functions for eye-catching terminal output
