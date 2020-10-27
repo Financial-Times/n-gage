@@ -6,12 +6,20 @@ instal%: node_modules bower_components dotfiles
 
 # INSTALL SUB-TASKS
 IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
-NPM_INSTALL = npm prune --no-production --no-package-lock && npm install --no-package-lock
+
+define NPM_INSTALL
+if $(call IS_GIT_IGNORED,package-lock.json); then \
+	npm prune --no-production --no-package-lock && npm install --no-package-lock \
+else \
+	npm install \
+fi
+endef
+
 BOWER_INSTALL = rm -rf bower_components && bower install --config.registry.search=https://origami-bower-registry.ft.com --config.registry.search=https://registry.bower.io
 
 # Regular npm install
 node_modules: package.json
-	@if [ -e package-lock.json ]; then rm package-lock.json; fi
+	@if [ -e package-lock.json ] && $(call IS_GIT_IGNORED,package-lock.json); then rm package-lock.json; fi
 	@if [ -e package.json ]; then $(NPM_INSTALL) && $(DONE); fi
 
 # Regular bower install
