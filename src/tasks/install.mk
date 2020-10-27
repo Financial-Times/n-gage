@@ -12,12 +12,7 @@ BOWER_INSTALL = rm -rf bower_components && bower install --config.registry.searc
 # Regular npm install
 node_modules: package.json
 	@if [ -e package-lock.json ]; then rm package-lock.json; fi
-	@if [ -e package.json ]; then \
-		mkdir -p node_modules && \
-		touch node_modules/.metadata_never_index && \
-		$(NPM_INSTALL) && \
-		$(DONE); \
-	fi
+	@if [ -e package.json ]; then $(NPM_INSTALL) && $(DONE); fi
 
 # Regular bower install
 bower_components: bower.json
