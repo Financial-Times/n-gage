@@ -5,6 +5,9 @@ instal%: node_modules bower_components dotfiles
 	@if [ -z $(CIRCLECI) ] && [ ! -e .env ]; then (echo "Note: If this is a development environment, you will likely need to import the project's environment variables by running 'make .env'."); fi
 
 # INSTALL SUB-TASKS
+NPM_INSTALL = npm prune --production=false --no-package-lock && npm install --no-package-lock
+
+BOWER_INSTALL = rm -rf bower_components && bower install --config.registry.search=https://origami-bower-registry.ft.com --config.registry.search=https://registry.bower.io
 
 # Regular npm install
 node_modules: package.json
