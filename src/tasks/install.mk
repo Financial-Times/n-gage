@@ -9,9 +9,9 @@ IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
 
 define NPM_INSTALL
 if $(call IS_GIT_IGNORED,package-lock.json); then \
-	npm prune --no-production --no-package-lock && npm install --no-package-lock \
+	npm prune --no-production --no-package-lock && npm install --no-package-lock ;\
 else \
-	npm install \
+	npm install ;\
 fi
 endef
 
