@@ -35,14 +35,8 @@ endif
 # misc/legacy
 GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
 
-NPM_INSTALL = npm prune --production=false --no-package-lock && npm install --no-package-lock
-BOWER_INSTALL = rm -rf bower_components && bower install --config.registry.search=https://origami-bower-registry.ft.com --config.registry.search=https://registry.bower.io
-
 JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
 APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
-
-IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
-REPLACE_IN_GITIGNORE = sed -i -e 's/$1/$2/g' .gitignore && rm -f .gitignore-e ||:
 
 # functions for eye-catching terminal output
 COLOR = $(shell /usr/bin/env PATH=$(PATH) FORCE_COLOR=1 chalk --no-stdin -t "$1 ")

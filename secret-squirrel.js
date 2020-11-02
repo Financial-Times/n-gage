@@ -3,6 +3,7 @@ module.exports = {
 		allow: [
 			'dotfiles/.stylelintrc',
 			'dotfiles/.editorconfig',
+			'.nvmrc',
 			'.*.mk'
 		],
 		allowOverrides: []
