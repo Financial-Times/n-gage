@@ -39,15 +39,15 @@ references:
     branches:
       ignore: master
 
-  filters_only_renovate: &filters_only_renovate
+  filters_only_renovate_nori: &filters_only_renovate_nori
     branches:
-      only: /^renovate-.*/
+      only: /(^renovate-.*|^nori\/.*)/
 
-  filters_ignore_tags_and_renovate: &filters_ignore_tags_and_renovate
+  filters_ignore_tags_renovate_nori: &filters_ignore_tags_renovate_nori
     tags:
       ignore: /.*/
     branches:
-      ignore: /^renovate-.*/
+      ignore: /(^renovate-.*|^nori\/.*)/
 
   filters_version_tag: &filters_version_tag
     tags:
@@ -126,17 +126,17 @@ workflows:
     jobs:
       - build:
           filters:
-            <<: *filters_ignore_tags_and_renovate
+            <<: *filters_ignore_tags_renovate_nori
       - test:
           requires:
             - build
 
-  renovate-build-test:
+  renovate-nori-build-test:
     jobs:
       - waiting-for-approval:
           type: approval
           filters:
-            <<: *filters_only_renovate
+            <<: *filters_only_renovate_nori
       - build:
           requires:
             - waiting-for-approval
