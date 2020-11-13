@@ -5,7 +5,6 @@
 
 ## Requirements
 
-* Node 8.x
 * Node version defined by `.nvmrc` (run command `nvm use` to switch your local Node version to the one in this file).
 * [Vault](https://github.com/Financial-Times/vault/wiki/Getting-Started-With-Vault)
 
