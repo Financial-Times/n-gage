@@ -7,12 +7,15 @@ instal%: node_modules bower_components dotfiles
 # INSTALL SUB-TASKS
 IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
 
-# if package-lock.json is in gitignore, don't create it, and prune
-# before install to match the behaviour with package-lock.json
+# If package-lock.json is in .gitignore, don't create it, and prune before install to match the behaviour with package-lock.json;
+# else if in a CI environment and a package-lock.json exists, use the `npm ci` command to freshly install node_modules from package-lock.json;
+# else run `npm install`.
 define NPM_INSTALL
 if $(call IS_GIT_IGNORED,package-lock.json); then \
 	npm prune --no-production --no-package-lock \
 	&& npm install --no-package-lock ;\
+elif [ ! -z $(CIRCLECI) ] && [ -e package-lock.json ]; then \
+	npm ci ;\
 else \
 	npm install ;\
 fi
