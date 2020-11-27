@@ -33,7 +33,7 @@
     "stylelint": "^10.0.0",
     "stylelint-order": "^3.0.0",
     "stylelint-scss": "^2.2.0",
-    "yargs": "^10.0.3"
+    "yargs": "^16.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
