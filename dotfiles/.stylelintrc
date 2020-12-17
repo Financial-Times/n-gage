@@ -12,7 +12,7 @@ rules:
   # ERRORS (as of 27th November 2017)
 
   # disallow "@debug"
-  at-rule-blacklist:
+  at-rule-disallowed-list:
   - debug
 
   # value !important NOT value! important
@@ -20,7 +20,7 @@ rules:
   declaration-bang-space-after: never
 
   # border: 0 NOT border: none
-  declaration-property-value-blacklist:
+  declaration-property-value-disallowed-list:
     "/^border/":
     - none
 
