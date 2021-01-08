@@ -30,9 +30,9 @@
     "jsonfile": "^5.0.0",
     "lintspaces-cli": "^0.7.0",
     "mkdirp": "^0.5.1",
-    "stylelint": "^10.0.0",
-    "stylelint-order": "^3.0.0",
-    "stylelint-scss": "^2.2.0",
+    "stylelint": "^13.8.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.18.0",
     "yargs": "^16.0.0"
   },
   "devDependencies": {
