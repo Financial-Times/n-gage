@@ -55,7 +55,7 @@ deploy-canary: ## deploy-canary: Deploy canary app to staging
 	nht configure $(VAULT_NAME) $(HEROKU_APP_STAGING)
 
 	@echo "Deploying app to $(HEROKU_APP_STAGING)"
-	@git push https://git.heroku.com/$(HEROKU_APP_STAGING).git master
+	@git push https://git.heroku.com/$(HEROKU_APP_STAGING).git HEAD
 
 	heroku dyno:scale web=1 -a $(HEROKU_APP_STAGING)
 
