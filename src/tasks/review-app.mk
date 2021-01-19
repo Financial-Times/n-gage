@@ -38,8 +38,8 @@ test-review-ap%: ## test-review-app: Create and test a review app on heroku
 	$(MAKE) gtg-review-app
 	TEST_URL="https://$$(cat $(REVIEW_APP_FILE)).herokuapp.com" \
 		$(MAKE) smoke a11y
-	# Destroy review app if it passes tests on the master branch
-ifeq ($(CIRCLE_BRANCH),master)
+	# Destroy review app if it passes tests on the HEAD branch
+ifeq ($(CIRCLE_BRANCH),HEAD)
 	heroku destroy -a $$(cat $(REVIEW_APP_FILE)) --confirm $$(cat $(REVIEW_APP_FILE))
 endif
 	@$(DONE)
