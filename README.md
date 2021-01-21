@@ -145,6 +145,8 @@ If you set `TEST_USER_TYPES` environment variable to `premium,standard`, these v
 
 ### Pa11y environment variables
 
+Pa11y configuration has been moved to [n-config-pa11y](https://github.com/Financial-Times/n-pa11y-config). You can follow the instructions there on how to setup Pa11y. Alternativelly, `n-gage` will keep this original setup until migration is complete.
+
 | Variable | Description |
 |---|---|
 | `PA11Y_WAIT` | The time to wait before running tests in milliseconds |
