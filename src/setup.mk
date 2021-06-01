@@ -33,7 +33,7 @@ endif
 #
 
 # misc/legacy
-GLOB = git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
+GLOB = GIT_LITERAL_PATHSPECS=0 git ls-files -z $1 | tr '\0' '\n' | xargs -I {} find {} ! -type l
 
 JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
 APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
