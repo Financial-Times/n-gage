@@ -46,7 +46,6 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "secret-squirrel-commitmsg",
       "pre-commit": "secret-squirrel",
       "pre-push": "make verify -j3"
     }
