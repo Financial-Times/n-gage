@@ -38,7 +38,6 @@ const addScripts = () => {
 	const json = getPackageJson();
 	const newJson = [
 		{ name: 'pre-commit', value: 'secret-squirrel' },
-		{ name: 'commit-msg', value: 'secret-squirrel-commitmsg' },
 		{ name: 'pre-push', value: 'make verify -j3' }
 	].reduce((returnObject, row) => addScript(returnObject, row), json);
 	return newJson;
@@ -70,11 +69,6 @@ const secretSquirrelPreCommitScriptExists = () => {
 	return find(() => json.husky.hooks['pre-commit'].indexOf('secret-squirrel') !== -1);
 };
 
-const secretSquirrelCommitmsgScriptExists = () => {
-	const json = getPackageJson();
-	return find(() => json.husky.hooks['commit-msg'].indexOf('secret-squirrel-commitmsg') !== -1);
-};
-
 const preGitHookExists = () => {
 	const json = getPackageJson();
 	return find(() => !!json.config['pre-git'] || json.devDependencies['pre-git']);
@@ -92,7 +86,7 @@ const run = () => {
 		require(`${process.cwd()}/node_modules/.bin/husky-upgrade`);
 		response += 'It upgraded the Husky config format - see https://github.com/Financial-Times/n-gage/issues/220. ';
 	}
-	if (!secretSquirrelPreCommitScriptExists() || !secretSquirrelCommitmsgScriptExists()) {
+	if (!secretSquirrelPreCommitScriptExists()) {
 		writePackageJsonFile(addScripts);
 		response += 'It added some githook scripts. ';
 	};
