@@ -8,7 +8,7 @@ unit-test:
 	mocha --recursive "./test/{,!(fixtures)/**/}*.test.js"
 
 install:
-	npm install --no-package-lock
+	npm install
 
 test: unit-test integration-test
 
