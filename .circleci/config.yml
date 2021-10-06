@@ -93,6 +93,8 @@ jobs:
     <<: *container_config_node
     steps:
       - *attach_workspace
+      - node/install-npm:
+          version: "7"
       - run:
           name: Run tests
           command: make test
