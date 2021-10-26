@@ -1,7 +1,8 @@
 # n-gage [![CircleCI](https://circleci.com/gh/Financial-Times/n-gage.svg?style=svg&circle-token=33bcf2eb98fe2e875cc66de93d7e4a50369c952d)](https://github.com/Financial-Times/n-gage)
 
-`n-gage` is in every FT.com project and gives a standard set of `make` tasks and the `ngage` CLI to help set up, build and deploy projects.
+⚠️ **`n-gage` is unsupported. FT.com projects should migrate to [Tool Kit](https://github.com/financial-times/dotcom-tool-kit).**
 
+`n-gage` gives a standard set of `make` tasks and the `ngage` CLI to help set up, build and deploy projects.
 
 ## Requirements
 
