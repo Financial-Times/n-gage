@@ -34,7 +34,7 @@
     "mkdirp": "^0.5.1",
     "stylelint": "^13.8.0",
     "stylelint-order": "^4.1.0",
-    "stylelint-scss": "^3.18.0",
+    "stylelint-scss": "^3.21.0",
     "yargs": "^16.0.0"
   },
   "devDependencies": {
