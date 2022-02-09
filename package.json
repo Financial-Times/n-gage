@@ -27,7 +27,7 @@
     "@financial-times/n-pa11y-config": "^1.0.0",
     "@financial-times/secret-squirrel": "^2.6.0",
     "chalk-cli": "^4.1.0",
-    "eslint": "^5.0.0",
+    "eslint": "^7.0.0",
     "husky": "^3.0.0",
     "jsonfile": "^5.0.0",
     "lintspaces-cli": "^0.7.0",
