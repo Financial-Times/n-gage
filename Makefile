@@ -27,7 +27,7 @@ integration-test-%: $(fixture-base)/%
 	sed -i'.bak' "s:-include node_modules/@financial-times/n-gage/index.mk:include $(ngage-path):" $</Makefile
 
 # run a handful of standard next make commands in the fixture folder using the `-C DIRECTORY` option
-	$(MAKE) -C $< install build
+	npm_config_ignore_scripts=true $(MAKE) -C $< install build
 
 # ensure the folders have some basic things we would expect from install
 	[ -d $</node_modules ]
