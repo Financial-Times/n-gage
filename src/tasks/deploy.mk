@@ -131,7 +131,10 @@ change-api:
 	@$(DONE)
 
 heroku-postbuil%:
-	npm update
+	@if [ ! -e package-lock.json ]; then
+		npm update
+	fi
+
 	@if [ -e bower.json ]; then $(BOWER_INSTALL); fi
 	make build-production
 	make deploy-assets
