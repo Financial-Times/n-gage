@@ -169,3 +169,28 @@ These variables should be declared in the `Makefile` to set up deployment tasks 
 | `HEROKU_APP_CANARY` | [Optional] The canary Heroku app. Only needed if there is a canary app eg, `ft-next-preflight-canary-eu` |
 | `HEROKU_APP_CANARY_SCALE` | [Optional] Canary apps only. Specify the number of web dynos for the canary app. If not specified, it will use the `HEROKU_APP_EU` scale configuration |
 | `REVIEW_APP_CONFIGURE_OVERRIDES` | [Optional] Override environment variables for the review apps. By default it is `NODE_ENV=branch`, so to add new ones add `REVIEW_APP_CONFIGURE_OVERRIDES="NODE_ENV=branch,OTHER_VAR=something"` |
+
+## Troubleshooting
+### Running make on WSL (Windows Subsystem for Linux)
+Getting following error on running any `make` command
+```sh
+env: 'Files': Permission denied
+```
+is caused by having Windows PATH env variable included into WSL Linux PATH variable and having paths containing spaces in their names. For example `C:\Program Files` in Windows which is set in WSL as `/mnt/c/Program Files`. The content of PATH can be seen by `echo $PATH` command. The spaces in PATH are not always correctly interpretted and are the cause of the misleading message "Permission denied".
+
+The issue is discussed on following bug report - https://github.com/Microsoft/WSL/issues/1766. Possible workaround to prevent getting Windows paths into Linux path is suggested [in this comment](https://github.com/Microsoft/WSL/issues/1766#issuecomment-923959283). 
+
+#### Steps to remove Windows paths from WSL PATH
+_**Note: this method may break other applications working in WSL, if they rely on having these paths!**_
+```sh
+sudo nano /etc/wsl.conf
+```
+Add the following content:
+```
+[interop]
+appendWindowsPath = false
+```
+Save the file and restart the wsl.
+```
+wsl.exe --shutdown
+```
