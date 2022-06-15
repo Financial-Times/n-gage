@@ -109,7 +109,7 @@ jobs:
     steps:
       - *attach_workspace
       - node/install-npm:
-          version: "7"
+          version: "7.20.2"
       - run:
           name: Run tests
           command: make test
