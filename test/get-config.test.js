@@ -15,9 +15,9 @@ describe('get-config', () => {
 		const writeFileSync = sinon.spy();
 		process.env.CIRCLECI = 1;
 		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ auth: { client_token: 'mytoken' }}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/production', sinon.match.object).returns(Promise.resolve({ data: { a: 'z' }}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/shared/production', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/production', sinon.match.object).returns(Promise.resolve({ data: { a: 'z' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/shared/production', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
 
 		const {builder, handler} = proxyquire('../scripts/commands/get-config', {
 			'@financial-times/n-fetch': fetch,
@@ -40,9 +40,9 @@ describe('get-config', () => {
 		const writeFileSync = sinon.spy();
 		process.env.CIRCLECI = 1;
 		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ auth: { client_token: 'mytoken' }}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/development', { headers: { 'X-Vault-Token': 'mytoken' }}).returns(Promise.resolve({ data: { a: 'z' }}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/shared', { headers: { 'X-Vault-Token': 'mytoken' }}).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/shared/development', { headers: { 'X-Vault-Token': 'mytoken' }}).returns(Promise.resolve({ data: { b: 'y' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/development', { headers: { 'X-Vault-Token': 'mytoken' }}).returns(Promise.resolve({ data: { a: 'z' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/shared', { headers: { 'X-Vault-Token': 'mytoken' }}).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/shared/development', { headers: { 'X-Vault-Token': 'mytoken' }}).returns(Promise.resolve({ data: { b: 'y' }}));
 
 		const {builder, handler} = proxyquire('../scripts/commands/get-config', {
 			'@financial-times/n-fetch': fetch,
@@ -71,9 +71,9 @@ describe('get-config', () => {
 		const writeFileSync = sinon.spy();
 		delete process.env.CIRCLECI;
 		homedir.returns('/path/to/home');
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/production', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { a: 'z' }}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/shared', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/shared/production', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { b: 'y' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/production', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { a: 'z' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/shared', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/shared/production', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { b: 'y' }}));
 
 		const {builder, handler} = proxyquire('../scripts/commands/get-config', {
 			'@financial-times/n-fetch': fetch,
@@ -97,9 +97,9 @@ describe('get-config', () => {
 		const writeFileSync = sinon.spy();
 		process.env.CIRCLECI = 1;
 		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ auth: { client_token: 'mytoken' }}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { env: { a: 'z' }}}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: {}}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/shared/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { env: { a: 'z' }}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: {}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/shared/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
 
 		const {builder, handler} = proxyquire('../scripts/commands/get-config', {
 			'@financial-times/n-fetch': fetch,
@@ -122,9 +122,9 @@ describe('get-config', () => {
 		const writeFileSync = sinon.spy();
 		process.env.CIRCLECI = 1;
 		fetch.withArgs('https://vault.in.ft.com/v1/auth/approle/login', sinon.match.object).returns(Promise.resolve({ auth: { client_token: 'mytoken' }}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/myteam/myapp/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { env: { a: 'z' }}}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/myteam/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: {}}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/myteam/shared/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/myteam/myapp/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { env: { a: 'z' }}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/myteam/myapp/shared', sinon.match.object).returns(Promise.resolve({ data: {}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/myteam/shared/continuous-integration', sinon.match.object).returns(Promise.resolve({ data: { b: 'y' }}));
 
 		const {builder, handler} = proxyquire('../scripts/commands/get-config', {
 			'@financial-times/n-fetch': fetch,
@@ -155,9 +155,9 @@ describe('get-config', () => {
 		homedir.returns('/path/to/home');
 		fetch.withArgs('http://test-sessions-url/premium?api_key=test_api_key').returns(Promise.resolve({ FTSession: 'p-token', FTSession_s: 'p-token_s' }));
 		fetch.withArgs('http://test-sessions-url/standard?api_key=test_api_key').returns(Promise.resolve({ FTSession: 's-token', FTSession_s: 's-token_s' }));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/development', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { TEST_SESSIONS_URL: 'http://test-sessions-url', TEST_SESSIONS_API_KEY: 'test_api_key', TEST_USER_TYPES: 'premium,standard' }}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/myapp/shared', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
-		fetch.withArgs('https://vault.in.ft.com/v1/secret/teams/next/shared/development', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { TEST_SESSIONS_URL: 'http://test-sessions-url', TEST_SESSIONS_API_KEY: 'test_api_key', TEST_USER_TYPES: 'premium,standard' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/development', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { TEST_SESSIONS_URL: 'http://test-sessions-url', TEST_SESSIONS_API_KEY: 'test_api_key', TEST_USER_TYPES: 'premium,standard' }}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/myapp/shared', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { env: [ 'b' ]}}));
+		fetch.withArgs('https://vault.in.ft.com/v1/secret/data/teams/next/shared/development', { headers: { 'X-Vault-Token': 'my-token' }}).returns(Promise.resolve({ data: { TEST_SESSIONS_URL: 'http://test-sessions-url', TEST_SESSIONS_API_KEY: 'test_api_key', TEST_USER_TYPES: 'premium,standard' }}));
 		const appendSessionTokens = proxyquire('../scripts/append-session-tokens', {
 			'@financial-times/n-fetch': fetch
 		});

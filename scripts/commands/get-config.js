@@ -70,9 +70,9 @@ const getVaultPaths = (ftApp, env, team) => {
 	const vaultEnvs = { dev: 'development', prod: 'production', ci: 'continuous-integration', test: 'test' };
 	const vaultEnv = vaultEnvs[env] || env;
 	return [
-		`secret/teams/${team}/${app}/${vaultEnv}`,
-		`secret/teams/${team}/${app}/shared`,
-		`secret/teams/${team}/shared/${vaultEnv}`
+		`secret/data/teams/${team}/${app}/${vaultEnv}`,
+		`secret/data/teams/${team}/${app}/shared`,
+		`secret/data/teams/${team}/shared/${vaultEnv}`
 	]
 };
 
