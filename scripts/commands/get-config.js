@@ -112,7 +112,7 @@ exports.handler = argv => {
 				console.log(url);
 
 				const vaultFetch = fetch(url, { headers: { 'X-Vault-Token': token } })
-					.then(json => json.data || {});
+					.then(json => json.data.data || {});
 
 				if (argv.customEnv || env === 'dev') {
 					return vaultFetch.catch(err => {
